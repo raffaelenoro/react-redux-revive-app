@@ -66,6 +66,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const MainView = props => {
+
+  return (
+      <div className="col-md-8">
+          <p> the total is ...</p>
+      </div>
+  );
   return (
     <div className="col-md-9">
       <div className="feed-toggle">
