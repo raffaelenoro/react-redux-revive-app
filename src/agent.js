@@ -41,11 +41,29 @@ const Tags = {
   getAll: () => requests.get('/tags')
 };
 
+//
+// Pretending to make a request for charts...
+// 
+// creates a Promise where the resolve callback is called
+// after 300ms with some data -- normally it is a request.get()
+//
+const get_charts = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({
+                articles: [],
+                articlesCount: 10
+            });
+        }, 300);
+    });
+}
+
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
 const omitSlug = article => Object.assign({}, article, { slug: undefined })
 const Articles = {
   all: page =>
-    requests.get(`/articles?${limit(10, page)}`),
+//    requests.get(`/articles?${limit(10, page)}`),
+    get_charts(),
   byAuthor: (author, page) =>
     requests.get(`/articles?author=${encode(author)}&${limit(5, page)}`),
   byTag: (tag, page) =>
