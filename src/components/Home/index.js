@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Home extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const tab = this.props.token ? 'feed' : 'all';
     const articlesPromise = this.props.token ?
       agent.Articles.feed :

@@ -80,7 +80,7 @@ class Editor extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.match.params.slug) {
       return this.props.onLoad(agent.Articles.get(this.props.match.params.slug));
     }
