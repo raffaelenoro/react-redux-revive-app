@@ -67,11 +67,11 @@ const mapDispatchToProps = dispatch => ({
 
 const MainView = props => {
 
-  return (
+    return (
       <div className="col-md-8">
-          <p> the total is ...</p>
+          <p> { props.articles ? "the total is " + props.articlesCount : "Loading ..." } </p>
       </div>
-  );
+    );
   return (
     <div className="col-md-9">
       <div className="feed-toggle">

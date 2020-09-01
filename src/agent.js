@@ -54,7 +54,7 @@ const get_charts = () => {
                 articles: [],
                 articlesCount: 10
             });
-        }, 300);
+        }, 3000);
     });
 }
 
