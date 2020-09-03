@@ -56,7 +56,7 @@ const TagFilterTab = props => {
 };
 
 const mapStateToProps = state => ({
-  ...state.articleList,
+  ...state.chartList,
   tags: state.home.tags,
   token: state.common.token
 });
@@ -69,7 +69,7 @@ const MainView = props => {
 
     return (
       <div className="col-md-8">
-          <p> { props.articles ? "the total is " + props.articlesCount : "Loading ..." } </p>
+          <p> { props.charts ? "the total is " + props.chartsCount : "Loading ..." } </p>
       </div>
     );
   return (

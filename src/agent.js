@@ -51,8 +51,8 @@ const get_charts = () => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve({
-                articles: [],
-                articlesCount: 10
+                charts: [],
+                chartsCount: 10
             });
         }, 3000);
     });
