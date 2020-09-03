@@ -57,13 +57,15 @@ const get_charts = () => {
         }, 3000);
     });
 }
+const Charts = {
+    all: () => get_charts()
+};
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
 const omitSlug = article => Object.assign({}, article, { slug: undefined })
 const Articles = {
   all: page =>
-//    requests.get(`/articles?${limit(10, page)}`),
-    get_charts(),
+    requests.get(`/articles?${limit(10, page)}`),
   byAuthor: (author, page) =>
     requests.get(`/articles?author=${encode(author)}&${limit(5, page)}`),
   byTag: (tag, page) =>
@@ -105,6 +107,7 @@ const Profile = {
 };
 
 export default {
+  Charts,
   Articles,
   Auth,
   Comments,
