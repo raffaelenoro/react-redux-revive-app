@@ -1,4 +1,5 @@
 import Banner from './Banner';
+import Filters from './Filters';
 import MainView from './MainView';
 import React from 'react';
 import Tags from './Tags';
@@ -50,6 +51,7 @@ class Home extends React.Component {
 
         <div className="container page">
           <div className="row">
+            <Filters />
             <MainView />
 
             <div className="col-md-3">
