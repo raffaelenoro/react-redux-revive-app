@@ -1,4 +1,5 @@
 import ArticleList from '../ArticleList';
+import Charts from './Charts';
 import React from 'react';
 import agent from '../../agent';
 import { connect } from 'react-redux';
@@ -70,6 +71,7 @@ const MainView = props => {
     return (
       <div className="col-md-8">
           <p> { props.charts ? "the total is " + props.chartsCount : "Loading ..." } </p>
+          <Charts charts={props.charts} />
       </div>
     );
   return (
