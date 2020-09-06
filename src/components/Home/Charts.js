@@ -9,7 +9,9 @@ const Charts = props => {
         {
           charts.map(chart => {
             return (
-                <LineChart />
+                <LineChart
+                    key={"chart_" + chart.index}
+                    chart={chart} />
             );
           })
         }
