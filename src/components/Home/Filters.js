@@ -22,10 +22,27 @@ const Filters = props => {
 
     dateSpan /= (24 * 3600 * 1000);
 
+    let dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(startDate);
+    let mm = new Intl.DateTimeFormat('en', { month: 'short' }).format(startDate);
+    let yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(startDate);
+    startDate = mm + ". " + dd + ", " + yy;
+
+    dd = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(endDate);
+    mm = new Intl.DateTimeFormat('en', { month: 'short' }).format(endDate);
+    yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate);
+    endDate = mm + ". " + dd + ", " + yy;
+
     return (
       <div className="col-md-12">
-          <p> { dateSpan + " Days"} </p>
-          <p> { startDate + " - " + endDate } </p>
+          <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "black 2px solid"}}>
+            <span> { dateSpan + " Days" } </span>
+            <br />
+            <span> { startDate + " - " + endDate } </span>
+          </p>
+
+          <div>
+            <span>Filters:</span>
+          </div>
       </div>
     );
 };

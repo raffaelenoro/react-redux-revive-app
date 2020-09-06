@@ -52,6 +52,7 @@ class Home extends React.Component {
         <div className="container page">
           <div className="row">
             <Filters />
+            <hr style={{height: "2px", width: "100%"}}/>
             <MainView />
 
             <div className="col-md-3">
