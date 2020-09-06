@@ -7,11 +7,12 @@ const Charts = props => {
     return (
       <div>
         {
-          charts.map(chart => {
+          charts.map((chart, index) => {
             return (
                 <LineChart
                     key={"chart_" + chart.index}
-                    chart={chart} />
+                    chart={chart}
+                    first={index == 0} />
             );
           })
         }
