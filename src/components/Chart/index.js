@@ -1,6 +1,9 @@
 import React from 'react';
 import Chart from "chart.js";
 
+Chart.defaults.global.legend.display = false;
+Chart.defaults.global.elements.line.tension = 0;
+
 class LineChart extends React.Component {
 
     chartRef = React.createRef();
@@ -10,7 +13,6 @@ class LineChart extends React.Component {
         const chart = this.props.chart;
         const data = chart.data;
 
-        console.log(data);
         new Chart(chartRef2D, {
             type: "line",
             data: {
