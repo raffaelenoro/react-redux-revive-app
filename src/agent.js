@@ -179,47 +179,48 @@ const get_tables = () => {
         "c1_name": "Zip",
         "c2_name": "Billed",
         "total": 146359,
-        "data": [{"c1_data":66104,"c2_data":"33857"},{"c1_data":66062,"c2_data":"33389"},{"c1_data":66061,"c2_data":"32570"},{"c1_data":66048,"c2_data":"26845"},{"c1_data":66212,"c2_data":"19698"}]},{"name":"Table 2","index":6,"units":"integer","c1_name":"Table 2","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]},{"name":"Table 3","index":7,"units":"integer","c1_name":"Table 3","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]},{"name":"Table 4","index":8,"units":"integer","c1_name":"Table 4","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]},{"name":"Table 5","index":9,"units":"integer","c1_name":"Table 5","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]}];
+        "data": [{"c1_data":66104,"c2_data":"33857"},{"c1_data":66062,"c2_data":"33389"},{"c1_data":66061,"c2_data":"32570"},{"c1_data":66048,"c2_data":"26845"},{"c1_data":66212,"c2_data":"19698"}]
+    }, {
+        "name": "Table 2",
+        "index": 6,
+        "units": "integer",
+        "c1_name": "Table 2",
+        "c2_name": "Billed",
+        "total": 503442,
+        "data": [{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]
+    }, {
+        "name": "Table 3",
+        "index": 7,
+        "units": "integer",
+        "c1_name": "Table 3",
+        "c2_name": "Billed",
+        "total": 503442,
+        "data": [{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]
+    }, {
+        "name": "Table 4",
+        "index": 8,
+        "units": "integer",
+        "c1_name": "Table 4",
+        "c2_name": "Billed",
+        "total": 503442,
+        "data": [{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]
+    }, {
+        "name": "Table 5",
+        "index": 9,
+        "units": "integer",
+        "c1_name": "Table 5",
+        "c2_name": "Billed",
+        "total": 503442,
+        "data": [{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]
+    }];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                ]                                                                                                                                                   return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve({
-                tables: [],
-                tablesCodatat: 10
+                tables: data,
+                tablesCount: data.length
             });
-htgnel.dataatad        }, 2000);
+        }, 2000);
     });
 }
 const Tables = {
