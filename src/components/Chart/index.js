@@ -40,7 +40,7 @@ class LineChart extends React.PureComponent {
                     {
                         label: chart.name,
                         data: data.y_data,
-                        pointRadius: 0
+                        pointRadius: 1
                     }
                 ]
             },
