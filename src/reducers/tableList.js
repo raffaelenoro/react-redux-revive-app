@@ -8,7 +8,7 @@ export default (state = {}, action) => {
     case HOME_PAGE_LOADED:
       return {
         ...state,
-        pager: action.pager,
+        pager: action.pager[1],
         tables: action.payload[1].tables,
         tablesCount: action.payload[1].tablesCount,
         currentPage: 0,

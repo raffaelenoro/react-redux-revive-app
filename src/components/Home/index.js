@@ -36,7 +36,7 @@ class Home extends React.Component {
       agent.Articles.all;
 
 //    this.props.onLoad(tab, articlesPromise, Promise.all([agent.Tags.getAll(), articlesPromise()]));
-    this.props.onLoad(tab, agent.Charts.all, Promise.all([agent.Charts.all(), agent.Tables.all()]));
+    this.props.onLoad(tab, [agent.Charts.all, agent.Tables.all], Promise.all([agent.Charts.all(), agent.Tables.all()]));
   }
 
   componentWillUnmount() {
