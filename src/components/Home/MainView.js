@@ -1,5 +1,6 @@
 import ArticleList from '../ArticleList';
 import Charts from './Charts';
+import Tables from './Tables';
 import React from 'react';
 import agent from '../../agent';
 import { connect } from 'react-redux';
@@ -57,7 +58,7 @@ const TagFilterTab = props => {
 };
 
 const mapStateToProps = state => ({
-  ...state.chartList,
+  ...state.articleList,
   tags: state.home.tags,
   token: state.common.token
 });
@@ -69,8 +70,14 @@ const mapDispatchToProps = dispatch => ({
 const MainView = props => {
 
     return (
-      <div className="col-md-5">
-          <Charts charts={props.charts} />
+      <div className="row">
+        <div className="col-md-5">
+            <Charts />
+        </div>
+
+        <div className="col-md-7">
+            <Tables />
+        </div>
       </div>
     );
   return (

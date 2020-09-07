@@ -33,16 +33,18 @@ const Filters = props => {
     endDate = mm + ". " + dd + ", " + yy;
 
     return (
-      <div className="col-md-12">
-          <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
-            <span> { dateSpan + " Days" } </span>
-            <br />
-            <span> { startDate + " - " + endDate } </span>
-          </p>
+      <div className="row">
+        <div className="col-md-12">
+            <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
+                <span> { dateSpan + " Days" } </span>
+                <br />
+                <span> { startDate + " - " + endDate } </span>
+            </p>
 
-          <div>
-            <span>Filters:</span>
-          </div>
+            <div>
+                <span>Filters:</span>
+            </div>
+        </div>
       </div>
     );
 };

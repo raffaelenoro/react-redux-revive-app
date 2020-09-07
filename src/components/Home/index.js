@@ -36,7 +36,7 @@ class Home extends React.Component {
       agent.Articles.all;
 
 //    this.props.onLoad(tab, articlesPromise, Promise.all([agent.Tags.getAll(), articlesPromise()]));
-    this.props.onLoad(tab, agent.Charts.all, Promise.all([agent.Charts.all()]));
+    this.props.onLoad(tab, agent.Charts.all, Promise.all([agent.Charts.all(), agent.Tables.all()]));
   }
 
   componentWillUnmount() {
@@ -50,11 +50,14 @@ class Home extends React.Component {
         <Banner token={this.props.token} appName={this.props.appName} />
 
         <div className="container page">
-          <div className="row">
-            <Filters />
-            <hr style={{height: "2px", width: "100%"}}/>
-            <MainView />
 
+          <Filters />
+
+          <hr style={{height: "2px", width: "100%"}}/>
+
+          <MainView />
+
+          <div className="row">
             <div className="col-md-3">
               <div className="sidebar">
 

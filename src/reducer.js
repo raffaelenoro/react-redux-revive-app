@@ -1,6 +1,7 @@
 import article from './reducers/article';
 import articleList from './reducers/articleList';
 import chartList from './reducers/chartList';
+import tableList from './reducers/tableList';
 import auth from './reducers/auth';
 import { combineReducers } from 'redux';
 import common from './reducers/common';
@@ -14,6 +15,7 @@ export default combineReducers({
   article,
 //  articleList,
   chartList,
+  tableList,
   auth,
   common,
   editor,

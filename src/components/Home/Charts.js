@@ -1,8 +1,14 @@
 import { LineChart } from '../Chart';
 import React from 'react';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  ...state.chartList
+});
 
 const Charts = props => {
   const charts = props.charts;
+  
   if (charts) {
     return (
       <div>
@@ -24,7 +30,7 @@ const Charts = props => {
             }
 
             return (
-                <div className="row">
+                <div className="row" key={"chart_area_" + chart.index}>
                     <div className="col-md-3" style={{border: "lightgray 1px solid", alignItems: "center"}}>
                         <p>{chart.name}</p>
                         <p style={{fontSize: "1.3em"}}>{total}</p>
@@ -49,4 +55,4 @@ const Charts = props => {
   }
 };
 
-export default Charts;
+export default connect(mapStateToProps)(Charts);
