@@ -34,7 +34,7 @@ const Filters = props => {
 
     return (
       <div className="col-md-12">
-          <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "black 2px solid"}}>
+          <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
             <span> { dateSpan + " Days" } </span>
             <br />
             <span> { startDate + " - " + endDate } </span>

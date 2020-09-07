@@ -69,8 +69,7 @@ const mapDispatchToProps = dispatch => ({
 const MainView = props => {
 
     return (
-      <div className="col-md-8">
-          <p> { props.charts ? "the total is " + props.chartsCount : "Loading ..." } </p>
+      <div className="col-md-5">
           <Charts charts={props.charts} />
       </div>
     );

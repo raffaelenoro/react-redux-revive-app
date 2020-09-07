@@ -13,7 +13,11 @@ class LineChart extends React.PureComponent {
         const props = this.props;
         const chart = props.chart;
         const data = chart.data;
+
         const xAxesCallback = (label, index, labels) => {
+
+            if (index > .9 * labels.length) return "";
+
             let date = new Date(label);
             let dd = new Intl.DateTimeFormat('en', {
                 day: '2-digit'
@@ -22,13 +26,9 @@ class LineChart extends React.PureComponent {
                 month: 'short'
             }).format(date);
 
-            if (index > 0 && index < .9 * labels.length ) {
-                label = mm + ". " + dd;
-            } else {
-                label = "";
-            }
+            label = mm + ". " + dd;
 
-            return props.first ? label : "";
+            return label;
         };
 
         new Chart(chartRef2D, {
@@ -40,6 +40,7 @@ class LineChart extends React.PureComponent {
                     {
                         label: chart.name,
                         data: data.y_data,
+                        pointRadius: 0
                     }
                 ]
             },
@@ -53,14 +54,18 @@ class LineChart extends React.PureComponent {
                             maxTicksLimit: 5,
                             maxRotation: 0,
                             autoSkipPadding: 10,
-                            labelOffset: 20,
-                            callback: xAxesCallback
+                            labelOffset: 30,
+                            callback: xAxesCallback,
+                            fontSize: 9,
+                            lineHeight: props.first ? 1.1 : 0,
+                            fontColor: props.first ? "#666": "rgba(0,0,0,0)"
                         }
                     }],
                     yAxes: [{
                         position: 'right',
                         ticks: {
-                            maxTicksLimit: 5
+                            maxTicksLimit: 5,
+                            fontSize: 9
                         }
                     }]
                 }
