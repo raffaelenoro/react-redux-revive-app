@@ -132,13 +132,94 @@ const Charts = {
 // Mimic again for the tables...
 //
 const get_tables = () => {
-    return new Promise((resolve, reject) => {
+    let data = [{
+        "name": "Gender",
+        "index": 3,
+        "units": "integer",
+        "c1_name": "Gender",
+        "c2_name": "Billed",
+        "total": 503617,
+        "data": [{"c1_data":"F","c2_data":"256073"},{"c1_data":"M","c2_data":"247544"}]
+    }, {
+        "name": "Procedure ID",
+        "index": 4,
+        "units": "integer",
+        "c1_name": "Procedure ID",
+        "c2_name": "Billed",
+        "total": 483878,
+        "data": [{"c1_data":268,"c2_data":"280377"},{"c1_data":265,"c2_data":"110424"},{"c1_data":184,"c2_data":"72480"},{"c1_data":262,"c2_data":"11993"},{"c1_data":266,"c2_data":"8604"}]
+    }, {
+        "name": "Facility ID",
+        "index": 2,
+        "units": "integer",
+        "c1_name": "Facility ID",
+        "c2_name": "Billed",
+        "total": 503442,
+        "data": [{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]
+    }, {
+        "name": "Table 1",
+        "index": 5,
+        "units": "integer",
+        "c1_name": "Table 1",
+        "c2_name": "Billed",
+        "total": 503442,
+        "data": [{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]
+    }, {
+        "name": "Diagnosis ID",
+        "index": 1,
+        "units": "integer",
+        "c1_name": "Diagnosis ID",
+        "c2_name": "Billed",
+        "total": 288941,
+        "data": [{"c1_data":16538,"c2_data":"224670"},{"c1_data":35521,"c2_data":"24263"},{"c1_data":13977,"c2_data":"18118"},{"c1_data":35431,"c2_data":"11139"},{"c1_data":23264,"c2_data":"10751"}]
+    }, {
+        "name": "Zip",
+        "index": 10,
+        "units": "integer",
+        "c1_name": "Zip",
+        "c2_name": "Billed",
+        "total": 146359,
+        "data": [{"c1_data":66104,"c2_data":"33857"},{"c1_data":66062,"c2_data":"33389"},{"c1_data":66061,"c2_data":"32570"},{"c1_data":66048,"c2_data":"26845"},{"c1_data":66212,"c2_data":"19698"}]},{"name":"Table 2","index":6,"units":"integer","c1_name":"Table 2","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]},{"name":"Table 3","index":7,"units":"integer","c1_name":"Table 3","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]},{"name":"Table 4","index":8,"units":"integer","c1_name":"Table 4","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]},{"name":"Table 5","index":9,"units":"integer","c1_name":"Table 5","c2_name":"Billed","total":503442,"data":[{"c1_data":4,"c2_data":"144392"},{"c1_data":6,"c2_data":"129698"},{"c1_data":7,"c2_data":"126244"},{"c1_data":5,"c2_data":"81387"},{"c1_data":3,"c2_data":"21721"}]}];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                ]                                                                                                                                                   return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve({
                 tables: [],
-                tablesCount: 10
+                tablesCodatat: 10
             });
-        }, 2000);
+htgnel.dataatad        }, 2000);
     });
 }
 const Tables = {
