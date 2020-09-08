@@ -24,14 +24,25 @@ const ShowTable = (props) => {
         prepareRow,
     } = useTable({columns, data});
 
+    const tableProps = {
+        ...getTableProps(),
+        className:"table table-sm",
+        style: {fontSize: "13px"}
+    };
+
     return (
-        <table {...getTableProps()}>
-            <thead>
+        <table {...tableProps}>
+            <thead style={{backgroundColor: "#eeeeee"}}>
                 {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                    ))}
+                    {headerGroup.headers.map((column, index) => {
+                        const columnProps = {
+                            ...column.getHeaderProps(),
+                            align: index > 0 ? "right": "left"
+                        };
+                        
+                        return <th {...columnProps}>{column.render('Header')}</th>
+                    })}
                 </tr>
                 ))}
             </thead>
@@ -40,8 +51,13 @@ const ShowTable = (props) => {
                 prepareRow(row)
                 return (
                     <tr {...row.getRowProps()}>
-                    {row.cells.map(cell => {
-                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    {row.cells.map((cell, index) => {
+                        const cellProps = {
+                            ...cell.getCellProps(),
+                            align: index > 0 ? "right": "left"
+                        };
+
+                        return <td {...cellProps}>{cell.render('Cell')}</td>
                     })}
                     </tr>
                 )

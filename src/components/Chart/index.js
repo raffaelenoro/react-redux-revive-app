@@ -54,7 +54,7 @@ class LineChart extends React.PureComponent {
                             maxTicksLimit: 5,
                             maxRotation: 0,
                             autoSkipPadding: 10,
-                            labelOffset: 30,
+                            labelOffset: 20,
                             callback: xAxesCallback,
                             fontSize: 9,
                             lineHeight: props.first ? 1.1 : 0,
