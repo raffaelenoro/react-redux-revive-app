@@ -26,8 +26,10 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case APP_LOAD:
-      let week_ago = new Date(Date.now() - 7 * 24 * 3600 * 1000);
-      let now = new Date(Date.now());
+//      let week_ago = new Date(Date.now() - 7 * 24 * 3600 * 1000);
+//      let now = new Date(Date.now());
+      let week_ago = new Date("2019-01-26");
+      let now = new Date("2019-02-27");
       return {
         ...state,
         token: action.token || null,

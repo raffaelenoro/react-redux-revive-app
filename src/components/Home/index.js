@@ -57,6 +57,7 @@ class Home extends React.Component {
 
           <MainView />
 
+{/*
           <div className="row">
             <div className="col-md-3">
               <div className="sidebar">
@@ -70,6 +71,7 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
+*/}
         </div>
 
       </div>

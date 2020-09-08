@@ -38,7 +38,7 @@ const ShowTable = (props) => {
                     {headerGroup.headers.map((column, index) => {
                         const columnProps = {
                             ...column.getHeaderProps(),
-                            align: index > 0 ? "right": "left"
+                            style: { textAlign: index > 0 ? "right": "left" }
                         };
                         
                         return <th {...columnProps}>{column.render('Header')}</th>
@@ -54,7 +54,7 @@ const ShowTable = (props) => {
                     {row.cells.map((cell, index) => {
                         const cellProps = {
                             ...cell.getCellProps(),
-                            align: index > 0 ? "right": "left"
+                            style: { textAlign: index > 0 ? "right": "left" }
                         };
 
                         return <td {...cellProps}>{cell.render('Cell')}</td>
