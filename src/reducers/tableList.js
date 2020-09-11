@@ -9,8 +9,8 @@ export default (state = {}, action) => {
       return {
         ...state,
         pager: action.pager[1],
-        tables: action.payload[1].tables,
-        tablesCount: action.payload[1].tablesCount,
+        tables: action.payload[1],
+        tablesCount: action.payload[1].length,
         currentPage: 0,
         tab: action.tab
       };

@@ -9,8 +9,8 @@ export default (state = {}, action) => {
       return {
         ...state,
         pager: action.pager[0],
-        charts: action.payload[0].charts,
-        chartsCount: action.payload[0].chartsCount,
+        charts: action.payload[0],
+        chartsCount: action.payload[0].length,
         currentPage: 0,
         tab: action.tab
       };
