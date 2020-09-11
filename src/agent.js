@@ -3,7 +3,8 @@ import _superagent from 'superagent';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const API_ROOT = 'https://conduit.productionready.io/api';
+//const API_ROOT = 'https://conduit.productionready.io/api';
+const API_ROOT = 'http://3.232.56.22:8080/api';
 
 const encode = encodeURIComponent;
 const responseBody = res => res.body;
@@ -224,7 +225,12 @@ const get_tables = () => {
     });
 }
 const Tables = {
-    all: () => get_tables()
+    all: (startDate, endDate) => {
+        requests.get('/reports/tables?start=2019_01_25&end=2019_02_27');
+
+        // Placeholder to ge removed when CORS is addressed...
+        return get_tables();
+    }
 }
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;

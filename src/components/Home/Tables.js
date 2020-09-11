@@ -17,7 +17,7 @@ const Tables = props => {
                     <div className="col-md-3">
                         {
                             tables.filter(
-                                (table, index) => (index % 4) == 0
+                                (table, index) => (index % 4) === 0
                             ).map(
                                 table => <Table key={"table_area_" + table.index} table={table} />
                             )
@@ -27,7 +27,7 @@ const Tables = props => {
                     <div className="col-md-3">
                         {
                             tables.filter(
-                                (table, index) => (index % 4) == 1
+                                (table, index) => (index % 4) === 1
                             ).map(
                                 table => <Table key={"table_area_" + table.index} table={table} />
                             )
@@ -37,7 +37,7 @@ const Tables = props => {
                     <div className="col-md-3">
                         {
                             tables.filter(
-                                (table, index) => (index % 4) == 2
+                                (table, index) => (index % 4) === 2
                             ).map(
                                 table => <Table key={"table_area_" + table.index} table={table} />
                             )
@@ -47,7 +47,7 @@ const Tables = props => {
                     <div className="col-md-3">
                         {
                             tables.filter(
-                                (table, index) => (index % 4) == 3
+                                (table, index) => (index % 4) === 3
                             ).map(
                                 table => <Table key={"table_area_" + table.index} table={table} />
                             )
