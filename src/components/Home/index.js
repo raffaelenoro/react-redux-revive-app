@@ -16,7 +16,9 @@ const Promise = global.Promise;
 const mapStateToProps = state => ({
   ...state.home,
   appName: state.common.appName,
-  token: state.common.token
+  token: state.common.token,
+  startDate: state.common.startDate,
+  endDate: state.common.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -34,9 +36,18 @@ class Home extends React.Component {
     const articlesPromise = this.props.token ?
       agent.Articles.feed :
       agent.Articles.all;
+    const startDate = this.props.startDate;
+    const endDate = this.props.endDate;
 
 //    this.props.onLoad(tab, articlesPromise, Promise.all([agent.Tags.getAll(), articlesPromise()]));
-    this.props.onLoad(tab, [agent.Charts.all, agent.Tables.all], Promise.all([agent.Charts.all(), agent.Tables.all()]));
+    this.props.onLoad(
+        tab,
+        [agent.Charts.all, agent.Tables.all],
+        Promise.all([
+            agent.Charts.all(startDate, endDate),
+            agent.Tables.all(startDate, endDate)
+        ])
+    );
   }
 
   componentWillUnmount() {

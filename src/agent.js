@@ -52,12 +52,12 @@ const Tags = {
 
 const Charts = {
     all: (startDate, endDate) =>
-        requests.get(`/reports/charts?start=2019_01_25&end=2019_02_27`)
+        requests.get(`/reports/charts?start=${startDate}&end=${endDate}`)
 };
 
 const Tables = {
     all: (startDate, endDate) =>
-        requests.get(`/reports/tables?start=2019_01_25&end=2019_02_27`)
+        requests.get(`/reports/tables?start=${startDate}&end=${endDate}`)
 }
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;

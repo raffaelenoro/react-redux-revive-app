@@ -25,7 +25,7 @@ const Charts = props => {
                 total = total.toFixed(1) + "K"
             }
 
-            if (units == "currency") {
+            if (units === "currency") {
                 total = "$" + total;
             }
 
