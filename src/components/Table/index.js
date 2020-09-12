@@ -12,8 +12,9 @@ const ShowTable = (props) => {
         accessor: 'c2'
     }];
 
-    const data = table.data.map(
-        datum => ({ c1: datum.c1_data, c2: datum.c2_data})
+    const length = Math.min(12, table.data.length);
+    const data = table.data.slice(0, length).map(
+        ({c1_data, c2_data}) => ({ c1: c1_data, c2: c2_data })
     );
 
     const {
@@ -27,7 +28,7 @@ const ShowTable = (props) => {
     const tableProps = {
         ...getTableProps(),
         className:"table table-sm",
-        style: {fontSize: "13px"}
+        style: {fontSize: "13px", marginBottom: 0}
     };
 
     return (
