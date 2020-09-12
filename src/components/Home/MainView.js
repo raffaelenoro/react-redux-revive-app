@@ -1,9 +1,11 @@
 import ArticleList from '../ArticleList';
 import Charts from './Charts';
 import Tables from './Tables';
+import DetailedTable from './DetailedTable';
 import React from 'react';
 import agent from '../../agent';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { CHANGE_TAB } from '../../constants/actionTypes';
 
 const YourFeedTab = props => {
@@ -76,7 +78,10 @@ const MainView = props => {
         </div>
 
         <div className="col-md-7">
-            <Tables />
+            <Switch>
+                <Route exact path="/" component={Tables} />
+                <Route path="/detailed" component={DetailedTable} />
+            </Switch>
         </div>
       </div>
     );

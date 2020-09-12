@@ -18,7 +18,7 @@ const Tables = props => {
             table => (
                 <React.Fragment key={"table_area_" + table.index}>
                     <Table table={table} />
-                    <Link to="#">...</Link>
+                    <Link to="/detailed">...</Link>
                     <div style={{height: "1em"}}></div>
                 </React.Fragment>
             )

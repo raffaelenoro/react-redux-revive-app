@@ -5,6 +5,7 @@ import React from 'react';
 import Tags from './Tags';
 import agent from '../../agent';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import {
   HOME_PAGE_LOADED,
   HOME_PAGE_UNLOADED,
@@ -66,8 +67,10 @@ class Home extends React.Component {
 
           <hr style={{height: "2px", width: "100%"}}/>
 
-          <MainView />
-
+          <Switch>
+              <Route exact path="/" component={MainView} />
+              <Route path="/detailed" component={MainView} />
+          </Switch>
 {/*
           <div className="row">
             <div className="col-md-3">
