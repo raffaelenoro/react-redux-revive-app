@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
   onLoad: (tab, pager, payload) =>
     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),
   onUnload: () =>
-    dispatch({  type: HOME_PAGE_UNLOADED })
+    dispatch({ type: HOME_PAGE_UNLOADED })
 });
 
 class Home extends React.Component {
@@ -37,18 +37,8 @@ class Home extends React.Component {
     const articlesPromise = this.props.token ?
       agent.Articles.feed :
       agent.Articles.all;
-    const startDate = this.props.startDate;
-    const endDate = this.props.endDate;
 
 //    this.props.onLoad(tab, articlesPromise, Promise.all([agent.Tags.getAll(), articlesPromise()]));
-    this.props.onLoad(
-        tab,
-        [agent.Charts.all, agent.Tables.all],
-        Promise.all([
-            agent.Charts.all(startDate, endDate),
-            agent.Tables.all(startDate, endDate)
-        ])
-    );
   }
 
   componentWillUnmount() {

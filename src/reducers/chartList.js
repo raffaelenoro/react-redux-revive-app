@@ -1,20 +1,20 @@
 import {
-  HOME_PAGE_LOADED,
-  HOME_PAGE_UNLOADED,
+  CHARTS_VIEW_LOADED,
+  CHARTS_VIEW_UNLOADED,
 } from '../constants/actionTypes';
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case HOME_PAGE_LOADED:
+    case CHARTS_VIEW_LOADED:
       return {
         ...state,
-        pager: action.pager[0],
+        pager: action.pager,
         charts: action.payload[0],
         chartsCount: action.payload[0].length,
         currentPage: 0,
         tab: action.tab
       };
-    case HOME_PAGE_UNLOADED:
+    case CHARTS_VIEW_UNLOADED:
       return {};
     default:
       return state;

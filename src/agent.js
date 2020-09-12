@@ -60,6 +60,11 @@ const Tables = {
         requests.get(`/reports/tables?start=${startDate}&end=${endDate}`)
 }
 
+const DetailedTable = {
+    all: (startDate, endDate, index) =>
+        requests.get(`/reports/tables/${index}?start=${startDate}&end=${endDate}`)
+}
+
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
 const omitSlug = article => Object.assign({}, article, { slug: undefined })
 const Articles = {
