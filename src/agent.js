@@ -113,6 +113,7 @@ const Profile = {
 export default {
   Charts,
   Tables,
+  DetailedTable,
   Articles,
   Auth,
   Comments,

@@ -37,7 +37,7 @@ class Charts extends React.Component {
     }
 
     componentWillUnmount() {
-//        this.props.onUnload();
+        this.props.onUnload();
     }
 
     render() {
@@ -74,7 +74,7 @@ class Charts extends React.Component {
                                 <LineChart
                                     key={"chart_" + chart.index}
                                     chart={chart}
-                                    first={index == 0} />
+                                    first={index === 0} />
                             </div>
                         </div>
                     );

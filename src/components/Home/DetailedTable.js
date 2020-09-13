@@ -6,13 +6,11 @@ import {
   DETAILED_TABLE_VIEW_UNLOADED,
 } from '../../constants/actionTypes';
 
-const mapStateToProps = state => {
-    return {
-        ...state.tableList,
-//        startDate: state.common.startDate,
-//        endDate: state.common.endDate
-    }
-};
+const mapStateToProps = state => ({
+    ...state.detailedTable,
+    startDate: state.common.startDate,
+    endDate: state.common.endDate
+});
 
 const mapDispatchToProps = dispatch => ({
   onLoad: (tab, pager, payload) =>
@@ -23,7 +21,6 @@ const mapDispatchToProps = dispatch => ({
 
 class DetailedTable extends React.Component {
     componentDidMount() {
-        return;
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
@@ -40,8 +37,19 @@ class DetailedTable extends React.Component {
     }
 
     render () {
-        const location = this.props.location;
-        const index = location.state.index;
+        const props = this.props;
+        const table = props.table && props.table[0];
+
+        if (table) {
+            console.log(table);
+            return (
+                <div> Table </div>
+            );
+        } else {
+            return (
+                <div>Loading Tables...</div>
+            );
+        }
 
         return (
             <div> Detailed Table here ... </div>
@@ -49,4 +57,4 @@ class DetailedTable extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapStateToProps)(DetailedTable);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailedTable);
