@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import agent from '../../agent';
+import { Table } from '../Table';
 import {
   DETAILED_TABLE_VIEW_LOADED,
   DETAILED_TABLE_VIEW_UNLOADED,
@@ -36,18 +38,38 @@ class DetailedTable extends React.Component {
         );
     }
 
+    componentWillUnmount() {
+        this.props.onUnload();
+    }
+
     render () {
         const props = this.props;
         const table = props.table && props.table[0];
 
         if (table) {
-            console.log(table);
             return (
-                <div> Table </div>
+                <div>
+                    <div className="row">
+                        <div className="col-md-1">
+                            <Link to="/">&larr;</Link>
+                        </div>
+                        <div className="col-md-3">
+                            All dimensions
+                        </div>
+                    </div>
+
+                    <div className="row" style={{height: "1em"}}></div>
+
+                    <div className="row">
+                        <div className="col-md-12">
+                            <Table table={table} maxRows={100} />
+                        </div>
+                    </div>
+                </div>
             );
         } else {
             return (
-                <div>Loading Tables...</div>
+                <div>Loading Table...</div>
             );
         }
 

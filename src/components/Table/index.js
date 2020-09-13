@@ -3,6 +3,7 @@ import { useTable } from 'react-table';
 
 const ShowTable = (props) => {
     const table = props.table;
+    const maxRows = props.maxRows;
 
     const columns = [{
         Header: table.c1_name,
