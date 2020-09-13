@@ -4,32 +4,17 @@ import { useTable } from 'react-table';
 const ShowTable = (props) => {
     const table = props.table;
     const maxRows = props.maxRows;
-
-    const columns = [{
-        Header: table.c1_name,
-        accessor: 'c1'
-    }, {
-        Header: table.c2_name,
-        accessor: 'c2'
-    }];
-
-    let i = 1;
-    let _columns = [];
-    while (table.hasOwnProperty("c" + i + "_name") === true) {
-        _columns.push({
+    let i = 0;
+    const columns = [];
+    while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
+        columns.push({
             Header: table["c" + i + "_name"],
-            accessor: "c" + i
+            accessor: "c" + i + "_data"
         })
-        i++;
     };
-    i--;
-    console.log(_columns);
 
     const length = Math.min(12, table.data.length);
-    const data = table.data.slice(0, length).map(
-        ({c1_data, c2_data}) => ({ c1: c1_data, c2: c2_data })
-    );
-
+    const data = table.data.slice(0, length);
     const {
         getTableProps,
         getTableBodyProps,

@@ -65,11 +65,11 @@ class Tables extends React.Component {
                 <div>
                     <div className="row">
                         <div className="col-md-6"></div>
-                        <div className="col-md-3 align-middle">
+                        <div className="col-md-3">
                             Dimension by: 
                         </div>
                         <div className="col-md-3">
-                            <Select options={dimensions} defaultValue={dimensions[0]} /> 
+                            <Select options={dimensions} defaultValue={dimensions[0]} />
                         </div>
                     </div>
 

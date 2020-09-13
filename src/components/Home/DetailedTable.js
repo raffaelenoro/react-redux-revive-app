@@ -50,11 +50,8 @@ class DetailedTable extends React.Component {
             return (
                 <div>
                     <div className="row">
-                        <div className="col-md-1">
-                            <Link to="/">&larr;</Link>
-                        </div>
-                        <div className="col-md-3">
-                            All dimensions
+                        <div className="col-md-4">
+                            <Link to="/">&larr;</Link>&nbsp;All dimensions
                         </div>
                     </div>
 
