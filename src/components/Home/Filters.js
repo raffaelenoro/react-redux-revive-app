@@ -1,13 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import {
+  ADD_FILTER,
+  CHANGE_FILTER,
+  REMOVE_FILTER,
+} from '../../constants/actionTypes';
 
 const mapStateToProps = state => ({
+  ...state.filterList,
   startDate: state.common.startDate,
   endDate: state.common.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
-//  onTabClick: (tab, pager, payload) => dispatch({ type: CHANGE_TAB, tab, pager, payload })
+  onClick: (payload) => dispatch({ type: ADD_FILTER, payload: payload }),
+  onChange: (index, payload) => dispatch({ type: CHANGE_FILTER, index: index, payload: payload})
 });
 
 const Filters = props => {
@@ -32,20 +40,47 @@ const Filters = props => {
     yy = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate);
     endDate = mm + ". " + dd + ", " + yy;
 
-    return (
-      <div className="row">
-        <div className="col-md-12">
-            <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
-                <span> { dateSpan + " Days" } </span>
-                <br />
-                <span> { startDate + " - " + endDate } </span>
-            </p>
+    const onClick = e => {
+        e.preventDefault();
+        e.target.blur();
+        props.onClick({name: "", value: ""});
+    }
+    const onNameChange = (index, e) => {
+        const filter = props.filters[index];
+        props.onChange(index, {name: e.target.value, value: filter.value});
+    };
+    const onValueChange = (index, e) => {
+        const filter = props.filters[index];
+        props.onChange(index, {name: filter.name, value: e.target.value});
+    };
 
-            <div>
-                <span>Filters:</span>
+    return (
+      <React.Fragment>
+        <div className="row">
+            <div className="col-md-12">
+                <p className="col-md-4" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
+                    <span> { dateSpan + " Days" } </span>
+                    <br />
+                    <span> { startDate + " - " + endDate } </span>
+                </p>
             </div>
         </div>
-      </div>
+
+        <div className="row">
+            <div className="col-md-12">
+                <div>
+                    <span>Filters: </span>
+                    {props.filters.map((filter, index) =>
+                        <span key={"filter_" + index} className="input-group">
+                            <input className="form-control form-control-sm" value={filter.name} onChange={onNameChange.bind(null, index)} />
+                            <input className="form-control form-control-sm" value={filter.value} onChange={onValueChange.bind(null, index)} />
+                        </span>
+                    )}
+                    <Button size="sm" onClick={onClick}>+</Button>
+                </div>
+            </div>
+        </div>
+      </React.Fragment>
     );
 };
 
