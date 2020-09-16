@@ -12,7 +12,7 @@ const superagent = superagentPromise(_superagent, global.Promise);
 // To suppress the CORS warning, since the API has an Access-Control-Allow-Origin
 // and it comes from http:// not https://
 //
-const API_ROOT = 'http://3.232.56.22:8080/api';
+const API_ROOT = 'http://3.232.56.22:8081/api';
 
 const encode = encodeURIComponent;
 const responseBody = res => res.body;
