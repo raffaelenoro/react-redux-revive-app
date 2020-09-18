@@ -1,4 +1,3 @@
-import Banner from './Banner';
 import Filters from './Filters';
 import MainView from './MainView';
 import React from 'react';
@@ -48,8 +47,6 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page">
-
-        <Banner token={this.props.token} appName={this.props.appName} />
 
         <div className="container page">
 
