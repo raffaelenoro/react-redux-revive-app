@@ -1,5 +1,7 @@
 import {
   APP_LOAD,
+  START_DATE,
+  END_DATE,
   REDIRECT,
   LOGOUT,
   ARTICLE_SUBMITTED,
@@ -23,6 +25,9 @@ const defaultState = {
   viewChangeCounter: 0
 };
 
+const now = new Date(Date.now() - 24 * 3600 * 1000);
+const week_ago = new Date(now - 7 * 24 * 3600 * 1000);
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case APP_LOAD:
@@ -30,8 +35,17 @@ export default (state = defaultState, action) => {
         ...state,
         token: action.token || null,
         appLoaded: true,
-        currentUser: action.payload ? action.payload.user : null
+        currentUser: action.payload ? action.payload.user : null,
+        startDate: week_ago,
+        endDate: now
       };
+    case START_DATE:
+    case END_DATE:
+      return {
+        ...state,
+        startDate: action.payload.startDate,
+        endDate: action.payload.endDate
+      }
     case REDIRECT:
       return { ...state, redirectTo: null };
     case LOGOUT:

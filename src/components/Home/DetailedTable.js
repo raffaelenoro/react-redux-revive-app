@@ -10,8 +10,8 @@ import {
 
 const mapStateToProps = state => ({
     ...state.detailedTable,
-    startDate: state.date.startDate,
-    endDate: state.date.endDate
+    startDate: state.common.startDate,
+    endDate: state.common.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -22,7 +22,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class DetailedTable extends React.Component {
-    componentDidMount() {
+
+    constructor(props) {
+        super(props);
+
+        this.startDate = this.props.startDate;
+        this.endDate = this.props.endDate;
+    }
+
+    fetchData() {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
@@ -38,15 +46,41 @@ class DetailedTable extends React.Component {
         );
     }
 
+    componentDidMount() {
+        this.fetchData()
+    }
+
     componentWillUnmount() {
         this.props.onUnload();
     }
 
+    componentDidUpdate() {
+        const startDate = this.props.startDate;
+        const endDate = this.props.endDate;
+
+        if (this.startDate !== startDate || this.endDate !== endDate) {
+            this.startDate = startDate;
+            this.endDate = endDate;
+
+            this.fetchData();
+        }
+    }
+
     render () {
         const props = this.props;
+        const startDate = props.startDate;
+        const endDate = props.endDate;
         const table = props.table && props.table[0];
 
-        if (table) {
+        if (!table) {
+            return (
+                <div>Loading Table...</div>
+            );
+        } else if (this.startDate != startDate || this.endDate != endDate) {
+            return (
+                <div>(Re)Loading Table...</div>
+            );
+        } else {
             return (
                 <div>
                     <div className="row">
@@ -64,15 +98,7 @@ class DetailedTable extends React.Component {
                     </div>
                 </div>
             );
-        } else {
-            return (
-                <div>Loading Table...</div>
-            );
         }
-
-        return (
-            <div> Detailed Table here ... </div>
-        );
     }
 }
 

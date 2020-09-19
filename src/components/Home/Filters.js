@@ -14,8 +14,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const mapStateToProps = state => ({
   ...state.filterList,
-  startDate: state.date.startDate,
-  endDate: state.date.endDate
+  startDate: state.common.startDate,
+  endDate: state.common.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Filters extends React.Component {
-    
+
     render() {
     
         const props = this.props;

@@ -11,8 +11,8 @@ import {
 
 const mapStateToProps = state => ({
   ...state.tableList,
-  startDate: state.date.startDate,
-  endDate: state.date.endDate
+  startDate: state.common.startDate,
+  endDate: state.common.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -24,7 +24,15 @@ const mapDispatchToProps = dispatch => ({
 
 class Tables extends React.Component {
 
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+
+        // keep tabs of the time interval
+        this.startDate = this.props.startDate;
+        this.endDate = this.props.endDate;
+    }
+
+    fetchData() {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
@@ -38,12 +46,33 @@ class Tables extends React.Component {
         );
     }
 
+    componentDidMount() {
+        this.fetchData();
+    }
+
     componentWillUnmount() {
         this.props.onUnload();
     }
 
+    componentDidUpdate() {
+        const startDate = this.props.startDate;
+        const endDate = this.props.endDate;
+
+        //
+        // The component is out-of-date and needs a data refresh
+        //
+        if (this.startDate !== startDate || this.endDate !== endDate) {
+            this.startDate = startDate;
+            this.endDate = endDate;
+
+            this.fetchData();
+        }
+    }
+
     render() {
         const props = this.props;
+        const startDate = props.startDate;
+        const endDate = props.endDate;
         const dimensions = [{label: "Billed", value: "billed"}];
         const tables = props.tables;
         const showTablesStride = pos => (
@@ -60,7 +89,16 @@ class Tables extends React.Component {
             )
         );
 
-        if (tables) {
+        if (!tables) {
+            return (
+                <div>Loading Tables...</div>
+            );
+        } else if (this.startDate !== startDate || this.endDate !== endDate) {
+            // we need to re-fetch data before rendering
+            return (
+                <div>(Re)Loading Tables...</div>
+            );
+        } else {
             return (
                 <div>
                     <div className="row">
@@ -93,10 +131,6 @@ class Tables extends React.Component {
                         </div>
                     </div>
                 </div>
-            );
-        } else {
-            return (
-                <div>Loading Tables...</div>
             );
         }
     }

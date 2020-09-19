@@ -1,6 +1,5 @@
 import article from './reducers/article';
 import articleList from './reducers/articleList';
-import date from './reducers/date';
 import filterList from './reducers/filterList';
 import chartList from './reducers/chartList';
 import tableList from './reducers/tableList';
@@ -17,7 +16,6 @@ import { routerReducer } from 'react-router-redux';
 export default combineReducers({
   article,
 //  articleList,
-  date,
   filterList,
   chartList,
   tableList,

@@ -9,8 +9,8 @@ import {
 
 const mapStateToProps = state => ({
   ...state.chartList,
-  startDate: state.date.startDate,
-  endDate: state.date.endDate
+  startDate: state.common.startDate,
+  endDate: state.common.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -22,7 +22,15 @@ const mapDispatchToProps = dispatch => ({
 
 class Charts extends React.Component {
 
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+
+        // keep tabs of the time interval
+        this.startDate = this.props.startDate;
+        this.endDate = this.props.endDate;
+    }
+
+    fetchData() {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
@@ -36,55 +44,81 @@ class Charts extends React.Component {
         );
     }
 
+    componentDidMount() {
+        this.fetchData()
+    }
+
     componentWillUnmount() {
         this.props.onUnload();
     }
 
+    componentDidUpdate() {
+        const startDate = this.props.startDate;
+        const endDate = this.props.endDate;
+
+        //
+        // The component is out-of-date and needs a data refresh
+        //
+        if (this.startDate !== startDate || this.endDate !== endDate) {
+            this.startDate = startDate;
+            this.endDate = endDate;
+
+            this.fetchData();
+        }
+    }
+
     render() {
+        const startDate = this.props.startDate;
+        const endDate = this.props.endDate;
         const charts = this.props.charts;
-  
-        if (charts) {
+
+        if (!charts) {
             return (
-            <div>
-                {
-                charts.map((chart, index) => {
-                    let units = chart.units;
-                    let total = chart.total;
-
-                    if (total > 1000000) {
-                        total = total / 1000000;
-                        total = total.toFixed(1) + "M"
-                    } else if (total > 1000) {
-                        total = total / 1000;
-                        total = total.toFixed(1) + "K"
-                    }
-
-                    if (units === "currency") {
-                        total = "$" + total;
-                    }
-
-                    return (
-                        <div className="row" key={"chart_area_" + chart.index}>
-                            <div className="col-md-3" style={{border: "lightgray 1px solid", alignItems: "center"}}>
-                                <p>{chart.name}</p>
-                                <p style={{fontSize: "1.3em"}}>{total}</p>
-                            </div>
-
-                            <div className="col-md-9">
-                                <LineChart
-                                    key={"chart_" + chart.index}
-                                    chart={chart}
-                                    first={index === 0} />
-                            </div>
-                        </div>
-                    );
-                })
-                }
-            </div>
+                <div>Loading Charts...</div>
+            );
+        } else if (this.startDate !== startDate || this.endDate !== endDate) {
+            // we need to re-fetch data before rendering
+            return (
+                <div>(Re)Loading Charts...</div>
             );
         } else {
             return (
-            <div>Loading Charts...</div>
+                <div>
+                    {
+                    charts.map((chart, index) => {
+                        let units = chart.units;
+                        let total = chart.total;
+
+                        if (total > 1000000) {
+                            total = total / 1000000;
+                            total = total.toFixed(1) + "M"
+                        } else if (total > 1000) {
+                            total = total / 1000;
+                            total = total.toFixed(1) + "K"
+                        }
+
+                        if (units === "currency") {
+                            total = "$" + total;
+                        }
+
+                        return (
+                            <div className="row" key={"chart_area_" + chart.index}>
+                                <div className="col-md-3" style={{border: "lightgray 1px solid", alignItems: "center"}}>
+                                    <p>{chart.name}</p>
+                                    <p style={{fontSize: "1.3em"}}>{total}</p>
+                                </div>
+
+                                <div className="col-md-9">
+                                    <LineChart
+                                        key={"chart_" + chart.index}
+                                        chart={chart}
+                                        first={index === 0} />
+                                </div>
+                            </div>
+                        );
+                    })
+                    }
+                </div>
             );
         }
     }
