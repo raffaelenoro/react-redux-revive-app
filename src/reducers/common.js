@@ -26,17 +26,11 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case APP_LOAD:
-//      let week_ago = new Date(Date.now() - 7 * 24 * 3600 * 1000);
-//      let now = new Date(Date.now());
-      let week_ago = new Date("2019-01-26");
-      let now = new Date("2019-02-27");
       return {
         ...state,
         token: action.token || null,
         appLoaded: true,
-        currentUser: action.payload ? action.payload.user : null,
-        startDate: week_ago.getFullYear() + "_" + (1+ week_ago.getMonth()) + "_" + week_ago.getDate(),
-        endDate: now.getFullYear() + "_" + (1 + now.getMonth()) + "_" + now.getDate()
+        currentUser: action.payload ? action.payload.user : null
       };
     case REDIRECT:
       return { ...state, redirectTo: null };

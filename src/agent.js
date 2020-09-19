@@ -50,19 +50,27 @@ const Tags = {
   getAll: () => requests.get('/tags')
 };
 
+const formatDate = date => {
+    let yy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+
+    return yy + "_" + mm + "_" + dd;
+}
+
 const Charts = {
     all: (startDate, endDate) =>
-        requests.get(`/reports/charts?start=${startDate}&end=${endDate}`)
+        requests.get(`/reports/charts?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
 };
 
 const Tables = {
     all: (startDate, endDate) =>
-        requests.get(`/reports/tables?start=${startDate}&end=${endDate}`)
+        requests.get(`/reports/tables?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
 }
 
 const DetailedTable = {
     all: (startDate, endDate, index) =>
-        requests.get(`/reports/tables/${index}?start=${startDate}&end=${endDate}`)
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
 }
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;

@@ -43,3 +43,5 @@ export const CHARTS_VIEW_UNLOADED = 'CHARTS_VIEW_UNLOADED';
 export const ADD_FILTER = 'ADD_FILTER';
 export const CHANGE_FILTER = 'CHANGE_FILTER';
 export const REMOVE_FILTER = 'REMOVE_FILTER';
+export const START_DATE = 'START_DATE';
+export const END_DATE = 'END_DATE';

@@ -11,8 +11,8 @@ import {
 
 const mapStateToProps = state => ({
   ...state.tableList,
-  startDate: state.common.startDate,
-  endDate: state.common.endDate
+  startDate: state.date.startDate,
+  endDate: state.date.endDate
 });
 
 const mapDispatchToProps = dispatch => ({
