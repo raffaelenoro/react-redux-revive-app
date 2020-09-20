@@ -53,6 +53,9 @@ class Filters extends React.Component {
                 endDate: (type === END_DATE ? date : endDate)
             });
         }
+        const DateButton = ({value, onClick}) => (
+            <button style={{border: "none", paddingLeft: 0, paddingRight: 0}} onClick={onClick}>{value}</button>
+        );
 
         return (
             <React.Fragment>
@@ -63,12 +66,16 @@ class Filters extends React.Component {
                             name="startDate"
                             selected={startDate}
                             onChange={onDateChange.bind(null, START_DATE)}
+                            maxDate={new Date()}
+                            customInput={<DateButton />}
                             dateFormat="MMM dd, yyyy" />
                         <span> - </span>
                         <DatePicker 
                             name="endDate"
                             selected={endDate}
                             onChange={onDateChange.bind(null, END_DATE)}
+                            maxDate={new Date()}
+                            customInput={<DateButton />}
                             dateFormat="MMM dd, yyyy" />
                     </div>
                 </div>
