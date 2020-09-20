@@ -76,17 +76,20 @@ class Tables extends React.Component {
         const dimensions = [{label: "Billed", value: "billed"}];
         const tables = props.tables;
         const showTablesStride = pos => (
-            tables.filter(
-                (table, index) => (index % 4) === pos
-            ).map(
-                table => (
-                    <React.Fragment key={"table_area_" + table.index}>
-                        <Table table={table} maxRows={12}/>
-                        <Link to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
-                        <div style={{height: "1em"}}></div>
-                    </React.Fragment>
+            tables
+                .sort(
+                    (a, b) => (a.index - b.index)
+                ).filter(
+                    (table, index) => (index % 4) === pos
+                ).map(
+                    table => (
+                        <React.Fragment key={"table_area_" + table.index}>
+                            <Table table={table} maxRows={12}/>
+                            <Link to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
+                            <div style={{height: "1em"}}></div>
+                        </React.Fragment>
+                    )
                 )
-            )
         );
 
         if (!tables) {

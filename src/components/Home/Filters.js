@@ -32,7 +32,7 @@ class Filters extends React.Component {
 
         const startDate = props.startDate;
         const endDate = props.endDate;
-        const dateSpan = (endDate - startDate) / (24 * 3600 * 1000);
+        const dateSpan = Math.round((endDate - startDate) / (24 * 3600 * 1000)) + 1;
 
         const onClick = e => {
             e.preventDefault();
@@ -57,9 +57,8 @@ class Filters extends React.Component {
         return (
             <React.Fragment>
                 <div className="row">
-                    <div className="col-md-6" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
-                        <span> { dateSpan + " Days" } </span>
-                        <br />
+                    <div className="col-md-6" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid", paddingBottom: "1em"}}>
+                        <p> { dateSpan + " Days" } </p>
                         <DatePicker 
                             name="startDate"
                             selected={startDate}

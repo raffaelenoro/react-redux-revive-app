@@ -82,10 +82,32 @@ class Charts extends React.Component {
                 <div>(Re)Loading Charts...</div>
             );
         } else {
+            const offset = new Date().getTimezoneOffset() / 60;
+            const begin = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), -offset);
+            const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), -offset);
+
+            charts.forEach(chart => {
+                let data = chart.data;
+                let x_data = data.x_data;
+                let y_data = data.y_data;
+                let i = 0;
+
+                for (var date = new Date(begin); date <= end; ) {
+                    if (x_data[i] !== date.toISOString()) {
+                        x_data.splice(i, 0, date.toISOString());
+                        y_data.splice(i, 0, "0");
+                    }
+                    date.setDate(date.getDate() + 1);
+                    i++;
+                }
+            });
+
             return (
                 <div>
                     {
-                    charts.map((chart, index) => {
+                    charts.sort(
+                        (a, b) => (a.index - b.index)
+                    ).map((chart, index) => {
                         let units = chart.units;
                         let total = chart.total;
 
@@ -102,8 +124,8 @@ class Charts extends React.Component {
                         }
 
                         return (
-                            <div className="row" key={"chart_area_" + chart.index}>
-                                <div className="col-md-3" style={{border: "lightgray 1px solid", alignItems: "center"}}>
+                            <div className="row" key={"chart_area_" + chart.index} style={{border: "lightgray 1px solid", marginTop: 0}}>
+                                <div className="col-md-3" style={{borderRight: "lightgray 1px solid", alignItems: "center"}}>
                                     <p>{chart.name}</p>
                                     <p style={{fontSize: "1.3em"}}>{total}</p>
                                 </div>
