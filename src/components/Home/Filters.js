@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClick: (payload) => dispatch({ type: ADD_FILTER, payload: payload }),
+  onClick: (type, payload) => dispatch({ type: type, payload: payload }),
   onChange: (index, payload) => dispatch({ type: CHANGE_FILTER, index: index, payload: payload}),
   onDate: (type, payload) => dispatch({ type: type, payload: payload})
 });
@@ -37,7 +37,11 @@ class Filters extends React.Component {
         const onClick = e => {
             e.preventDefault();
             e.target.blur();
-            props.onClick({name: "", value: ""});
+            props.onClick(ADD_FILTER, {name: "", value: ""});
+        }
+        const onRemove = (index, e) => {
+            e.preventDefault();
+            props.onClick(REMOVE_FILTER, {index: index})
         }
         const onNameChange = (index, e) => {
             const filter = props.filters[index];
@@ -84,13 +88,13 @@ class Filters extends React.Component {
                     <div className="col-md-12">
                         <div>
                             <span>Filters: </span>
-                            {props.filters.map((filter, index) =>
-                                <span key={"filter_" + index} className="input-group">
-                                    <input className="form-control form-control-sm" value={filter.name} onChange={onNameChange.bind(null, index)} />
-                                    <input className="form-control form-control-sm" value={filter.value} onChange={onValueChange.bind(null, index)} />
-                                </span>
-                            )}
                             <Button size="sm" onClick={onClick}>+</Button>
+                            {props.filters.map((filter, index) =>
+                                <p key={"filter_" + index}>
+                                    <span>{filter.name}</span>: <span>{filter.value}</span>
+                                    <Button size="sm" onClick={onRemove.bind(null, index)}>-</Button>
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>

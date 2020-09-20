@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useTable } from 'react-table';
+
+const mapStateToProps = state => ({
+  ...state.filterList
+});
 
 const ShowTable = (props) => {
     const table = props.table;
+    const filters = props.filters;
     const maxRows = props.maxRows;
     let i = 0;
     const columns = [];
@@ -29,6 +35,17 @@ const ShowTable = (props) => {
         style: {fontSize: "13px", marginBottom: 0}
     };
 
+    const onClick = (name, value, e) => {
+        console.log(name, value);
+        const filter = filters.find( ({ n }) => n === name );
+
+        if (filter) {
+
+        } else {
+
+        }
+    }
+
     return (
         <table {...tableProps}>
             <thead style={{backgroundColor: "#eeeeee"}}>
@@ -49,7 +66,7 @@ const ShowTable = (props) => {
                 {rows.map((row, i) => {
                 prepareRow(row)
                 return (
-                    <tr {...row.getRowProps()}>
+                    <tr {...row.getRowProps()} onClick={onClick.bind(null, table.name, row.cells[0].value)}>
                     {row.cells.map((cell, index) => {
                         const cellProps = {
                             ...cell.getCellProps(),
@@ -69,11 +86,12 @@ const ShowTable = (props) => {
 class Table extends React.Component {
     render() {
         const table = this.props.table;
+        const filters = this.props.filters;
 
         return (
-            <ShowTable table={table}/>
+            <ShowTable table={table} filters={filters}/>
         );
     }
 };
 
-export { Table };
+export default connect(mapStateToProps)(Table);

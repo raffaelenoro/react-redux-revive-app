@@ -21,6 +21,7 @@ export default (state = {filters: []}, action) => {
           filters: filters
       };
     case REMOVE_FILTER:
+      filters.splice(action.payload.index, 1)
       return {
         ...state,
         filters: filters

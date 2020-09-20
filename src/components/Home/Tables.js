@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Table } from '../Table';
+import Table from '../Table';
 import agent from '../../agent';
 import Select from 'react-select';
 import {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import agent from '../../agent';
-import { Table } from '../Table';
+import Table from '../Table';
 import {
   DETAILED_TABLE_VIEW_LOADED,
   DETAILED_TABLE_VIEW_UNLOADED,
