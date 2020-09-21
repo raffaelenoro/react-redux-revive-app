@@ -38,11 +38,7 @@ class Tables extends React.Component {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
-        const filters = this.props.filters.map(({name, value}) => {
-            const table = this.props.tables.find(table => table.name === name);
-
-            return { index: table.index, name: table.name, value: value }
-        });
+        const filters = this.props.filters;
         const pager = filters.length > 0 ? agent.Tables.filtered : agent.Tables.all;
 
         this.props.onLoad(

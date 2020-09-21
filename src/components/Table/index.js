@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onAdd: (name, value) => dispatch({ type: ADD_FILTER, payload: {name: name, value: value} }),
+    onAdd: (index, name, value) => dispatch({ type: ADD_FILTER, payload: {index: index, name: name, value: value} }),
     onChange: (index, name, value) => dispatch({ type: CHANGE_FILTER, index: index, payload: {name: name, value: value} }),
     onRemove: (index) => dispatch({ type: REMOVE_FILTER, payload: {index: index} })
 });
@@ -49,16 +49,16 @@ const ShowTable = (props) => {
         style: {fontSize: "13px", marginBottom: 0}
     };
 
-    const onClick = (name, value, e) => {
+    const onClick = (index, name, value, e) => {
         const filterIndex = filters.findIndex(filter => filter.name === name );
         const filter = filterIndex < 0 ? {} : filters[filterIndex];
         const filterValue = filter.value || "";
-        const filtered = (filter.value + "").split(";")
+        const filtered = (filterValue + "").split(";")
         const valueIndex = filtered.findIndex(v => v === (value + ""));
 
         if (filterIndex < 0) {
             // no filter by this name 
-            onAdd(name, value);
+            onAdd(index, name, value);
         } else if (valueIndex < 0) {
             // no value in this named filter, add
             onChange(filterIndex, name, filtered.join(";") + ";" + value)
@@ -92,7 +92,7 @@ const ShowTable = (props) => {
                 {rows.map((row, i) => {
                 prepareRow(row)
                 return (
-                    <tr {...row.getRowProps()} onClick={onClick.bind(null, table.name, row.cells[0].value)}>
+                    <tr {...row.getRowProps()} onClick={onClick.bind(null, table.index, table.name, row.cells[0].value)}>
                     {row.cells.map((cell, index) => {
                         const cellProps = {
                             ...cell.getCellProps(),

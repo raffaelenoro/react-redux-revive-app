@@ -11,7 +11,8 @@ import {
 const mapStateToProps = state => ({
     ...state.detailedTable,
     startDate: state.common.startDate,
-    endDate: state.common.endDate
+    endDate: state.common.endDate,
+    filters: state.filterList.filters
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -28,20 +29,23 @@ class DetailedTable extends React.Component {
 
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
+        this.filters = this.props.filters;
     }
 
     fetchData() {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters;
         const location = this.props.location;
         const index = location.state.index;
+        const pager = filters.length > 0 ? agent.DetailedTable.filtered : agent.DetailedTable.all;
 
         this.props.onLoad(
             tab,
-            agent.DetailedTable.all,
+            pager,
             Promise.all([
-                agent.DetailedTable.all(startDate, endDate, index)
+                pager(startDate, endDate, index, filters)
             ])
         );
     }
@@ -57,10 +61,12 @@ class DetailedTable extends React.Component {
     componentDidUpdate() {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters;
 
-        if (this.startDate !== startDate || this.endDate !== endDate) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             this.startDate = startDate;
             this.endDate = endDate;
+            this.filters = filters;
 
             this.fetchData();
         }
@@ -70,13 +76,14 @@ class DetailedTable extends React.Component {
         const props = this.props;
         const startDate = props.startDate;
         const endDate = props.endDate;
+        const filters = props.filters;
         const table = props.table && props.table[0];
 
         if (!table) {
             return (
                 <div>Loading Table...</div>
             );
-        } else if (this.startDate != startDate || this.endDate != endDate) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             return (
                 <div>(Re)Loading Table...</div>
             );

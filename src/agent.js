@@ -79,7 +79,9 @@ const Tables = {
 
 const DetailedTable = {
     all: (startDate, endDate, index) =>
-        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}`),
+    filtered: (startDate, endDate, index, filters) =>
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&${formatFilters(filters)}`)
 }
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
