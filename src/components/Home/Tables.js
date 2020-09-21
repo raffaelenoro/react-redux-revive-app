@@ -12,7 +12,8 @@ import {
 const mapStateToProps = state => ({
   ...state.tableList,
   startDate: state.common.startDate,
-  endDate: state.common.endDate
+  endDate: state.common.endDate,
+  filters: state.filterList.filters
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,18 +31,25 @@ class Tables extends React.Component {
         // keep tabs of the time interval
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
+        this.filters = this.props.filters;
     }
 
     fetchData() {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters.map(({name, value}) => {
+            const table = this.props.tables.find(table => table.name === name);
+
+            return { index: table.index, name: table.name, value: value }
+        });
+        const pager = filters.length > 0 ? agent.Tables.filtered : agent.Tables.all;
 
         this.props.onLoad(
             tab,
-            agent.Tables.all,
+            pager,
             Promise.all([
-                agent.Tables.all(startDate, endDate)
+                pager(startDate, endDate, filters)
             ])
         );
     }
@@ -57,13 +65,15 @@ class Tables extends React.Component {
     componentDidUpdate() {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters;
 
         //
         // The component is out-of-date and needs a data refresh
         //
-        if (this.startDate !== startDate || this.endDate !== endDate) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters != filters) {
             this.startDate = startDate;
             this.endDate = endDate;
+            this.filters = filters;
 
             this.fetchData();
         }
@@ -73,6 +83,7 @@ class Tables extends React.Component {
         const props = this.props;
         const startDate = props.startDate;
         const endDate = props.endDate;
+        const filters = props.filters;
         const dimensions = [{label: "Billed", value: "billed"}];
         const tables = props.tables;
         const showTablesStride = pos => (
@@ -96,7 +107,7 @@ class Tables extends React.Component {
             return (
                 <div>Loading Tables...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters != filters) {
             // we need to re-fetch data before rendering
             return (
                 <div>(Re)Loading Tables...</div>

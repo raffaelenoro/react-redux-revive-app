@@ -57,9 +57,9 @@ class Filters extends React.Component {
                 endDate: (type === END_DATE ? date : endDate)
             });
         }
-        const DateButton = ({value, onClick}) => (
+        const DateButton = React.forwardRef(({value, onClick}, ref) => (
             <button style={{border: "none", paddingLeft: 0, paddingRight: 0}} onClick={onClick}>{value}</button>
-        );
+        ));
 
         return (
             <React.Fragment>
@@ -88,13 +88,15 @@ class Filters extends React.Component {
                     <div className="col-md-12">
                         <div>
                             <span>Filters: </span>
-                            <Button size="sm" onClick={onClick}>+</Button>
-                            {props.filters.map((filter, index) =>
-                                <p key={"filter_" + index}>
-                                    <span>{filter.name}</span>: <span>{filter.value}</span>
-                                    <Button size="sm" onClick={onRemove.bind(null, index)}>-</Button>
-                                </p>
-                            )}
+                            <Button size="sm" onClick={onClick} disabled>+</Button>
+                            <ul className="list-unstyled small">
+                                {props.filters.map((filter, index) =>
+                                    <li key={"filter_" + index}>
+                                        <span>{filter.name}</span>: <span>{filter.value} </span>
+                                        <button type="button" className="btn btn-sm btn-dark" onClick={onRemove.bind(null, index)}>-</button>
+                                    </li>
+                                )}
+                            </ul>
                         </div>
                     </div>
                 </div>

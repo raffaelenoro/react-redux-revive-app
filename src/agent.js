@@ -58,6 +58,13 @@ const formatDate = date => {
     return yy + "_" + mm + "_" + dd;
 }
 
+const formatFilters = filters => {
+    let str = filters.map(({index, name, value}) =>
+        "t." + index + ".k=" + name + "&" + "t." + index + ".v=" + value);
+
+    return str.join("&");
+}
+
 const Charts = {
     all: (startDate, endDate) =>
         requests.get(`/reports/charts?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
@@ -65,7 +72,9 @@ const Charts = {
 
 const Tables = {
     all: (startDate, endDate) =>
-        requests.get(`/reports/tables?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
+        requests.get(`/reports/tables?start=${formatDate(startDate)}&end=${formatDate(endDate)}`),
+    filtered: (startDate, endDate, filters) =>
+        requests.get(`/reports/tables?start=${formatDate(startDate)}&end=${formatDate(endDate)}&${formatFilters(filters)}`)
 }
 
 const DetailedTable = {
