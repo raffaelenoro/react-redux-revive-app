@@ -100,7 +100,7 @@ class DetailedTable extends React.Component {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <Table table={table} maxRows={100} />
+                            <Table table={table} maxRows={100} checkMark={true} />
                         </div>
                     </div>
                 </div>

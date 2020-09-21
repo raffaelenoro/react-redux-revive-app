@@ -13,8 +13,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onAdd: (index, name, value) => dispatch({ type: ADD_FILTER, payload: {index: index, name: name, value: value} }),
-    onChange: (index, name, value) => dispatch({ type: CHANGE_FILTER, index: index, payload: {name: name, value: value} }),
-    onRemove: (index) => dispatch({ type: REMOVE_FILTER, payload: {index: index} })
+    onChange: (filterIndex, index, name, value) => dispatch({ type: CHANGE_FILTER, index: filterIndex, payload: {index: index, name: name, value: value} }),
+    onRemove: (filterIndex) => dispatch({ type: REMOVE_FILTER, payload: {index: filterIndex} })
 });
 
 const ShowTable = (props) => {
@@ -24,6 +24,7 @@ const ShowTable = (props) => {
     const onChange = props.onChange;
     const onRemove = props.onRemove;
     const maxRows = props.maxRows;
+    const checkMark = props.checkMark;
     let i = 0;
     const columns = [];
     while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
@@ -33,7 +34,11 @@ const ShowTable = (props) => {
         })
     };
 
-    const length = Math.min(12, table.data.length);
+    const filter = filters.find(filter => filter.index === table.index) || {};
+    const filterValue = (filter.value || "") ;
+    const filterValues = (filterValue + "").split(";");
+
+    const length = Math.min(maxRows, table.data.length);
     const data = table.data.slice(0, length);
     const {
         getTableProps,
@@ -61,11 +66,11 @@ const ShowTable = (props) => {
             onAdd(index, name, value);
         } else if (valueIndex < 0) {
             // no value in this named filter, add
-            onChange(filterIndex, name, filtered.join(";") + ";" + value)
+            onChange(filterIndex, index, name, filtered.join(";") + ";" + value)
         } else if (filtered.length > 1) {
             // value present, remove
             filtered.splice(valueIndex, 1);
-            onChange(filterIndex, name, filtered.join(";"))
+            onChange(filterIndex, index, name, filtered.join(";"))
         } else {
             // last value, remove filter by this name
             onRemove(filterIndex)
@@ -90,19 +95,34 @@ const ShowTable = (props) => {
             </thead>
             <tbody {...getTableBodyProps()}>
                 {rows.map((row, i) => {
-                prepareRow(row)
-                return (
-                    <tr {...row.getRowProps()} onClick={onClick.bind(null, table.index, table.name, row.cells[0].value)}>
-                    {row.cells.map((cell, index) => {
-                        const cellProps = {
-                            ...cell.getCellProps(),
-                            style: { textAlign: index > 0 ? "right": "left" }
-                        };
 
-                        return <td {...cellProps}>{cell.render('Cell')}</td>
-                    })}
-                    </tr>
-                )
+                    prepareRow(row)
+
+                    const value = row.cells[0].value;
+                    const mark = checkMark && filterValues.find(v => v === value + "");
+                    const rowProps = {
+                        ...row.getRowProps(),
+                        style: { backgroundColor: mark ? "lightgray": "default" }
+                    };
+                    
+                    return (
+                        <tr {...rowProps} onClick={onClick.bind(null, table.index, table.name, value)}>
+                            {row.cells.map((cell, index) => {
+                                const cellProps = {
+                                    ...cell.getCellProps(),
+                                    style: { textAlign: index > 0 ? "right": "left" }
+                                };
+                                const value = cell.render('Cell');
+
+                                if (index == 0 && mark) {
+                                    return <td {...cellProps}><span>&#10003;</span><span>{value}</span></td>;
+                                } else {
+                                    return <td {...cellProps}><span>{value}</span></td>;
+                                }
+
+                            })}
+                        </tr>
+                    )
                 })}
             </tbody>
         </table>
@@ -113,13 +133,15 @@ class Table extends React.Component {
 
     render() {
         const table = this.props.table;
+        const maxRows = this.props.maxRows;
+        const checkMark = this.props.checkMark;
         const filters = this.props.filters;
         const onAdd = this.props.onAdd;
         const onChange = this.props.onChange;
         const onRemove = this.props.onRemove;
 
         return (
-            <ShowTable table={table} filters={filters} onAdd={onAdd} onChange={onChange} onRemove={onRemove}/>
+            <ShowTable table={table} maxRows={maxRows} checkMark={checkMark} filters={filters} onAdd={onAdd} onChange={onChange} onRemove={onRemove} />
         );
     }
 };
