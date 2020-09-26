@@ -14,7 +14,7 @@ const superagent = superagentPromise(_superagent, global.Promise);
 //
 const API_ROOT = 'http://3.232.56.22:8081/api';
 
-const encode = encodeURIComponent;
+//const encode = encodeURIComponent;
 const responseBody = res => res.body;
 
 let token = null;
@@ -46,10 +46,6 @@ const Auth = {
     requests.put('/user', { user })
 };
 
-const Tags = {
-  getAll: () => requests.get('/tags')
-};
-
 const formatDate = date => {
     let yy = date.getFullYear();
     let mm = date.getMonth() + 1;
@@ -60,7 +56,7 @@ const formatDate = date => {
 
 const formatFilters = filters => {
     let str = filters.map(({index, name, value}, i) =>
-        "t." + (i+1) + ".k=" + index + "&" + "t." + (i+1) + ".v=" + value.join(";"));
+        "t." + (i+1) + ".k=" + index + "&t." + (i+1) + ".v=" + value.join(";"));
 
     return str.join("&");
 }
@@ -86,42 +82,6 @@ const DetailedTable = {
         requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&${formatFilters(filters)}`)
 }
 
-const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
-const omitSlug = article => Object.assign({}, article, { slug: undefined })
-const Articles = {
-  all: page =>
-    requests.get(`/articles?${limit(10, page)}`),
-  byAuthor: (author, page) =>
-    requests.get(`/articles?author=${encode(author)}&${limit(5, page)}`),
-  byTag: (tag, page) =>
-    requests.get(`/articles?tag=${encode(tag)}&${limit(10, page)}`),
-  del: slug =>
-    requests.del(`/articles/${slug}`),
-  favorite: slug =>
-    requests.post(`/articles/${slug}/favorite`),
-  favoritedBy: (author, page) =>
-    requests.get(`/articles?favorited=${encode(author)}&${limit(5, page)}`),
-  feed: () =>
-    requests.get('/articles/feed?limit=10&offset=0'),
-  get: slug =>
-    requests.get(`/articles/${slug}`),
-  unfavorite: slug =>
-    requests.del(`/articles/${slug}/favorite`),
-  update: article =>
-    requests.put(`/articles/${article.slug}`, { article: omitSlug(article) }),
-  create: article =>
-    requests.post('/articles', { article })
-};
-
-const Comments = {
-  create: (slug, comment) =>
-    requests.post(`/articles/${slug}/comments`, { comment }),
-  delete: (slug, commentId) =>
-    requests.del(`/articles/${slug}/comments/${commentId}`),
-  forArticle: slug =>
-    requests.get(`/articles/${slug}/comments`)
-};
-
 const Profile = {
   follow: username =>
     requests.post(`/profiles/${username}/follow`),
@@ -135,10 +95,7 @@ export default {
   Charts,
   Tables,
   DetailedTable,
-  Articles,
   Auth,
-  Comments,
   Profile,
-  Tags,
   setToken: _token => { token = _token; }
 };

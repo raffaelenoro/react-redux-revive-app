@@ -111,7 +111,7 @@ const ShowTable = (props) => {
                                 };
                                 const value = cell.render('Cell');
 
-                                if (index == 0 && mark) {
+                                if (index === 0 && mark) {
                                     return <td {...cellProps}><span>&#10003;</span><span>{value}</span></td>;
                                 } else {
                                     return <td {...cellProps}><span>{value}</span></td>;

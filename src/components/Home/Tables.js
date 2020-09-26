@@ -67,7 +67,7 @@ class Tables extends React.Component {
         //
         // The component is out-of-date and needs a data refresh
         //
-        if (this.startDate !== startDate || this.endDate !== endDate || this.filters != filters) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.filters = filters;
@@ -87,7 +87,7 @@ class Tables extends React.Component {
             return (
                 <div>Loading Tables...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters != filters) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             // we need to re-fetch data before rendering
             return (
                 <div>(Re)Loading Tables...</div>

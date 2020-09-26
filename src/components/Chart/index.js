@@ -34,7 +34,7 @@ class LineChart extends React.PureComponent {
         };
         const yAxesCallback = (label, index, labels) => {
 
-            const prefix = (chart.units == "currency" ? "$": " ");
+            const prefix = (chart.units === "currency" ? "$": " ");
             let suffix = "";
 
             label = +label;

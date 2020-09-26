@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/Button';
 import DatePicker from 'react-datepicker';
 import {
-  ADD_FILTER,
   CHANGE_FILTER,
   REMOVE_FILTER,
   START_DATE,
@@ -34,23 +32,10 @@ class Filters extends React.Component {
         const endDate = props.endDate;
         const dateSpan = Math.round((endDate - startDate) / (24 * 3600 * 1000)) + 1;
 
-        const onClick = e => {
-            e.preventDefault();
-            e.target.blur();
-            props.onClick(ADD_FILTER, {name: "", value: ""});
-        }
         const onRemove = (index, e) => {
             e.preventDefault();
             props.onClick(REMOVE_FILTER, {index: index})
         }
-        const onNameChange = (index, e) => {
-            const filter = props.filters[index];
-            props.onChange(index, {name: e.target.value, value: filter.value});
-        };
-        const onValueChange = (index, e) => {
-            const filter = props.filters[index];
-            props.onChange(index, {name: filter.name, value: e.target.value});
-        };
         const onDateChange = (type, date) => {
             props.onDate(type, {
                 startDate: (type === START_DATE ? date : startDate),
