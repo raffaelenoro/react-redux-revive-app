@@ -76,8 +76,9 @@ class Filters extends React.Component {
                     <div className="col-md-11">
                         <ul className="list-inline d-flex align-items-center" style={{display:"flex", marginBottom: 0}}>
                             {props.filters.map((filter, index) =>
-                                <li className="list-inline-items" style={{paddingRight: "5px"}} key={"filter_" + index}>
-                                    <span>{filter.name+ ":" + filter.value.join(";")}</span>
+                                <li className="list-inline-items" style={{paddingRight: "8px"}} key={"filter_" + index}>
+                                    <span>{filter.name}</span>
+                                    <span>{": " + filter.value.join("; ")}</span>
                                     <button type="button" className="close" aria-label="Close" onClick={onRemove.bind(null, index)}>
                                         <span aria-hidden="true">&times;</span>
                                     </button>
