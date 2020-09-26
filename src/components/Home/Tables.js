@@ -13,6 +13,7 @@ const mapStateToProps = state => ({
   ...state.tableList,
   startDate: state.common.startDate,
   endDate: state.common.endDate,
+  selectedDimension: state.common.selectedDimension,
   filters: state.filterList.filters
 });
 
@@ -80,24 +81,7 @@ class Tables extends React.Component {
         const startDate = props.startDate;
         const endDate = props.endDate;
         const filters = props.filters;
-        const dimensions = [{label: "Billed", value: "billed"}];
         const tables = props.tables;
-        const showTablesStride = pos => (
-            tables
-                .sort(
-                    (a, b) => (a.index - b.index)
-                ).filter(
-                    (table, index) => (index % 4) === pos
-                ).map(
-                    table => (
-                        <React.Fragment key={"table_area_" + table.index}>
-                            <Table table={table} maxRows={12} />
-                            <Link to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
-                            <div style={{height: "1em"}}></div>
-                        </React.Fragment>
-                    )
-                )
-        );
 
         if (!tables) {
             return (
@@ -109,6 +93,57 @@ class Tables extends React.Component {
                 <div>(Re)Loading Tables...</div>
             );
         } else {
+            const firstTable = tables[0];
+            const dimensions = [];
+
+            for (var i = 2; ; i++) {
+                const name = "c" + i + "_name";
+                if (!firstTable.hasOwnProperty(name)) {
+                    break;
+                }
+                const value = firstTable[name];
+
+                dimensions.push(value);
+            }
+
+            const selectedDimension = props.selectedDimension || dimensions[0];
+            const dimensionIndex = 2 + dimensions.findIndex(dimension => dimension === selectedDimension);
+            const selectedData = "c" + dimensionIndex + "_data";
+            const selectedTables = tables.map(table => {
+                const name = "c" + dimensionIndex + "_name";
+                Object.keys(table).forEach(key => {
+                    if (key.endsWith("_name") && key !== "c1_name" && key !== name) {
+                        delete table[key];
+                    }
+                })
+                const data = table.data.map(d => {
+                    const d1 = {c1_data: d.c1_data};
+                    d1[selectedData] = d[selectedData];
+                    return d1;
+                });
+
+                table.data = data;
+
+                return table;
+            });
+
+            const showTablesStride = pos => (
+                selectedTables
+                    .sort(
+                        (a, b) => (a.index - b.index)
+                    ).filter(
+                        (table, index) => (index % 4) === pos
+                    ).map(
+                        table => (
+                            <React.Fragment key={"table_area_" + table.index}>
+                                <Table table={table} maxRows={12} />
+                                <Link to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
+                                <div style={{height: "1em"}}></div>
+                            </React.Fragment>
+                        )
+                    )
+            );
+
             return (
                 <div>
                     <div className="row">
@@ -117,7 +152,9 @@ class Tables extends React.Component {
                             Dimension by: 
                         </div>
                         <div className="col-md-3">
-                            <Select options={dimensions} defaultValue={dimensions[0]} />
+                            <Select
+                                options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
+                                defaultValue={{label: selectedDimension, value: selectedDimension}} />
                         </div>
                     </div>
 

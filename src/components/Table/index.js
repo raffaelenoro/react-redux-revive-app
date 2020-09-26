@@ -35,8 +35,7 @@ const ShowTable = (props) => {
     };
 
     const filter = filters.find(filter => filter.index === table.index) || {};
-    const filterValue = (filter.value || "") ;
-    const filterValues = (filterValue + "").split(";");
+    const filterValue = filter.value || [];
 
     const length = Math.min(maxRows, table.data.length);
     const data = table.data.slice(0, length);
@@ -55,22 +54,20 @@ const ShowTable = (props) => {
     };
 
     const onClick = (index, name, value, e) => {
-        const filterIndex = filters.findIndex(filter => filter.name === name );
-        const filter = filterIndex < 0 ? {} : filters[filterIndex];
-        const filterValue = filter.value || "";
-        const filtered = (filterValue + "").split(";")
-        const valueIndex = filtered.findIndex(v => v === (value + ""));
+        const filterIndex = filters.findIndex(filter => filter.name === name);
+        const valueIndex = filterValue.findIndex(v => v === value);
 
         if (filterIndex < 0) {
-            // no filter by this name 
-            onAdd(index, name, value);
+            // no filter by this name
+            onAdd(index, name, [value]);
         } else if (valueIndex < 0) {
             // no value in this named filter, add
-            onChange(filterIndex, index, name, filtered.join(";") + ";" + value)
-        } else if (filtered.length > 1) {
-            // value present, remove
-            filtered.splice(valueIndex, 1);
-            onChange(filterIndex, index, name, filtered.join(";"))
+            filterValue.push(value);
+            onChange(filterIndex, index, name, filterValue)
+        } else if (filterValue.length > 1) {
+            // value is present, remove
+            filterValue.splice(valueIndex, 1);
+            onChange(filterIndex, index, name, filterValue)
         } else {
             // last value, remove filter by this name
             onRemove(filterIndex)
@@ -99,7 +96,7 @@ const ShowTable = (props) => {
                     prepareRow(row)
 
                     const value = row.cells[0].value;
-                    const mark = checkMark && filterValues.find(v => v === value + "");
+                    const mark = checkMark && filterValue.find(v => v === value);
                     const rowProps = {
                         ...row.getRowProps(),
                         style: { backgroundColor: mark ? "lightgray": "default" }

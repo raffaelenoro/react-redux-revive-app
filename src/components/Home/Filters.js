@@ -64,8 +64,7 @@ class Filters extends React.Component {
         return (
             <React.Fragment>
                 <div className="row">
-                    <div className="col-md-6" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid", paddingBottom: "1em"}}>
-                        <p> { dateSpan + " Days" } </p>
+                    <div className="col-md-6" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
                         <DatePicker 
                             name="startDate"
                             selected={startDate}
@@ -81,23 +80,25 @@ class Filters extends React.Component {
                             maxDate={new Date()}
                             customInput={<DateButton />}
                             dateFormat="MMM dd, yyyy" />
+                        <span> {"(" + dateSpan + " Days)"} </span>
                     </div>
                 </div>
 
                 <div className="row">
-                    <div className="col-md-12">
-                        <div>
-                            <span>Filters: </span>
-                            <Button size="sm" onClick={onClick} disabled>+</Button>
-                            <ul className="list-unstyled small">
-                                {props.filters.map((filter, index) =>
-                                    <li key={"filter_" + index}>
-                                        <span>{filter.name}</span>: <span>{filter.value} </span>
-                                        <button type="button" className="btn btn-sm btn-dark" onClick={onRemove.bind(null, index)}>-</button>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
+                    <div className="col-md-1">
+                        <span>Filters: </span>
+                    </div>
+                    <div className="col-md-11">
+                        <ul className="list-inline d-flex align-items-center" style={{display:"flex", marginBottom: 0}}>
+                            {props.filters.map((filter, index) =>
+                                <li className="list-inline-items" style={{paddingRight: "5px"}} key={"filter_" + index}>
+                                    <span>{filter.name+ ":" + filter.value.join(";")}</span>
+                                    <button type="button" className="close" aria-label="Close" onClick={onRemove.bind(null, index)}>
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </li>
+                            )}
+                        </ul>
                     </div>
                 </div>
             </React.Fragment>

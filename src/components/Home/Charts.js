@@ -10,7 +10,8 @@ import {
 const mapStateToProps = state => ({
   ...state.chartList,
   startDate: state.common.startDate,
-  endDate: state.common.endDate
+  endDate: state.common.endDate,
+  filters: state.filterList.filters
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -28,18 +29,21 @@ class Charts extends React.Component {
         // keep tabs of the time interval
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
+        this.filters = this.props.filters;
     }
 
     fetchData() {
         const tab = "";
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters;
+        const pager = filters.length > 0 ? agent.Charts.filtered : agent.Charts.all;
 
         this.props.onLoad(
             tab,
-            agent.Charts.all,
+            pager,
             Promise.all([
-                agent.Charts.all(startDate, endDate),
+                pager(startDate, endDate, filters),
             ])
         );
     }
@@ -55,13 +59,15 @@ class Charts extends React.Component {
     componentDidUpdate() {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters;
 
         //
         // The component is out-of-date and needs a data refresh
         //
-        if (this.startDate !== startDate || this.endDate !== endDate) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             this.startDate = startDate;
             this.endDate = endDate;
+            this.filters = filters;
 
             this.fetchData();
         }
@@ -70,13 +76,14 @@ class Charts extends React.Component {
     render() {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
+        const filters = this.props.filters;
         const charts = this.props.charts;
 
         if (!charts) {
             return (
                 <div>Loading Charts...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             // we need to re-fetch data before rendering
             return (
                 <div>(Re)Loading Charts...</div>

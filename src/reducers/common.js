@@ -26,7 +26,7 @@ const defaultState = {
 };
 
 const now = new Date(Date.now() - 24 * 3600 * 1000);
-const week_ago = new Date(now - 7 * 24 * 3600 * 1000);
+const week_ago = new Date(now - 6 * 24 * 3600 * 1000);
 
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -37,6 +37,7 @@ export default (state = defaultState, action) => {
         appLoaded: true,
         currentUser: action.payload ? action.payload.user : null,
         startDate: week_ago,
+        selectedDimension: null,
         endDate: now
       };
     case START_DATE:

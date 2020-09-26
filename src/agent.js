@@ -59,15 +59,17 @@ const formatDate = date => {
 }
 
 const formatFilters = filters => {
-    let str = filters.map(({index, name, value}) =>
-        "t." + index + ".k=" + name + "&" + "t." + index + ".v=" + value);
+    let str = filters.map(({index, name, value}, i) =>
+        "t." + (i+1) + ".k=" + index + "&" + "t." + (i+1) + ".v=" + value.join(";"));
 
     return str.join("&");
 }
 
 const Charts = {
     all: (startDate, endDate) =>
-        requests.get(`/reports/charts?start=${formatDate(startDate)}&end=${formatDate(endDate)}`)
+        requests.get(`/reports/charts?start=${formatDate(startDate)}&end=${formatDate(endDate)}`),
+    filtered: (startDate, endDate, filters) =>
+        requests.get(`/reports/charts?start=${formatDate(startDate)}&end=${formatDate(endDate)}&${formatFilters(filters)}`)
 };
 
 const Tables = {
