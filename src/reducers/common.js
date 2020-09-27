@@ -2,14 +2,14 @@ import {
   APP_LOAD,
   START_DATE,
   END_DATE,
+  SET_DIMENSIONS,
+  SET_SELECTED_DIMENSION,
   REDIRECT,
   LOGOUT,
   ARTICLE_SUBMITTED,
   SETTINGS_SAVED,
   LOGIN,
   REGISTER,
-  DELETE_ARTICLE,
-  ARTICLE_PAGE_UNLOADED,
   EDITOR_PAGE_UNLOADED,
   HOME_PAGE_UNLOADED,
   PROFILE_PAGE_UNLOADED,
@@ -37,6 +37,7 @@ export default (state = defaultState, action) => {
         appLoaded: true,
         currentUser: action.payload ? action.payload.user : null,
         startDate: week_ago,
+        dimensions: [],
         selectedDimension: null,
         endDate: now
       };
@@ -46,6 +47,16 @@ export default (state = defaultState, action) => {
         ...state,
         startDate: action.payload.startDate,
         endDate: action.payload.endDate
+      }
+    case SET_DIMENSIONS:
+      return {
+          ...state,
+          dimensions: action.dimensions
+      }
+    case SET_SELECTED_DIMENSION:
+      return {
+          ...state,
+          selectedDimension: action.dimension
       }
     case REDIRECT:
       return { ...state, redirectTo: null };
@@ -68,9 +79,6 @@ export default (state = defaultState, action) => {
         token: action.error ? null : action.payload.user.token,
         currentUser: action.error ? null : action.payload.user
       };
-    case DELETE_ARTICLE:
-      return { ...state, redirectTo: '/' };
-    case ARTICLE_PAGE_UNLOADED:
     case EDITOR_PAGE_UNLOADED:
     case HOME_PAGE_UNLOADED:
     case PROFILE_PAGE_UNLOADED:

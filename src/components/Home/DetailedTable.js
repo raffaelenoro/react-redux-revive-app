@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import agent from '../../agent';
 import Table from '../Table';
 import {
@@ -90,14 +89,6 @@ class DetailedTable extends React.Component {
         } else {
             return (
                 <div>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <Link to="/">&larr;</Link>&nbsp;All dimensions
-                        </div>
-                    </div>
-
-                    <div className="row" style={{height: "1em"}}></div>
-
                     <div className="row">
                         <div className="col-md-12">
                             <Table table={table} maxRows={100} checkMark={true} />

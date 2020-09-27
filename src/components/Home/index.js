@@ -30,7 +30,10 @@ class Home extends React.Component {
 
         <div className="container page">
 
-          <Filters />
+          <Switch>
+              <Route exact path="/" component={Filters} />
+              <Route path="/detailed" component={Filters} />
+          </Switch>
 
           <hr style={{height: "2px", width: "100%"}}/>
 
