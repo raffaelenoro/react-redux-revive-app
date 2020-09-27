@@ -46,8 +46,8 @@ class Filters extends React.Component {
         this.props.onDimensions(this.dimensions);
     }
 
-    setSelectedDimension(dimension, position) {
-        this.selectedDimension = { dimension, position };
+    setSelectedDimension(dimension, index) {
+        this.selectedDimension = { dimension, index };
 
         this.props.onSelectedDimension(this.selectedDimension);
     }
@@ -98,9 +98,9 @@ class Filters extends React.Component {
             });
         }
         const onChange = dimension => {
-            const position = dimensions.findIndex(d => d === dimension.value);
+            const index = dimensions.findIndex(d => d === dimension.value);
 
-            return this.setSelectedDimension(dimension.value, position);
+            return this.setSelectedDimension(dimension.value, index);
         }
         const DateButton = React.forwardRef(({value, onClick}, ref) => (
             <button style={{border: "none", paddingLeft: 0, paddingRight: 0}} onClick={onClick}>{value}</button>

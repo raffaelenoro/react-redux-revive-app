@@ -106,7 +106,7 @@ class Tables extends React.Component {
                 <div>(Re)Loading Tables...</div>
             );
         } else {
-            const dimensionIndex = 2 + selectedDimension.position;
+            const dimensionIndex = 2 + selectedDimension.index;
             const selectedName = "c" + dimensionIndex + "_name";
             const selectedData = "c" + dimensionIndex + "_data";
 

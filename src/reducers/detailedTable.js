@@ -1,6 +1,6 @@
 import {
   DETAILED_TABLE_VIEW_LOADED,
-  DETAILED_TABLE_VIEW_UNLOADED,
+  DETAILED_TABLE_VIEW_UNLOADED
 } from '../constants/actionTypes';
 
 export default (state = {}, action) => {

@@ -5,20 +5,25 @@ import Table from '../Table';
 import {
   DETAILED_TABLE_VIEW_LOADED,
   DETAILED_TABLE_VIEW_UNLOADED,
+  SET_SORTING
 } from '../../constants/actionTypes';
 
 const mapStateToProps = state => ({
     ...state.detailedTable,
     startDate: state.common.startDate,
     endDate: state.common.endDate,
-    filters: state.filterList.filters
+    selectedDimension: state.common.selectedDimension,
+    sorting: state.common.sorting,
+    filters: state.filterList.filters,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: (tab, pager, payload) =>
-    dispatch({ type: DETAILED_TABLE_VIEW_LOADED, tab, pager, payload }),
+  onLoad: (tab, pager, sorting, payload) =>
+    dispatch({ type: DETAILED_TABLE_VIEW_LOADED, tab, pager, sorting, payload }),
   onUnload: () =>
-    dispatch({ type: DETAILED_TABLE_VIEW_UNLOADED })
+    dispatch({ type: DETAILED_TABLE_VIEW_UNLOADED }),
+  onSort: sorting =>
+    dispatch({ type: SET_SORTING, sorting })
 });
 
 class DetailedTable extends React.Component {
@@ -28,6 +33,7 @@ class DetailedTable extends React.Component {
 
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
+        this.sorting = this.props.sorting;
         this.filters = this.props.filters;
     }
 
@@ -39,12 +45,14 @@ class DetailedTable extends React.Component {
         const location = this.props.location;
         const index = location.state.index;
         const pager = filters.length > 0 ? agent.DetailedTable.filtered : agent.DetailedTable.all;
+        const sorting = this.props.sorting;
 
         this.props.onLoad(
             tab,
             pager,
+            sorting,
             Promise.all([
-                pager(startDate, endDate, index, filters)
+                pager(startDate, endDate, index, sorting, filters)
             ])
         );
     }
@@ -61,11 +69,13 @@ class DetailedTable extends React.Component {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
         const filters = this.props.filters;
+        const sorting = this.props.sorting;
 
-        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sorting !== sorting) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.filters = filters;
+            this.sorting = sorting;
 
             this.fetchData();
         }
@@ -75,14 +85,18 @@ class DetailedTable extends React.Component {
         const props = this.props;
         const startDate = props.startDate;
         const endDate = props.endDate;
+        const selectedDimension = props.selectedDimension;
+        const sorting = props.sorting;
         const filters = props.filters;
         const table = props.table && props.table[0];
+
+        const onSort = sorting => this.props.onSort(sorting);
 
         if (!table) {
             return (
                 <div>Loading Table...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sorting !== sorting) {
             return (
                 <div>(Re)Loading Table...</div>
             );
@@ -91,7 +105,13 @@ class DetailedTable extends React.Component {
                 <div>
                     <div className="row">
                         <div className="col-md-12">
-                            <Table table={table} maxRows={100} checkMark={true} />
+                            <Table
+                                table={table}
+                                maxRows={100}
+                                checkMark={true}
+                                sortableColumn={1 + selectedDimension.index}
+                                sorting={sorting}
+                                onSort={onSort} />
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ import {
   END_DATE,
   SET_DIMENSIONS,
   SET_SELECTED_DIMENSION,
+  SET_SORTING,
   REDIRECT,
   LOGOUT,
   ARTICLE_SUBMITTED,
@@ -39,6 +40,7 @@ export default (state = defaultState, action) => {
         startDate: week_ago,
         dimensions: [],
         selectedDimension: null,
+        sorting: "desc",
         endDate: now
       };
     case START_DATE:
@@ -47,17 +49,22 @@ export default (state = defaultState, action) => {
         ...state,
         startDate: action.payload.startDate,
         endDate: action.payload.endDate
-      }
+      };
     case SET_DIMENSIONS:
       return {
           ...state,
           dimensions: action.dimensions
-      }
+      };
     case SET_SELECTED_DIMENSION:
       return {
           ...state,
           selectedDimension: action.dimension
-      }
+      };
+    case SET_SORTING:
+      return {
+          ...state,
+          sorting: action.sorting
+      };
     case REDIRECT:
       return { ...state, redirectTo: null };
     case LOGOUT:
