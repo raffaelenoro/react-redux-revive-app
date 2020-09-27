@@ -5,8 +5,7 @@ import Table from '../Table';
 import agent from '../../agent';
 import {
   TABLES_VIEW_LOADED,
-  TABLES_VIEW_UNLOADED,
-  SET_DIMENSIONS
+  TABLES_VIEW_UNLOADED
 } from '../../constants/actionTypes';
 
 const mapStateToProps = state => ({
@@ -22,9 +21,7 @@ const mapDispatchToProps = dispatch => ({
   onLoad: (tab, pager, payload) =>
     dispatch({ type: TABLES_VIEW_LOADED, tab, pager, payload }),
   onUnload: () =>
-    dispatch({ type: TABLES_VIEW_UNLOADED }),
-  onDimensions: dimensions =>
-    dispatch({ type: SET_DIMENSIONS, dimensions })
+    dispatch({ type: TABLES_VIEW_UNLOADED })
 });
 
 class Tables extends React.Component {
@@ -36,6 +33,7 @@ class Tables extends React.Component {
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
         this.filters = this.props.filters;
+        this.dimensions = this.props.dimensions;
         this.selectedDimension = this.props.selectedDimension;
     }
 
@@ -55,10 +53,6 @@ class Tables extends React.Component {
         );
     }
 
-    setDimensions(dimensions) {
-        this.props.onDimensions(dimensions);
-    }
-
     componentDidMount() {
         this.fetchData();
     }
@@ -68,10 +62,10 @@ class Tables extends React.Component {
     }
 
     componentDidUpdate() {
-        const tables = this.props.tables;
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
         const filters = this.props.filters;
+        const dimensions = this.props.dimensions;
         const selectedDimension = this.props.selectedDimension;
 
         //
@@ -85,25 +79,8 @@ class Tables extends React.Component {
             this.fetchData();
         }
 
-        //
-        // The table data contains the dimensions
-        //
-        if (this.props.dimensions.length === 0) {
-            const firstTable = tables[0];
-            const dimensions = [];
-
-            for (var i = 2; ; i++) {
-                const name = "c" + i + "_name";
-                if (!firstTable.hasOwnProperty(name)) break;
-                const value = firstTable[name];
-
-                dimensions.push(value);
-            }
-
-            this.setDimensions(dimensions);
-        }
-
-        if (this.selectedDimension !== selectedDimension) {
+        if (this.dimensions !== dimensions || this.selectedDimension !== selectedDimension) {
+            this.dimensions = dimensions;
             this.selectedDimension = selectedDimension;
 
             this.forceUpdate();
@@ -123,13 +100,13 @@ class Tables extends React.Component {
             return (
                 <div>Loading Tables...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.selectedDimension !== selectedDimension) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.dimensions !== dimensions || this.selectedDimension !== selectedDimension) {
             // we need to re-fetch data before rendering
             return (
                 <div>(Re)Loading Tables...</div>
             );
         } else {
-            const dimensionIndex = 2 + dimensions.findIndex(dimension => dimension === selectedDimension);
+            const dimensionIndex = 2 + selectedDimension.position;
             const selectedName = "c" + dimensionIndex + "_name";
             const selectedData = "c" + dimensionIndex + "_data";
 
