@@ -109,6 +109,7 @@ class Tables extends React.Component {
             const dimensionIndex = 2 + selectedDimension.index;
             const selectedName = "c" + dimensionIndex + "_name";
             const selectedData = "c" + dimensionIndex + "_data";
+            const selectedUnits = "c" + dimensionIndex + "_unit"
 
             const showTablesStride = pos => (
                 tables
@@ -117,26 +118,23 @@ class Tables extends React.Component {
                     ).filter(
                         (table, index) => (index % 4) === pos
                     ).map(
-                        table => {
-                            const t = {
-                                index: table.index,
-                                name: table.name,
-                                c1_name: table.c1_name,
-                                c2_name: table[selectedName],
-                                data: table.data.map(d => ({
-                                    c1_data: d.c1_data,
-                                    c2_data: d[selectedData]
-                                }))
-                            };
-
-                            return (
-                                <React.Fragment key={"table_area_" + table.index}>
-                                    <Table table={t} maxRows={12} />
-                                    <Link to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
-                                    <div style={{height: "1em"}}></div>
-                                </React.Fragment>
-                            );
-                        }
+                        table => ({
+                            index: table.index,
+                            name: table.name,
+                            c1_name: table.c1_name,
+                            c2_name: table[selectedName],
+                            c2_units: table[selectedUnits],
+                            data: table.data.map(d => ({
+                                c1_data: d.c1_data,
+                                c2_data: d[selectedData]
+                            }))
+                        })
+                    ).map(table =>
+                        <React.Fragment key={"table_area_" + table.index}>
+                            <Table table={table} maxRows={12} checkMark={true} />
+                            <Link to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
+                            <div style={{height: "1em"}}></div>
+                        </React.Fragment>
                     )
             );
 

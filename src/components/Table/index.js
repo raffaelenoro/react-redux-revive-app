@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useTable } from 'react-table';
+import ReactDOMServer from 'react-dom/server';
 import {
   ADD_FILTER,
   CHANGE_FILTER,
@@ -21,6 +22,7 @@ const ShowTable = (props) => {
     const table = props.table;
     const filters = props.filters;
     const sortableColumn = props.sortableColumn;
+    const leftAlignIndex = sortableColumn ? 1 : 0;
     const sorting = props.sorting;
     const onSort = props.onSort;
     const onAdd = props.onAdd;
@@ -29,19 +31,24 @@ const ShowTable = (props) => {
     const maxRows = props.maxRows;
     const checkMark = props.checkMark;
     let i = 0;
-    const columns = [];
+    const columns = sortableColumn ? [{Header: String.fromCharCode(10003), accessor: "c0_data"}] : [];
+    const currency = [];
     while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
         columns.push({
             Header: table["c" + i + "_name"],
             accessor: "c" + i + "_data"
         })
+        currency.push(table["c" + i + "_units"] === "currency");
     };
 
     const filter = filters.find(filter => filter.index === table.index) || {};
     const filterValue = filter.value || [];
 
     const length = Math.min(maxRows, table.data.length);
-    const data = table.data.slice(0, length);
+    const data = table.data.slice(0, length).map(
+        d => ({...d, c0_data: " "})
+    );
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -86,23 +93,19 @@ const ShowTable = (props) => {
                         const columnProps = {
                             ...column.getHeaderProps(),
                             style: {
-                                textAlign: index > 0 ? "right": "left",
-                                cursor: index === sortableColumn ? "pointer": "default"
+                                textAlign: index > leftAlignIndex ? "right": "left",
+                                cursor: index === sortableColumn ? "pointer": "default",
+                                color: sortableColumn && index === 0 ? "silver": "default"
                             }
                         };
 
-                        if (index !== sortableColumn) {
+                        if (!sortableColumn || index !== (sortableColumn + 1)) {
                             return <th {...columnProps}>{column.render('Header')}</th>;
-                        } else if (sorting === "desc") {
-                            return (
-                                <th {...columnProps} onClick={onSort.bind(null, "asc")}>
-                                    {column.render('Header')} &#9650;
-                                </th>
-                            );
                         } else {
                             return (
-                                <th {...columnProps} onClick={onSort.bind(null, "desc")}>
-                                    {column.render('Header')} &#9660;
+                                <th {...columnProps} onClick={onSort.bind(null, "asc")}>
+                                    {column.render('Header')}
+                                    {String.fromCharCode(sorting === "desc" ? 9650: 9660)}
                                 </th>
                             );
                         }
@@ -115,26 +118,28 @@ const ShowTable = (props) => {
 
                     prepareRow(row)
 
-                    const value = row.cells[0].value;
+                    const value = row.cells[leftAlignIndex].value;
                     const mark = checkMark && filterValue.find(v => v === value);
                     const rowProps = {
                         ...row.getRowProps(),
-                        style: { backgroundColor: mark ? "lightgray": "default" }
+                        style: { backgroundColor: mark ? "#f8f8f8": "default" }
                     };
-                    
+
                     return (
                         <tr {...rowProps} onClick={onClick.bind(null, table.index, table.name, value)}>
                             {row.cells.map((cell, index) => {
                                 const cellProps = {
                                     ...cell.getCellProps(),
-                                    style: { textAlign: index > 0 ? "right": "left" }
+                                    style: { textAlign: index > leftAlignIndex ? "right": "left" }
                                 };
-                                const value = cell.render('Cell');
+                                const value = ReactDOMServer.renderToString(cell.render('Cell'));
+                                const format = number =>
+                                    currency[index] ? "$" + (+number).toLocaleString() : number;
 
-                                if (index === 0 && mark) {
-                                    return <td {...cellProps}><span>&#10003;</span><span>{value}</span></td>;
+                                if (mark && index === 0) {
+                                    return <td {...cellProps}>&#10003;</td>;
                                 } else {
-                                    return <td {...cellProps}><span>{value}</span></td>;
+                                    return <td {...cellProps}>{format(value)}</td>;
                                 }
 
                             })}
