@@ -94,7 +94,7 @@ const ShowTable = (props) => {
                             ...column.getHeaderProps(),
                             style: {
                                 textAlign: index > leftAlignIndex ? "right": "left",
-                                cursor: index === sortableColumn ? "pointer": "default",
+                                cursor: (index - 1) === sortableColumn ? "pointer": "default",
                                 color: sortableColumn && index === 0 ? "silver": "default"
                             }
                         };
@@ -103,9 +103,9 @@ const ShowTable = (props) => {
                             return <th {...columnProps}>{column.render('Header')}</th>;
                         } else {
                             return (
-                                <th {...columnProps} onClick={onSort.bind(null, "asc")}>
+                                <th {...columnProps} onClick={onSort.bind(null, sorting === "desc" ? "asc" : "desc")}>
                                     {column.render('Header')}
-                                    {String.fromCharCode(sorting === "desc" ? 9650: 9660)}
+                                    {String.fromCharCode(sorting === "desc" ? 9660 : 9650)}
                                 </th>
                             );
                         }

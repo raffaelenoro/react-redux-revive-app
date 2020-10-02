@@ -47,7 +47,7 @@ class Filters extends React.Component {
     }
 
     setSelectedDimension(dimension, index) {
-        this.selectedDimension = { dimension, index };
+        this.selectedDimension = { dimension, index, sorting: "desc" };
 
         this.props.onSelectedDimension(this.selectedDimension);
     }

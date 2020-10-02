@@ -5,7 +5,7 @@ import Table from '../Table';
 import {
   DETAILED_TABLE_VIEW_LOADED,
   DETAILED_TABLE_VIEW_UNLOADED,
-  SET_SORTING
+  SET_SELECTED_DIMENSION
 } from '../../constants/actionTypes';
 
 const mapStateToProps = state => ({
@@ -13,7 +13,6 @@ const mapStateToProps = state => ({
     startDate: state.common.startDate,
     endDate: state.common.endDate,
     selectedDimension: state.common.selectedDimension,
-    sorting: state.common.sorting,
     filters: state.filterList.filters,
 });
 
@@ -22,8 +21,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: DETAILED_TABLE_VIEW_LOADED, tab, pager, sorting, payload }),
   onUnload: () =>
     dispatch({ type: DETAILED_TABLE_VIEW_UNLOADED }),
-  onSort: sorting =>
-    dispatch({ type: SET_SORTING, sorting })
+  onSort: dimension =>
+    dispatch({ type: SET_SELECTED_DIMENSION, dimension })
 });
 
 class DetailedTable extends React.Component {
@@ -33,7 +32,7 @@ class DetailedTable extends React.Component {
 
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
-        this.sorting = this.props.sorting;
+        this.selectedDimension = this.props.selectedDimension;
         this.filters = this.props.filters;
     }
 
@@ -45,14 +44,22 @@ class DetailedTable extends React.Component {
         const location = this.props.location;
         const index = location.state.index;
         const pager = filters.length > 0 ? agent.DetailedTable.filtered : agent.DetailedTable.all;
-        const sorting = this.props.sorting;
+        const dimension = this.props.selectedDimension.index;
+        const sorting = this.props.selectedDimension.sorting;
 
         this.props.onLoad(
             tab,
             pager,
             sorting,
             Promise.all([
-                pager(startDate, endDate, index, sorting, filters)
+                pager(
+                    startDate,
+                    endDate,
+                    index,
+                    dimension + 2,
+                    sorting,
+                    filters
+                )
             ])
         );
     }
@@ -69,13 +76,13 @@ class DetailedTable extends React.Component {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
         const filters = this.props.filters;
-        const sorting = this.props.sorting;
+        const selectedDimension = this.props.selectedDimension;
 
-        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sorting !== sorting) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.selectedDimension !== selectedDimension) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.filters = filters;
-            this.sorting = sorting;
+            this.selectedDimension = selectedDimension;
 
             this.fetchData();
         }
@@ -86,17 +93,18 @@ class DetailedTable extends React.Component {
         const startDate = props.startDate;
         const endDate = props.endDate;
         const selectedDimension = props.selectedDimension;
-        const sorting = props.sorting;
+        const sorting = selectedDimension.sorting;
         const filters = props.filters;
         const table = props.table && props.table[0];
 
-        const onSort = sorting => this.props.onSort(sorting);
+        const onSort = sorting =>
+            this.props.onSort({ ...selectedDimension, sorting: sorting });
 
         if (!table) {
             return (
                 <div>Loading Table...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sorting !== sorting) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.selectedDimension !== selectedDimension) {
             return (
                 <div>(Re)Loading Table...</div>
             );

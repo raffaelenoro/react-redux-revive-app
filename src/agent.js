@@ -76,10 +76,10 @@ const Tables = {
 }
 
 const DetailedTable = {
-    all: (startDate, endDate, index, sorting) =>
-        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&sorting=${sorting}`),
-    filtered: (startDate, endDate, index, sorting, filters) =>
-        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&sorting=${sorting}&${formatFilters(filters)}`)
+    all: (startDate, endDate, index, dimension, sorting) =>
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&column=c${dimension}&sorting=${sorting}`),
+    filtered: (startDate, endDate, index, dimension, sorting, filters) =>
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&column=c${dimension}&sorting=${sorting}&${formatFilters(filters)}`)
 }
 
 const Profile = {
