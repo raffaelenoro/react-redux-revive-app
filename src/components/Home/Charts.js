@@ -100,7 +100,7 @@ class Charts extends React.Component {
                 let i = 0;
 
                 for (var date = new Date(begin); date <= end; ) {
-                    if (x_data[i] !== date.toISOString()) {
+                    if (x_data[i].substring(0,10) !== date.toISOString().substring(0, 10)) {
                         x_data.splice(i, 0, date.toISOString());
                         y_data.splice(i, 0, "0");
                     }

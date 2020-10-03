@@ -13,6 +13,7 @@ import {
 } from '../../constants/actionTypes';
 
 import "react-datepicker/dist/react-datepicker.css";
+import '../../../node_modules/font-awesome/css/font-awesome.min.css'; 
 
 const mapStateToProps = state => ({
   ...state.filterList,
@@ -107,18 +108,22 @@ class Filters extends React.Component {
         ));
 
         const Selector = () => (
-            <div className="col-md-3">
-                Dimension by: 
-                <Select
-                    options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
-                    defaultValue={{label: selectedDimension.dimension, value: selectedDimension.dimension}}
-                    onChange={onChange} />
-            </div>
+            <React.Fragment>
+                <div className="col-md-auto" style={{margin: "auto", marginRight: "8px"}}>
+                    Dimension by: 
+                </div>
+                <div className="col-md-3" style={{margin: "auto"}}>
+                    <Select
+                        options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
+                        defaultValue={{label: selectedDimension.dimension, value: selectedDimension.dimension}}
+                        onChange={onChange} />
+                </div>
+            </React.Fragment>
         );
 
         const NoSelector = () => (
-            <div className="col-md-3">
-                <Link to="/">&larr; All dimensions</Link>
+            <div className="col-md-2 offset-md-2" style={{margin: "auto"}}>
+                <Link className="revive-link" to="/">&larr; All dimensions</Link>
             </div>
         );
 
@@ -128,7 +133,7 @@ class Filters extends React.Component {
             return (
                 <React.Fragment>
                     <div className="row">
-                        <div className="col-md-auto" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid"}}>
+                        <div className="col-md-auto" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid", marginTop: "8px", marginBottom: "8px", height: "2em"}}>
                             <DatePicker 
                                 name="startDate"
                                 selected={startDate}
@@ -147,7 +152,7 @@ class Filters extends React.Component {
                             <span> {"(" + dateSpan + " Days)"} </span>
                         </div>
 
-                        <div className="col-md-5"></div>
+                        <div className="col-md-4"></div>
 
                         <Switch>
                             <Route exact path="/" component={Selector} />
@@ -156,21 +161,16 @@ class Filters extends React.Component {
                     </div>
 
                     <div className="row">
-                        <div className="col-md-1">
+                        <div className="col-md-auto">
                             <span>Filters: </span>
                         </div>
                         <div className="col-md-11">
-                            <ul className="list-inline d-flex align-items-center" style={{display:"flex", marginBottom: 0}}>
                                 {props.filters.map((filter, index) =>
-                                    <li className="list-inline-items" style={{paddingRight: "8px"}} key={"filter_" + index}>
-                                        <span>{filter.name}</span>
-                                        <span>{": " + filter.value.join("; ")}</span>
-                                        <button type="button" className="close" aria-label="Close" onClick={onRemove.bind(null, index)}>
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </li>
+                                    <span className="tag-default tag-pill">
+                                        {filter.name + ": " + filter.value.join("; ")}&nbsp;
+                                        <i className="fa fa-times" style={{cursor: "pointer"}} onClick={onRemove.bind(null, index)}></i>
+                                    </span>
                                 )}
-                            </ul>
                         </div>
                     </div>
                 </React.Fragment>
