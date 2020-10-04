@@ -27,7 +27,7 @@ const MainView = props => {
         <div className="col-md-7">
             <Switch>
                 <Route exact path="/" component={Tables} />
-                <Route path="/detailed" component={DetailedTable} />
+                <Route path="/detailed/:index" component={DetailedTable} />
             </Switch>
         </div>
       </div>

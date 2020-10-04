@@ -76,7 +76,7 @@ class Header extends React.Component {
         <div className="container">
 
           <Link to="/" className="navbar-brand" style={{width:"30%"}}>
-              <img className="img-responsive" src="revive_logo.png" alt="logo" style={{width: "100%", height: "100%", objectFit: "contain"}}/>
+              <img className="img-responsive" src="/revive_logo.png" alt="logo" style={{width: "100%", height: "100%", objectFit: "contain"}}/>
           </Link>
 
           <LoggedOutView currentUser={this.props.currentUser} />

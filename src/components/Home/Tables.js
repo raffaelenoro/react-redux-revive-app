@@ -132,7 +132,7 @@ class Tables extends React.Component {
                     ).map(table =>
                         <React.Fragment key={"table_area_" + table.index}>
                             <Table table={table} maxRows={12} checkMark={true} />
-                            <Link className="revive-link" to={{pathname: "/detailed", state: {index: table.index}}}>...</Link>
+                            <Link className="revive-link" to={{pathname: "/detailed/" + table.index}}>...</Link>
                             <div style={{height: "1em"}}></div>
                         </React.Fragment>
                     )

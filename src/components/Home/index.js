@@ -32,14 +32,14 @@ class Home extends React.Component {
 
           <Switch>
               <Route exact path="/" component={Filters} />
-              <Route path="/detailed" component={Filters} />
+              <Route path="/detailed/:index" component={Filters} />
           </Switch>
 
           <hr style={{height: "2px", width: "100%"}}/>
 
           <Switch>
               <Route exact path="/" component={MainView} />
-              <Route path="/detailed" component={MainView} />
+              <Route path="/detailed/:index" component={MainView} />
           </Switch>
         </div>
 

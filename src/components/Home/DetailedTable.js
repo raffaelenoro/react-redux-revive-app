@@ -41,8 +41,7 @@ class DetailedTable extends React.Component {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
         const filters = this.props.filters;
-        const location = this.props.location;
-        const index = location.state.index;
+        const index = this.props.match.params.index;
         const pager = filters.length > 0 ? agent.DetailedTable.filtered : agent.DetailedTable.all;
         const dimension = this.props.selectedDimension.index;
         const sorting = this.props.selectedDimension.sorting;
