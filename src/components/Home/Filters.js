@@ -13,7 +13,7 @@ import {
 } from '../../constants/actionTypes';
 
 import "react-datepicker/dist/react-datepicker.css";
-import '../../../node_modules/font-awesome/css/font-awesome.min.css'; 
+import '../../styles.css'; 
 
 const mapStateToProps = state => ({
   ...state.filterList,
