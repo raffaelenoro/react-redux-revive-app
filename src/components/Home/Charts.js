@@ -130,8 +130,10 @@ class Charts extends React.Component {
                             total = "$" + total;
                         }
 
+                        const borderWidth = index > 0 ? "0px" : "1px";
+
                         return (
-                            <div className="row" key={"chart_area_" + chart.index} style={{border: "lightgray 1px solid", marginTop: 0}}>
+                            <div className="row" key={"chart_area_" + chart.index} style={{border: "lightgray 1px solid", borderTopWidth: borderWidth, marginTop: 0}}>
                                 <div className="col-md-3" style={{borderRight: "lightgray 1px solid", alignItems: "center"}}>
                                     <p>{chart.name}</p>
                                     <p style={{fontSize: "1.3em"}}>{total}</p>
