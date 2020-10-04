@@ -139,7 +139,7 @@ class Charts extends React.Component {
                                     <p style={{fontSize: "1.3em"}}>{total}</p>
                                 </div>
 
-                                <div className="col-md-9">
+                                <div className="col-md-9" style={{padding: "0px"}}>
                                     <LineChart
                                         key={"chart_" + chart.index}
                                         chart={chart}

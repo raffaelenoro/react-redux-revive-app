@@ -129,23 +129,29 @@ class Filters extends React.Component {
             return (
                 <React.Fragment>
                     <div className="row">
-                        <div className="col-md-auto" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid", marginTop: "8px", marginBottom: "8px", height: "2em"}}>
-                            <DatePicker 
-                                name="startDate"
-                                selected={startDate}
-                                onChange={onDateChange.bind(null, START_DATE)}
-                                maxDate={new Date()}
-                                customInput={<DateButton />}
-                                dateFormat="MMM dd, yyyy" />
-                            <span> - </span>
-                            <DatePicker 
-                                name="endDate"
-                                selected={endDate}
-                                onChange={onDateChange.bind(null, END_DATE)}
-                                maxDate={new Date()}
-                                customInput={<DateButton />}
-                                dateFormat="MMM dd, yyyy" />
-                            <span> {"(" + dateSpan + " Days)"} </span>
+                        <div className="col-md-auto card" style={{backgroundColor: "#eeeeee"}}>
+                            <div className="card-body" style={{padding: "4px"}}><table><tbody><tr>
+                                <td className="revive-date">
+                                    <DatePicker 
+                                        name="startDate"
+                                        selected={startDate}
+                                        onChange={onDateChange.bind(null, START_DATE)}
+                                        maxDate={new Date()}
+                                        customInput={<DateButton />}
+                                        dateFormat="MMM dd, yyyy" />
+                                </td>
+                                <td><span>&nbsp; - &nbsp;</span></td>
+                                <td className="revive-date">
+                                    <DatePicker 
+                                        name="endDate"
+                                        selected={endDate}
+                                        onChange={onDateChange.bind(null, END_DATE)}
+                                        maxDate={new Date()}
+                                        customInput={<DateButton />}
+                                        dateFormat="MMM dd, yyyy" />
+                                </td>
+                                <td><span>&nbsp; {"(" + dateSpan + " Days)"}</span></td>
+                            </tr></tbody></table></div>
                         </div>
 
                         <div className="col-md-4"></div>
