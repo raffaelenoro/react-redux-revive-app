@@ -9,7 +9,7 @@ import {
 } from '../../constants/actionTypes';
 
 const mapStateToProps = state => ({
-  ...state.filterList
+  ...state.common
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -137,7 +137,7 @@ const ShowTable = (props) => {
                                     currency[index] ? "$" + (+number).toLocaleString() : number;
 
                                 if (mark && index === 0) {
-                                    return <td {...cellProps}>&#10003;</td>;
+                                    return <td {...cellProps}>&#10003; {value}</td>;
                                 } else {
                                     return <td {...cellProps}>{format(value)}</td>;
                                 }

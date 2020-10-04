@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
     startDate: state.common.startDate,
     endDate: state.common.endDate,
     selectedDimension: state.common.selectedDimension,
-    filters: state.filterList.filters,
+    filters: state.common.filters,
 });
 
 const mapDispatchToProps = dispatch => ({

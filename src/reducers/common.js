@@ -4,6 +4,9 @@ import {
   END_DATE,
   SET_DIMENSIONS,
   SET_SELECTED_DIMENSION,
+  ADD_FILTER,
+  CHANGE_FILTER,
+  REMOVE_FILTER,
   REDIRECT,
   LOGOUT,
   ARTICLE_SUBMITTED,
@@ -22,24 +25,28 @@ import {
 const defaultState = {
   appName: 'Revive',
   token: null,
-  viewChangeCounter: 0
+  viewChangeCounter: 0,
+  filters: []
 };
 
 const now = new Date(Date.now() - 24 * 3600 * 1000);
 const week_ago = new Date(now - 6 * 24 * 3600 * 1000);
 
 export default (state = defaultState, action) => {
+  const filters = state.filters.map(filter => filter);
+
   switch (action.type) {
     case APP_LOAD:
-      return {
+    return {
         ...state,
         token: action.token || null,
         appLoaded: true,
         currentUser: action.payload ? action.payload.user : null,
-        startDate: week_ago,
-        dimensions: [],
-        selectedDimension: null,
-        endDate: now
+        startDate: action.common ? new Date(action.common.startDate) : week_ago,
+        dimensions: action.common ? action.common.dimensions : [],
+        selectedDimension: action.selectedDimension,
+        filters: action.common ? action.common.filters : filters,
+        endDate: action.common ? new Date(action.common.endDate) : now
       };
     case START_DATE:
     case END_DATE:
@@ -57,6 +64,24 @@ export default (state = defaultState, action) => {
       return {
           ...state,
           selectedDimension: action.dimension
+      };
+    case ADD_FILTER:
+      filters.push(action.payload);
+      return {
+          ...state,
+          filters: filters
+      };
+    case CHANGE_FILTER:
+      filters[action.index] = action.payload;
+      return {
+          ...state,
+          filters: filters
+      };
+    case REMOVE_FILTER:
+      filters.splice(action.payload.index, 1)
+      return {
+        ...state,
+        filters: filters
       };
     case REDIRECT:
       return { ...state, redirectTo: null };

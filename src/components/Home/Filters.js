@@ -16,11 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import '../../styles.css'; 
 
 const mapStateToProps = state => ({
-  ...state.filterList,
-  startDate: state.common.startDate,
-  endDate: state.common.endDate,
-  dimensions: state.common.dimensions,
-  selectedDimension: state.common.selectedDimension,
+  ...state.common,
   firstTable: state.tableList.tables && state.tableList.tables[0]
 });
 
@@ -166,7 +162,7 @@ class Filters extends React.Component {
                         </div>
                         <div className="col-md-11">
                                 {props.filters.map((filter, index) =>
-                                    <span className="tag-default tag-pill">
+                                    <span className="tag-default tag-pill" key={"filter_" + index}>
                                         {filter.name + ": " + filter.value.join("; ")}&nbsp;
                                         <i className="fa fa-times" style={{cursor: "pointer"}} onClick={onRemove.bind(null, index)}></i>
                                     </span>

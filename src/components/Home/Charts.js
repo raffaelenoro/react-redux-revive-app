@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
   ...state.chartList,
   startDate: state.common.startDate,
   endDate: state.common.endDate,
-  filters: state.filterList.filters
+  filters: state.common.filters
 });
 
 const mapDispatchToProps = dispatch => ({

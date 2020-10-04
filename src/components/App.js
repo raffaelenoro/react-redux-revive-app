@@ -23,8 +23,8 @@ const mapStateToProps = state => {
   }};
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: (payload, token) =>
-    dispatch({ type: APP_LOAD, payload, token, skipTracking: true }),
+  onLoad: (payload, token, common, selectedDimension) =>
+    dispatch({ type: APP_LOAD, payload, token, common, selectedDimension, skipTracking: true }),
   onRedirect: () =>
     dispatch({ type: REDIRECT })
 });
@@ -44,7 +44,10 @@ class App extends React.Component {
       agent.setToken(token);
     }
 
-    this.props.onLoad(token ? agent.Auth.current() : null, token);
+    const common = window.localStorage.getItem('common');
+    const selectedDimension = window.localStorage.getItem('selectedDimension');
+
+    this.props.onLoad(token ? agent.Auth.current() : null, token, JSON.parse(common), JSON.parse(selectedDimension));
   }
 
   render() {

@@ -4,7 +4,10 @@ import {
   ASYNC_END,
   LOGIN,
   LOGOUT,
-  REGISTER
+  REGISTER,
+  TABLES_VIEW_LOADED,
+  DETAILED_TABLE_VIEW_LOADED,
+  SET_SELECTED_DIMENSION
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {
@@ -55,6 +58,12 @@ const localStorageMiddleware = store => next => action => {
   } else if (action.type === LOGOUT) {
     window.localStorage.setItem('jwt', '');
     agent.setToken(null);
+  } else if (action.type === TABLES_VIEW_LOADED || action.type === DETAILED_TABLE_VIEW_LOADED) {
+    const common = store.getState().common;
+    window.localStorage.setItem('common', JSON.stringify(common));
+  } else if (action.type === SET_SELECTED_DIMENSION) {
+    const selectedDimension = action.dimension;
+    window.localStorage.setItem('selectedDimension', JSON.stringify(selectedDimension));
   }
 
   next(action);
