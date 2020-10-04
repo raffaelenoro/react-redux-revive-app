@@ -11,6 +11,7 @@ import {
   SET_DIMENSIONS,
   SET_SELECTED_DIMENSION
 } from '../../constants/actionTypes';
+import usePersistedState from '../../persister';
 
 import "react-datepicker/dist/react-datepicker.css";
 import '../../styles.css'; 
@@ -31,6 +32,109 @@ const mapDispatchToProps = dispatch => ({
   onDimensions: dimensions => dispatch({ type: SET_DIMENSIONS, dimensions }),
   onSelectedDimension: dimension => dispatch({ type: SET_SELECTED_DIMENSION, dimension })
 });
+
+function FiltersView(props) {
+    const startDate = props.startDate;
+    const endDate = props.endDate;
+    const dimensions = props.dimensions;
+    const selectedDimension = props.selectedDimension;
+
+    const dateSpan = Math.round((endDate - startDate) / (24 * 3600 * 1000)) + 1;
+
+    const DateButton = React.forwardRef(({value, onClick}, ref) => (
+        <button style={{border: "none", paddingLeft: 0, paddingRight: 0}} onClick={onClick}>{value}</button>
+    ));
+
+    const onDateChange = (type, date) => {
+        props.onDate(type, {
+            startDate: (type === START_DATE ? date : startDate),
+            endDate: (type === END_DATE ? date : endDate)
+        });
+    }
+
+    const onRemove = (index, e) => {
+        e.preventDefault();
+        props.onClick(REMOVE_FILTER, {index: index})
+    }
+
+    const onChange = dimension => {
+        const index = dimensions.findIndex(d => d === dimension.value);
+
+        return this.setSelectedDimension(dimension.value, index);
+    }
+
+    const NoSelector = () => (
+        <div className="col-md-2 offset-md-2" style={{margin: "auto"}}>
+            <Link className="revive-link" to="/">&larr; All dimensions</Link>
+        </div>
+    );
+
+    const Selector = () => (
+        <React.Fragment>
+            <div className="col-md-auto" style={{margin: "auto", marginRight: "8px"}}>
+                Dimension by: 
+            </div>
+            <div className="col-md-3" style={{margin: "auto"}}>
+                <Select
+                    options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
+                    defaultValue={{label: selectedDimension.dimension, value: selectedDimension.dimension}}
+                    onChange={onChange} />
+            </div>
+        </React.Fragment>
+    );
+
+    const [dim, setDim] = usePersistedState("dimensions", dimensions);
+
+    if (dimensions.length === 0 || !selectedDimension) {
+        return <div>Loading Filters...</div>
+    } else {
+        return (
+            <React.Fragment>
+                <div className="row">
+                    <div className="col-md-auto" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid", marginTop: "8px", marginBottom: "8px", height: "2em"}}>
+                        <DatePicker 
+                            name="startDate"
+                            selected={startDate}
+                            onChange={onDateChange.bind(null, START_DATE)}
+                            maxDate={new Date()}
+                            customInput={<DateButton />}
+                            dateFormat="MMM dd, yyyy" />
+                        <span> - </span>
+                        <DatePicker 
+                            name="endDate"
+                            selected={endDate}
+                            onChange={onDateChange.bind(null, END_DATE)}
+                            maxDate={new Date()}
+                            customInput={<DateButton />}
+                            dateFormat="MMM dd, yyyy" />
+                        <span> {"(" + dateSpan + " Days)"} </span>
+                    </div>
+
+                    <div className="col-md-4"></div>
+
+                    <Switch>
+                        <Route exact path="/" component={Selector} />
+                        <Route path="/detailed" component={NoSelector} />
+                    </Switch>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-auto">
+                        <span>Filters: </span>
+                    </div>
+                    <div className="col-md-11">
+                            {props.filters.map((filter, index) =>
+                                <span className="tag-default tag-pill" key={"filter_" + index}>
+                                    {filter.name + ": " + filter.value.join("; ")}&nbsp;
+                                    <i className="fa fa-times" style={{cursor: "pointer"}} onClick={onRemove.bind(null, index)}></i>
+                                </span>
+                            )}
+                    </div>
+                </div>
+            </React.Fragment>
+        );
+    }
+}
 
 class Filters extends React.Component {
 
@@ -81,101 +185,7 @@ class Filters extends React.Component {
     
         const props = this.props;
 
-        const startDate = props.startDate;
-        const endDate = props.endDate;
-        const dateSpan = Math.round((endDate - startDate) / (24 * 3600 * 1000)) + 1;
-
-        const dimensions = props.dimensions;
-        const selectedDimension = props.selectedDimension;
-
-        const onRemove = (index, e) => {
-            e.preventDefault();
-            props.onClick(REMOVE_FILTER, {index: index})
-        }
-        const onDateChange = (type, date) => {
-            props.onDate(type, {
-                startDate: (type === START_DATE ? date : startDate),
-                endDate: (type === END_DATE ? date : endDate)
-            });
-        }
-        const onChange = dimension => {
-            const index = dimensions.findIndex(d => d === dimension.value);
-
-            return this.setSelectedDimension(dimension.value, index);
-        }
-        const DateButton = React.forwardRef(({value, onClick}, ref) => (
-            <button style={{border: "none", paddingLeft: 0, paddingRight: 0}} onClick={onClick}>{value}</button>
-        ));
-
-        const Selector = () => (
-            <React.Fragment>
-                <div className="col-md-auto" style={{margin: "auto", marginRight: "8px"}}>
-                    Dimension by: 
-                </div>
-                <div className="col-md-3" style={{margin: "auto"}}>
-                    <Select
-                        options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
-                        defaultValue={{label: selectedDimension.dimension, value: selectedDimension.dimension}}
-                        onChange={onChange} />
-                </div>
-            </React.Fragment>
-        );
-
-        const NoSelector = () => (
-            <div className="col-md-2 offset-md-2" style={{margin: "auto"}}>
-                <Link className="revive-link" to="/">&larr; All dimensions</Link>
-            </div>
-        );
-
-        if (dimensions.length === 0 || !selectedDimension) {
-            return <div>Loading Filters...</div>
-        } else {
-            return (
-                <React.Fragment>
-                    <div className="row">
-                        <div className="col-md-auto" style={{backgroundColor: "#eeeeee", border: "lightgray 2px solid", marginTop: "8px", marginBottom: "8px", height: "2em"}}>
-                            <DatePicker 
-                                name="startDate"
-                                selected={startDate}
-                                onChange={onDateChange.bind(null, START_DATE)}
-                                maxDate={new Date()}
-                                customInput={<DateButton />}
-                                dateFormat="MMM dd, yyyy" />
-                            <span> - </span>
-                            <DatePicker 
-                                name="endDate"
-                                selected={endDate}
-                                onChange={onDateChange.bind(null, END_DATE)}
-                                maxDate={new Date()}
-                                customInput={<DateButton />}
-                                dateFormat="MMM dd, yyyy" />
-                            <span> {"(" + dateSpan + " Days)"} </span>
-                        </div>
-
-                        <div className="col-md-4"></div>
-
-                        <Switch>
-                            <Route exact path="/" component={Selector} />
-                            <Route path="/detailed" component={NoSelector} />
-                        </Switch>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-auto">
-                            <span>Filters: </span>
-                        </div>
-                        <div className="col-md-11">
-                                {props.filters.map((filter, index) =>
-                                    <span className="tag-default tag-pill">
-                                        {filter.name + ": " + filter.value.join("; ")}&nbsp;
-                                        <i className="fa fa-times" style={{cursor: "pointer"}} onClick={onRemove.bind(null, index)}></i>
-                                    </span>
-                                )}
-                        </div>
-                    </div>
-                </React.Fragment>
-            );
-        }
+        return <FiltersView {...props} />
     }
 };
 
