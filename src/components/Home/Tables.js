@@ -109,7 +109,7 @@ class Tables extends React.Component {
             const dimensionIndex = 2 + selectedDimension.index;
             const selectedName = "c" + dimensionIndex + "_name";
             const selectedData = "c" + dimensionIndex + "_data";
-            const selectedUnits = "c" + dimensionIndex + "_unit"
+            const selectedUnit = "c" + dimensionIndex + "_unit"
 
             const showTablesStride = pos => (
                 tables
@@ -123,7 +123,7 @@ class Tables extends React.Component {
                             name: table.name,
                             c1_name: table.c1_name,
                             c2_name: table[selectedName],
-                            c2_units: table[selectedUnits],
+                            c2_unit: table[selectedUnit],
                             data: table.data.map(d => ({
                                 c1_data: d.c1_data,
                                 c2_data: d[selectedData]

@@ -32,13 +32,13 @@ const ShowTable = (props) => {
     const checkMark = props.checkMark;
     let i = 0;
     const columns = sortableColumn ? [{Header: String.fromCharCode(10003), accessor: "c0_data"}] : [];
-    const currency = [];
+    const currency = sortableColumn ? [false, false] : [];
     while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
         columns.push({
             Header: table["c" + i + "_name"],
             accessor: "c" + i + "_data"
         })
-        currency.push(table["c" + i + "_units"] === "currency");
+        currency.push(table["c" + i + "_unit"] === "currency");
     };
 
     const filter = filters.find(filter => filter.index === table.index) || {};
