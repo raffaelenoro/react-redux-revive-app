@@ -8,6 +8,8 @@ import {
   REMOVE_FILTER,
 } from '../../constants/actionTypes';
 
+import '../../styles.css'; 
+
 const mapStateToProps = state => ({
   ...state.common
 });
@@ -31,7 +33,7 @@ const ShowTable = (props) => {
     const maxRows = props.maxRows;
     let i = 0;
     const columns = checkColumn ? [{Header: String.fromCharCode(10003), accessor: "c0_data"}] : [];
-    const currency = checkColumn ? [false, false] : [];
+    const currency = checkColumn ? [false] : [];
     while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
         columns.push({
             Header: table["c" + i + "_name"],
@@ -93,7 +95,7 @@ const ShowTable = (props) => {
                             ...column.getHeaderProps(),
                             style: {
                                 textAlign: index > leftAlignIndex ? "right": "left",
-                                cursor: (index - 1) === checkColumn ? "pointer": "default",
+                                cursor: checkColumn ? "pointer": "default",
                                 color: checkColumn && index === 0 ? "silver": "default"
                             }
                         };
@@ -101,13 +103,15 @@ const ShowTable = (props) => {
                         if (!checkColumn || index === 0) {
                             return <th {...columnProps}>{column.render('Header')}</th>;
                         } else {
-                            const sorting = sortedDimension && sortedDimension.index === (index - 1) && sortedDimension.sorting;
+                            const sorting = sortedDimension && sortedDimension.index === index && sortedDimension.sorting;
 
                             return (
-//                                <th {...columnProps} onClick={onSort.bind(null, sorting === "desc" ? "asc" : "desc")}>
-                                <th {...columnProps} onClick={onSort.bind(null, index - 1, sorting)}>
+                                <th {...columnProps} onClick={onSort.bind(null, index, !sorting || sorting === "asc" ? "desc" : "asc")}>
                                     {column.render('Header')}
-                                    {String.fromCharCode(sorting === "desc" ? 9660 : 9650)}
+                                    {sorting ? sorting === "desc" ?
+                                        <i className="fa fa-sort-down fa-lg" aria-hidden="true" style={{paddingLeft: "4px"}}></i> :
+                                        <i className="fa fa-sort-up fa-lg" aria-hidden="true" style={{paddingLeft: "4px"}}></i> :
+                                        <i className="fa fa-sort" aria-hidden="true" style={{color: "lightgray", paddingLeft: "4px"}}></i>}
                                 </th>
                             );
                         }

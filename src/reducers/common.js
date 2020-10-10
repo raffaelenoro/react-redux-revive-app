@@ -4,6 +4,7 @@ import {
   END_DATE,
   SET_DIMENSIONS,
   SET_SELECTED_DIMENSION,
+  SET_SORTED_DIMENSION,
   ADD_FILTER,
   CHANGE_FILTER,
   REMOVE_FILTER,
@@ -64,6 +65,11 @@ export default (state = defaultState, action) => {
       return {
           ...state,
           selectedDimension: action.dimension
+      };
+    case SET_SORTED_DIMENSION:
+      return {
+          ...state,
+          sortedDimension: action.dimension
       };
     case ADD_FILTER:
       filters.push(action.payload);

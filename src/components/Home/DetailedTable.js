@@ -111,7 +111,7 @@ class DetailedTable extends React.Component {
                     <div className="row">
                         <div className="col-md-12">
                             <Table
-                                table={table}
+                                table={{...table, c1_unit: "integer"}}
                                 maxRows={100}
                                 checkColumn={true}
                                 onSort={onSort} />

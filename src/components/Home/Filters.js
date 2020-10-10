@@ -119,7 +119,10 @@ class Filters extends React.Component {
 
         const NoSelector = () => (
             <div className="col-md-2 offset-md-2" style={{margin: "auto"}}>
-                <Link className="revive-link" to="/">&larr; All dimensions</Link>
+                <Link className="revive-link" to="/">
+                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>&nbsp;
+                    All dimensions
+                </Link>
             </div>
         );
 
