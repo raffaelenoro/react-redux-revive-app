@@ -21,18 +21,17 @@ const mapDispatchToProps = dispatch => ({
 const ShowTable = (props) => {
     const table = props.table;
     const filters = props.filters;
-    const sortableColumn = props.sortableColumn;
-    const leftAlignIndex = sortableColumn ? 1 : 0;
-    const sorting = props.sorting;
+    const checkColumn = props.checkColumn;
+    const sortedDimension = props.sortedDimension;
+    const leftAlignIndex = checkColumn ? 1 : 0;
     const onSort = props.onSort;
     const onAdd = props.onAdd;
     const onChange = props.onChange;
     const onRemove = props.onRemove;
     const maxRows = props.maxRows;
-    const checkMark = props.checkMark;
     let i = 0;
-    const columns = sortableColumn ? [{Header: String.fromCharCode(10003), accessor: "c0_data"}] : [];
-    const currency = sortableColumn ? [false, false] : [];
+    const columns = checkColumn ? [{Header: String.fromCharCode(10003), accessor: "c0_data"}] : [];
+    const currency = checkColumn ? [false, false] : [];
     while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
         columns.push({
             Header: table["c" + i + "_name"],
@@ -94,16 +93,19 @@ const ShowTable = (props) => {
                             ...column.getHeaderProps(),
                             style: {
                                 textAlign: index > leftAlignIndex ? "right": "left",
-                                cursor: (index - 1) === sortableColumn ? "pointer": "default",
-                                color: sortableColumn && index === 0 ? "silver": "default"
+                                cursor: (index - 1) === checkColumn ? "pointer": "default",
+                                color: checkColumn && index === 0 ? "silver": "default"
                             }
                         };
 
-                        if (!sortableColumn || index !== (sortableColumn + 1)) {
+                        if (!checkColumn || index === 0) {
                             return <th {...columnProps}>{column.render('Header')}</th>;
                         } else {
+                            const sorting = sortedDimension && sortedDimension.index === (index - 1) && sortedDimension.sorting;
+
                             return (
-                                <th {...columnProps} onClick={onSort.bind(null, sorting === "desc" ? "asc" : "desc")}>
+//                                <th {...columnProps} onClick={onSort.bind(null, sorting === "desc" ? "asc" : "desc")}>
+                                <th {...columnProps} onClick={onSort.bind(null, index - 1, sorting)}>
                                     {column.render('Header')}
                                     {String.fromCharCode(sorting === "desc" ? 9660 : 9650)}
                                 </th>
@@ -119,7 +121,7 @@ const ShowTable = (props) => {
                     prepareRow(row)
 
                     const value = row.cells[leftAlignIndex].value;
-                    const mark = checkMark && filterValue.find(v => v === value);
+                    const mark = filterValue.find(v => v === value);
                     const rowProps = {
                         ...row.getRowProps(),
                         style: { backgroundColor: mark ? "#f8f8f8": "default" }
@@ -156,10 +158,9 @@ class Table extends React.Component {
     render() {
         const table = this.props.table;
         const maxRows = this.props.maxRows;
-        const checkMark = this.props.checkMark;
+        const checkColumn = this.props.checkColumn;
         const filters = this.props.filters;
-        const sortableColumn = this.props.sortableColumn;
-        const sorting = this.props.sorting;
+        const sortedDimension = this.props.sortedDimension;
         const onSort = this.props.onSort;
         const onAdd = this.props.onAdd;
         const onChange = this.props.onChange;
@@ -169,9 +170,8 @@ class Table extends React.Component {
             <ShowTable
                 table={table}
                 maxRows={maxRows}
-                checkMark={checkMark}
-                sortableColumn={sortableColumn}
-                sorting={sorting}
+                checkColumn={checkColumn}
+                sortedDimension={sortedDimension}
                 onSort={onSort}
                 filters={filters}
                 onAdd={onAdd}

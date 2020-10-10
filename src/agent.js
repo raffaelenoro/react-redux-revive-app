@@ -61,6 +61,16 @@ const formatFilters = filters => {
     return str.join("&");
 }
 
+const formatSorting = sorting => {
+    let str = '';
+
+    if (sorting) {
+        str += '&column=c' + sorting.index + '&sorting=' + sorting.sorting;
+    }
+
+    return str;
+}
+
 const Charts = {
     all: (startDate, endDate) =>
         requests.get(`/reports/charts?start=${formatDate(startDate)}&end=${formatDate(endDate)}`),
@@ -76,10 +86,10 @@ const Tables = {
 }
 
 const DetailedTable = {
-    all: (startDate, endDate, index, dimension, sorting) =>
-        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&column=c${dimension}&sorting=${sorting}`),
-    filtered: (startDate, endDate, index, dimension, sorting, filters) =>
-        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}&column=c${dimension}&sorting=${sorting}&${formatFilters(filters)}`)
+    all: (startDate, endDate, index, sorting) =>
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}${formatSorting(sorting)}`),
+    filtered: (startDate, endDate, index, sorting, filters) =>
+        requests.get(`/reports/tables/${index}?start=${formatDate(startDate)}&end=${formatDate(endDate)}${formatSorting(sorting)}&${formatFilters(filters)}`)
 }
 
 const Profile = {

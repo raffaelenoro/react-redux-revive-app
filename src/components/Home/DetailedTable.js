@@ -5,7 +5,7 @@ import Table from '../Table';
 import {
   DETAILED_TABLE_VIEW_LOADED,
   DETAILED_TABLE_VIEW_UNLOADED,
-  SET_SELECTED_DIMENSION
+  SET_SORTED_DIMENSION
 } from '../../constants/actionTypes';
 
 const mapStateToProps = state => ({
@@ -13,6 +13,7 @@ const mapStateToProps = state => ({
     startDate: state.common.startDate,
     endDate: state.common.endDate,
     selectedDimension: state.common.selectedDimension,
+    sortedDimension: state.common.sortedDimension,
     filters: state.common.filters,
 });
 
@@ -22,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
   onUnload: () =>
     dispatch({ type: DETAILED_TABLE_VIEW_UNLOADED }),
   onSort: dimension =>
-    dispatch({ type: SET_SELECTED_DIMENSION, dimension })
+    dispatch({ type: SET_SORTED_DIMENSION, dimension })
 });
 
 class DetailedTable extends React.Component {
@@ -32,7 +33,7 @@ class DetailedTable extends React.Component {
 
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
-        this.selectedDimension = this.props.selectedDimension;
+        this.sortedDimension = this.props.sortedDimension;
         this.filters = this.props.filters;
     }
 
@@ -43,8 +44,7 @@ class DetailedTable extends React.Component {
         const filters = this.props.filters;
         const index = this.props.match.params.index;
         const pager = filters.length > 0 ? agent.DetailedTable.filtered : agent.DetailedTable.all;
-        const dimension = this.props.selectedDimension.index;
-        const sorting = this.props.selectedDimension.sorting;
+        const sorting = this.props.sortedDimension;
 
         this.props.onLoad(
             tab,
@@ -55,7 +55,6 @@ class DetailedTable extends React.Component {
                     startDate,
                     endDate,
                     index,
-                    dimension + 2,
                     sorting,
                     filters
                 )
@@ -75,13 +74,13 @@ class DetailedTable extends React.Component {
         const startDate = this.props.startDate;
         const endDate = this.props.endDate;
         const filters = this.props.filters;
-        const selectedDimension = this.props.selectedDimension;
+        const sortedDimension = this.props.sortedDimension;
 
-        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.selectedDimension !== selectedDimension) {
+        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sortedDimension !== sortedDimension) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.filters = filters;
-            this.selectedDimension = selectedDimension;
+            this.sortedDimension = sortedDimension;
 
             this.fetchData();
         }
@@ -91,19 +90,18 @@ class DetailedTable extends React.Component {
         const props = this.props;
         const startDate = props.startDate;
         const endDate = props.endDate;
-        const selectedDimension = props.selectedDimension;
-        const sorting = selectedDimension.sorting;
+        const sortedDimension = props.sortedDimension;
         const filters = props.filters;
         const table = props.table && props.table[0];
 
-        const onSort = sorting =>
-            this.props.onSort({ ...selectedDimension, sorting: sorting });
+        const onSort = (index, sorting) =>
+            this.props.onSort({ ...sortedDimension, index: index, sorting: sorting });
 
         if (!table) {
             return (
                 <div>Loading Table...</div>
             );
-        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.selectedDimension !== selectedDimension) {
+        } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sortedDimension !== sortedDimension) {
             return (
                 <div>(Re)Loading Table...</div>
             );
@@ -115,9 +113,7 @@ class DetailedTable extends React.Component {
                             <Table
                                 table={table}
                                 maxRows={100}
-                                checkMark={true}
-                                sortableColumn={1 + selectedDimension.index}
-                                sorting={sorting}
+                                checkColumn={true}
                                 onSort={onSort} />
                         </div>
                     </div>
