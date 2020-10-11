@@ -83,7 +83,7 @@ class LineChart extends React.PureComponent {
                     {
                         label: chart.name,
                         data: data.y_data,
-                        pointRadius: 3,
+                        pointRadius: 1,
                         borderColor: "rgb(26, 188, 156)",
                         backgroundColor: "ghostwhite"
                     }
