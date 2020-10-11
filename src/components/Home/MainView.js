@@ -18,19 +18,23 @@ const mapDispatchToProps = dispatch => ({
 
 const MainView = props => {
 
-    return (
-      <div className="row">
-        <div className="col-md-5">
-            <Charts />
-        </div>
+    const width = window.innerWidth;
+    const breakpoint = 1200;
+    const columns = width > breakpoint? 4: 3;
 
-        <div className="col-md-7">
-            <Switch>
-                <Route exact path="/" component={Tables} />
-                <Route path="/detailed/:index" component={DetailedTable} />
-            </Switch>
+    return (
+        <div className="row">
+            <div className="col-md-5">
+                <Charts />
+            </div>
+
+            <div className="col-md-7">
+                <Switch>
+                    <Route exact path="/" render={(props) => <Tables {...props} columns={columns} />} />
+                    <Route path="/detailed/:index" component={DetailedTable} />
+                </Switch>
+            </div>
         </div>
-      </div>
     );
 };
 

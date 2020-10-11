@@ -7,7 +7,8 @@ import {
   REGISTER,
   TABLES_VIEW_LOADED,
   DETAILED_TABLE_VIEW_LOADED,
-  SET_SELECTED_DIMENSION
+  SET_SELECTED_DIMENSION,
+  SET_SORTED_DIMENSION
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {
@@ -64,6 +65,9 @@ const localStorageMiddleware = store => next => action => {
   } else if (action.type === SET_SELECTED_DIMENSION) {
     const selectedDimension = action.dimension;
     window.localStorage.setItem('selectedDimension', JSON.stringify(selectedDimension));
+  } else if (action.type === SET_SORTED_DIMENSION) {
+    const sortedDimension = action.dimension;
+    window.localStorage.setItem('sortedDimension', JSON.stringify(sortedDimension));
   }
 
   next(action);

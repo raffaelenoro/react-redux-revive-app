@@ -38,7 +38,7 @@ export default (state = defaultState, action) => {
 
   switch (action.type) {
     case APP_LOAD:
-    return {
+      return {
         ...state,
         token: action.token || null,
         appLoaded: true,
@@ -46,6 +46,7 @@ export default (state = defaultState, action) => {
         startDate: action.common ? new Date(action.common.startDate) : week_ago,
         dimensions: action.common ? action.common.dimensions : [],
         selectedDimension: action.selectedDimension,
+        sortedDimension: action.sortedDimension,
         filters: action.common ? action.common.filters : filters,
         endDate: action.common ? new Date(action.common.endDate) : now
       };

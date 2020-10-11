@@ -95,6 +95,7 @@ class Tables extends React.Component {
         const tables = props.tables;
         const dimensions = props.dimensions;
         const selectedDimension = props.selectedDimension;
+        const columns = props.columns;
 
         if (!tables || dimensions.length === 0 || !selectedDimension) {
             return (
@@ -140,27 +141,47 @@ class Tables extends React.Component {
                     )
             );
 
-            return (
-                <div>
-                    <div className="row">
-                        <div className="col-md-3">
-                            {showTablesStride(0)}
-                        </div>
+            if (columns < 4) {
+                return (
+                    <div>
+                        <div className="row">
+                            <div className="col-md-4">
+                                {showTablesStride(0)}
+                            </div>
 
-                        <div className="col-md-3">
-                            {showTablesStride(1)}
-                        </div>
+                            <div className="col-md-4">
+                                {showTablesStride(1)}
+                            </div>
 
-                        <div className="col-md-3">
-                            {showTablesStride(2)}
-                        </div>
-
-                        <div className="col-md-3">
-                            {showTablesStride(3)}
+                            <div className="col-md-4">
+                                {showTablesStride(2)}
+                            </div>
                         </div>
                     </div>
-                </div>
-            );
+                );
+            } else {
+                return (
+                    <div>
+                        <div className="row">
+                            <div className="col-md-3">
+                                {showTablesStride(0)}
+                            </div>
+
+                            <div className="col-md-3">
+                                {showTablesStride(1)}
+                            </div>
+
+                            <div className="col-md-3">
+                                {showTablesStride(2)}
+                            </div>
+
+                            <div className="col-md-3">
+                                {showTablesStride(3)}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
         }
     }
 };

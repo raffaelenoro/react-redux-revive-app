@@ -18,7 +18,7 @@ Chart.plugins.register({
          ctx.moveTo(x, topY);
          ctx.lineTo(x, bottomY);
          ctx.lineWidth = 2;
-         ctx.strokeStyle = '#07C';
+         ctx.strokeStyle = 'gray';
          ctx.stroke();
          ctx.restore();
       }
@@ -36,9 +36,28 @@ class LineChart extends React.PureComponent {
         const data = chart.data;
         const offset = new Date().getTimezoneOffset() / 60;
 
+        const formatValue = (value, decimals) => {
+            const prefix = (chart.units === "currency" ? "$": " ");
+            let suffix = "";
+
+            value = +value;
+
+            if (value >= 1000000) {
+                value /= 1000000;
+                suffix = "M"
+            } else {
+                if (value >= 1000) {
+                    value /= 1000;
+                    suffix = "K"
+                }
+            }
+
+            return prefix + value.toFixed(chart.units === "integer"? 0 : decimals) + suffix;
+        }
+
         const xAxesCallback = (label, index, labels) => {
 
-            if (index > .9 * labels.length) return "";
+            if (index > .8 * labels.length) return "";
 
             let date = new Date(label);
             date.setHours(date.getHours() + offset);
@@ -53,57 +72,9 @@ class LineChart extends React.PureComponent {
 
             return label;
         };
-        const yAxesCallback = (label, index, labels) => {
+        const yAxesCallback = (label, index, labels) => formatValue(label, 0).padStart(7);
 
-            const prefix = (chart.units === "currency" ? "$": " ");
-            let suffix = "";
-
-            label = +label;
-
-            if (label >= 1000000) {
-                label /= 1000000;
-                suffix = "M"
-            } else {
-                if (label >= 1000) {
-                    label /= 1000;
-                    suffix = "K"
-                }
-            }
-
-            return (prefix + label + suffix).padStart(7);
-        }
-
-        let chartObj = null;
-        let imageData = null;
-        const onHover = (event, array) => {
-            const x = event.offsetX;
-            const ctx = chartObj.ctx;
-            const x_axis = chartObj.scales['x-axis-0'];
-            const y_axis = chartObj.scales['y-axis-0'];
-            const left = x_axis.left;
-            const right = x_axis.right;
-            const top = y_axis.top;
-            const bottom = y_axis.bottom;
-
-            if (!imageData) {
-                imageData = ctx.getImageData(0,0,ctx.canvas.width,ctx.canvas.height);
-            } else {
-                ctx.putImageData(imageData, 0, 0);
-            }
-
-            if (x > left && x < right) {
-                ctx.save();
-                ctx.beginPath();
-                ctx.moveTo(x, top);
-                ctx.lineTo(x, bottom);
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = '#07C';
-                ctx.stroke();
-                ctx.restore();
-            }
-        };
-
-        chartObj = new Chart(chartRef2D, {
+        new Chart(chartRef2D, {
             type: "line",
             data: {
                 //Bring in data
@@ -112,16 +83,27 @@ class LineChart extends React.PureComponent {
                     {
                         label: chart.name,
                         data: data.y_data,
-                        pointRadius: 1
+                        pointRadius: 3,
+                        borderColor: "rgb(26, 188, 156)",
+                        backgroundColor: "ghostwhite"
                     }
                 ]
             },
             options: {
                 //Customize chart options
                 responsive: true,
+                layout: {
+                    padding: {
+                        bottom: 8,
+                        right: 8
+                    }
+                },
                 scales: {
                     xAxes: [{
                         position: 'top',
+                        gridLines: {
+                            tickMarkLength: 0
+                        },
                         ticks: {
                             maxTicksLimit: 5,
                             maxRotation: 0,
@@ -130,24 +112,35 @@ class LineChart extends React.PureComponent {
                             callback: xAxesCallback,
                             fontSize: 9,
                             lineHeight: props.first ? 1.1 : 0,
-                            fontColor: props.first ? "#666": "rgba(0,0,0,0)"
+                            fontColor: props.first ? "#666": "rgba(0,0,0,0)",
                         }
                     }],
                     yAxes: [{
                         position: 'right',
+                        gridLines: {
+                            tickMarkLength: 0
+                        },
                         ticks: {
                             maxTicksLimit: 5,
                             fontSize: 9,
                             callback: yAxesCallback
+                        },
+                        afterSetDimensions: function(axes) {
+                            axes.maxWidth = 24;
                         }
                     }]
                 },
-                onHover: onHover,
                 tooltips: {
+                    intersect: false,
+                    mode: 'index',
                     callbacks: {
                         title: () => false,
-                        label: (item, data) => data.datasets[item.datasetIndex].data[item.index]
-                    }
+                        label: (item, data) => formatValue(item.value, 2),
+                        labelColor: (tooltipItem, chart) => ({
+                            borderColor: 'rgb(26, 188, 156)',
+                            backgroundColor: 'rgb(26, 188, 156)'
+                        })
+                    },
                 }
             }
         });
