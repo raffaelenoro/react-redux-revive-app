@@ -67,6 +67,7 @@ class DetailedTable extends React.Component {
     }
 
     componentWillUnmount() {
+        this.props.onSort(null);
         this.props.onUnload();
     }
 

@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import {
   HOME_PAGE_UNLOADED
 } from '../../constants/actionTypes';
+import $ from "jquery";
 
 const mapStateToProps = state => ({
   ...state.home,
@@ -19,6 +20,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Home extends React.Component {
+
+  componentDidMount() {
+    $(document).on('mouseenter', '.ellipsis th', function() {
+        if (this.offsetWidth < this.scrollWidth && !$(this).attr('title')) {
+            $(this).attr('title', $(this).text());
+        }
+    });
+  }
 
   componentWillUnmount() {
     this.props.onUnload();

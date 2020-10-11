@@ -87,7 +87,7 @@ const ShowTable = (props) => {
 
     return (
         <table {...tableProps}>
-            <thead style={{backgroundColor: "#eeeeee"}}>
+            <thead className={checkColumn ? "": "ellipsis"} style={{backgroundColor: "#eeeeee"}}>
                 {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((column, index) => {
@@ -109,9 +109,9 @@ const ShowTable = (props) => {
                                 <th {...columnProps} onClick={onSort.bind(null, index, !sorting || sorting === "asc" ? "desc" : "asc")}>
                                     {column.render('Header')}
                                     {sorting ? sorting === "desc" ?
-                                        <i className="fa fa-sort-down fa-lg" aria-hidden="true" style={{paddingLeft: "4px"}}></i> :
-                                        <i className="fa fa-sort-up fa-lg" aria-hidden="true" style={{paddingLeft: "4px"}}></i> :
-                                        <i className="fa fa-sort" aria-hidden="true" style={{color: "lightgray", paddingLeft: "4px"}}></i>}
+                                        <i className="fa fa-sort-down fa-lg" aria-hidden="true" style={{paddingLeft: "4px"}}/> :
+                                        <i className="fa fa-sort-up fa-lg" aria-hidden="true" style={{paddingLeft: "4px"}}/> :
+                                        <i className="fa fa-sort" aria-hidden="true" style={{color: "lightgray", paddingLeft: "4px"}}/>}
                                 </th>
                             );
                         }
