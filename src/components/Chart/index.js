@@ -3,6 +3,27 @@ import Chart from "chart.js";
 
 Chart.defaults.global.legend.display = false;
 Chart.defaults.global.elements.line.tension = 0;
+Chart.plugins.register({
+   afterDatasetsDraw: function(chart, evt) {
+      if (chart.tooltip._active && chart.tooltip._active.length) {
+         var activePoint = chart.tooltip._active[0],
+            ctx = chart.ctx,
+            y_axis = chart.scales['y-axis-0'],
+            x = activePoint.tooltipPosition().x,
+            topY = y_axis.top,
+            bottomY = y_axis.bottom;
+         // draw line
+         ctx.save();
+         ctx.beginPath();
+         ctx.moveTo(x, topY);
+         ctx.lineTo(x, bottomY);
+         ctx.lineWidth = 2;
+         ctx.strokeStyle = '#07C';
+         ctx.stroke();
+         ctx.restore();
+      }
+   }
+});
 
 class LineChart extends React.PureComponent {
 
@@ -52,7 +73,37 @@ class LineChart extends React.PureComponent {
             return (prefix + label + suffix).padStart(7);
         }
 
-        new Chart(chartRef2D, {
+        let chartObj = null;
+        let imageData = null;
+        const onHover = (event, array) => {
+            const x = event.offsetX;
+            const ctx = chartObj.ctx;
+            const x_axis = chartObj.scales['x-axis-0'];
+            const y_axis = chartObj.scales['y-axis-0'];
+            const left = x_axis.left;
+            const right = x_axis.right;
+            const top = y_axis.top;
+            const bottom = y_axis.bottom;
+
+            if (!imageData) {
+                imageData = ctx.getImageData(0,0,ctx.canvas.width,ctx.canvas.height);
+            } else {
+                ctx.putImageData(imageData, 0, 0);
+            }
+
+            if (x > left && x < right) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(x, top);
+                ctx.lineTo(x, bottom);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#07C';
+                ctx.stroke();
+                ctx.restore();
+            }
+        };
+
+        chartObj = new Chart(chartRef2D, {
             type: "line",
             data: {
                 //Bring in data
@@ -91,6 +142,7 @@ class LineChart extends React.PureComponent {
                         }
                     }]
                 },
+                onHover: onHover,
                 tooltips: {
                     callbacks: {
                         title: () => false,
