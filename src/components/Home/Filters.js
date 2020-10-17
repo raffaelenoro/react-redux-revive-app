@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import { Route, Switch, Link } from 'react-router-dom';
+import { Loading } from './Loading';
 import {
   CHANGE_FILTER,
   REMOVE_FILTER,
@@ -127,7 +128,9 @@ class Filters extends React.Component {
         );
 
         if (dimensions.length === 0 || !selectedDimension) {
-            return <div>Loading Filters...</div>
+            return (
+                <Loading height={40} width={40} altText="Loading Filters..." />
+            );
         } else {
             return (
                 <React.Fragment>
@@ -166,10 +169,10 @@ class Filters extends React.Component {
                     </div>
 
                     <div className="row">
-                        <div className="col-md-auto">
+                        <div className="col-md-auto" style={{padding: "4px"}}>
                             <span>Filters: </span>
                         </div>
-                        <div className="col-md-11">
+                        <div className="col-md-11" style={{paddingTop: "4px"}}>
                                 {props.filters.map((filter, index) =>
                                     <span className="tag-default tag-pill" key={"filter_" + index}>
                                         {filter.name + ": " + filter.value.join("; ")}&nbsp;

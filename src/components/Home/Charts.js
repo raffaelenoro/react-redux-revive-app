@@ -2,6 +2,7 @@ import { LineChart } from '../Chart';
 import React from 'react';
 import { connect } from 'react-redux';
 import agent from '../../agent';
+import { Loading } from './Loading';
 import {
   CHARTS_VIEW_LOADED,
   CHARTS_VIEW_UNLOADED,
@@ -81,12 +82,12 @@ class Charts extends React.Component {
 
         if (!charts) {
             return (
-                <div>Loading Charts...</div>
+                <Loading height={40} width={40} altText="Loading Charts..." />
             );
         } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters) {
             // we need to re-fetch data before rendering
             return (
-                <div>(Re)Loading Charts...</div>
+                <Loading height={40} width={40} altText="(Re)Loading Charts..." />
             );
         } else {
             const offset = new Date().getTimezoneOffset() / 60;

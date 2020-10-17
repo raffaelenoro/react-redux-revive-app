@@ -87,7 +87,7 @@ const ShowTable = (props) => {
 
     return (
         <table {...tableProps}>
-            <thead className={checkColumn ? "": "ellipsis"} style={{backgroundColor: "#eeeeee"}}>
+            <thead className={checkColumn ? "nowrap": "ellipsis"} style={{backgroundColor: "#eeeeee"}}>
                 {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((column, index) => {

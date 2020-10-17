@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Table from '../Table';
 import agent from '../../agent';
+import { Loading } from './Loading';
 import {
   TABLES_VIEW_LOADED,
   TABLES_VIEW_UNLOADED
@@ -99,12 +100,12 @@ class Tables extends React.Component {
 
         if (!tables || dimensions.length === 0 || !selectedDimension) {
             return (
-                <div>Loading Tables...</div>
+                <Loading height={40} width={40} altText="Loading Tables ..." />
             );
         } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.dimensions !== dimensions || this.selectedDimension !== selectedDimension) {
             // we need to re-fetch data before rendering
             return (
-                <div>(Re)Loading Tables...</div>
+                <Loading height={40} width={40} altText="(Re)Loading Tables ..." />
             );
         } else {
             const dimensionIndex = 2 + selectedDimension.index;

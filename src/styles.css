@@ -1,8 +1,33 @@
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
+.nowrap th {
+  white-space: nowrap;
+}
+
 .ellipsis th {
   max-width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+a.revive-link {
+    color: rgb(26, 188, 156)
+}
+
+.container.page{
+    margin-top: 0
+}
+
+div.row {
+    margin-top: 8px
+}
+
+td.revive-date button {
+    text-decoration: underline;
+}
+
+td.revive-date button:hover {
+    background-color: lightgray;
+    border-radius: 0.25em
 }

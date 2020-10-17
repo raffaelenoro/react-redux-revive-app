@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import agent from '../../agent';
 import Table from '../Table';
+import { Loading } from './Loading';
 import {
   DETAILED_TABLE_VIEW_LOADED,
   DETAILED_TABLE_VIEW_UNLOADED,
@@ -77,10 +78,15 @@ class DetailedTable extends React.Component {
         const filters = this.props.filters;
         const sortedDimension = this.props.sortedDimension;
 
-        if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sortedDimension !== sortedDimension) {
+        if (this.filters !== filters) {
+            this.filters = filters
+
+            this.forceUpdate();
+        }
+
+        if (this.startDate !== startDate || this.endDate !== endDate || this.sortedDimension !== sortedDimension) {
             this.startDate = startDate;
             this.endDate = endDate;
-            this.filters = filters;
             this.sortedDimension = sortedDimension;
 
             this.fetchData();
@@ -100,11 +106,15 @@ class DetailedTable extends React.Component {
 
         if (!table) {
             return (
-                <div>Loading Table...</div>
+                <Loading height={40} width={40} altText="Loading Table..." />
+            );
+        } else if (this.filters !== filters) {
+            return (
+                <Loading height={40} width={40} altText="Refreshing Table..." />
             );
         } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.sortedDimension !== sortedDimension) {
             return (
-                <div>(Re)Loading Table...</div>
+                <Loading height={40} width={40} altText="(Re)Loading Table..." />
             );
         } else {
             return (
