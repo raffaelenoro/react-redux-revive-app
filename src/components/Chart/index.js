@@ -133,8 +133,76 @@ class LineChart extends React.PureComponent {
                 tooltips: {
                     intersect: false,
                     mode: 'index',
+                    enabled: false,
+                    custom: model => {
+                        const position = this.chartRef.current.getBoundingClientRect();
+
+                        // Tooltip Element
+                        var tooltip = document.getElementById('chartjs-tooltip');
+
+                        // Create element on first render
+                        if (!tooltip) {
+                            tooltip = document.createElement('div');
+                            tooltip.id = 'chartjs-tooltip';
+                            tooltip.innerHTML = '<table></table>';
+                            document.body.appendChild(tooltip);
+                        }
+
+                        // Hide if no tooltip
+                        if (model.opacity === 0) {
+                            tooltip.style.opacity = 0;
+                            return;
+                        }
+
+                        // Set caret Position
+                        tooltip.classList.remove('above', 'below', 'no-transform');
+                        if (model.yAlign) {
+                            tooltip.classList.add(model.yAlign);
+                        } else {
+                            tooltip.classList.add('no-transform');
+                        }
+
+                        // Set Text
+                        if (model.body) {
+                            const titleLines = model.title || [];
+                            const bodyLines = model.body.map(item => item.lines);
+
+                            var innerHtml = '<thead>';
+
+                            titleLines.forEach(function(line) {
+                                innerHtml += '<tr><th>' + line + '</th></tr>';
+                            });
+                            innerHtml += '</thead>'
+                            
+                            innerHtml += '<tbody>';
+
+                            bodyLines.forEach(function(line, i) {
+                                var colors = model.labelColors[i];
+                                var style = 'background:' + colors.backgroundColor;
+                                style += '; border-color:' + colors.borderColor;
+                                style += '; border-width: 2px';
+                                var span = '<span style="' + style + '"></span>';
+                                innerHtml += '<tr><td>' + span + line + '</td></tr>';
+                            });
+                            innerHtml += '</tbody>';
+
+                            const tableRoot = tooltip.querySelector('table');
+                            tableRoot.innerHTML = innerHtml;
+                        }
+
+                        // Display, position, and set styles for font
+                        tooltip.style.opacity= 1;
+                        tooltip.style.position= 'absolute';
+                        tooltip.style.left= position.left + window.pageXOffset + model.caretX + 'px';
+                        tooltip.style.top= position.top + window.pageXOffset + 20 + 'px';
+                        tooltip.style.fontFamily= model._bodyFontFamily;
+                        tooltip.style.fontSize= model.bodyFontSize + 'px';
+                        tooltip.style.fontStyle= model._bodyFontStyle;
+                        tooltip.style.padding= model.yPadding + 'px ' + model.xPadding + 'px';
+                        tooltip.style.pointerEvents= 'none';
+                    },
                     callbacks: {
-                        title: () => false,
+                        title: item => formatValue(item[0].value, 2),
                         label: (item, data) => formatValue(item.value, 2),
                         labelColor: (tooltipItem, chart) => ({
                             borderColor: 'rgb(26, 188, 156)',
