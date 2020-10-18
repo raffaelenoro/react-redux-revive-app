@@ -30,12 +30,21 @@ class Tables extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            lanes: window.innerWidth > 1400 ? 4 :
+                   window.innerWidth > 1200 ? 3 :
+                                              2
+        };
+
+        this.updateDimensions = this.updateDimensions.bind(this);
+
         // keep tabs of the time interval
         this.startDate = this.props.startDate;
         this.endDate = this.props.endDate;
         this.filters = this.props.filters;
         this.dimensions = this.props.dimensions;
         this.selectedDimension = this.props.selectedDimension;
+        this.lanes = this.state.lanes;
     }
 
     fetchData() {
@@ -54,7 +63,30 @@ class Tables extends React.Component {
         );
     }
 
+    updateDimensions() {
+        const width = window.innerWidth;
+
+        if (this.state.lanes === 2) {
+            if (width > 1210) {
+                this.setState({ lanes: 3});
+            }
+        } else if (this.state.lanes === 3) {
+            if (width > 1410) {
+                this.setState({ lanes: 4});
+            }
+            if (width < 1200) {
+                this.setState({ lanes: 2});
+            }
+        } else {
+            if (width < 1400) {
+                this.setState({ lanes: 3});
+            }
+        }
+    }
+
     componentDidMount() {
+        window.addEventListener("resize", this.updateDimensions);
+
         this.fetchData();
     }
 
@@ -80,9 +112,10 @@ class Tables extends React.Component {
             this.fetchData();
         }
 
-        if (this.dimensions !== dimensions || this.selectedDimension !== selectedDimension) {
+        if (this.dimensions !== dimensions || this.selectedDimension !== selectedDimension || this.lanes !== this.state.lanes) {
             this.dimensions = dimensions;
             this.selectedDimension = selectedDimension;
+            this.lanes = this.state.lanes;
 
             this.forceUpdate();
         }
@@ -96,11 +129,15 @@ class Tables extends React.Component {
         const tables = props.tables;
         const dimensions = props.dimensions;
         const selectedDimension = props.selectedDimension;
-        const columns = props.columns;
+        const lanes = this.state.lanes;
 
         if (!tables || dimensions.length === 0 || !selectedDimension) {
             return (
                 <Loading height={40} width={40} altText="Loading Tables ..." />
+            );
+        } else if (this.lanes !== this.state.lanes) {
+            return (
+                <Loading height={40} width={40} altText="Refreshing Tables ..." />
             );
         } else if (this.startDate !== startDate || this.endDate !== endDate || this.filters !== filters || this.dimensions !== dimensions || this.selectedDimension !== selectedDimension) {
             // we need to re-fetch data before rendering
@@ -112,6 +149,9 @@ class Tables extends React.Component {
             const selectedName = "c" + dimensionIndex + "_name";
             const selectedData = "c" + dimensionIndex + "_data";
             const selectedUnit = "c" + dimensionIndex + "_unit"
+            const className = lanes === 4 ? "col-md-3" :
+                              lanes === 3 ? "col-md-4" :
+                                            "col-md-6";
 
             const showTablesStride = pos => (
                 tables
@@ -142,47 +182,17 @@ class Tables extends React.Component {
                     )
             );
 
-            if (columns < 4) {
-                return (
-                    <div>
-                        <div className="row">
-                            <div className="col-md-4">
-                                {showTablesStride(0)}
+            return (
+                <div>
+                    <div className="row">
+                        {[...Array(lanes).keys()].map(lane =>
+                            <div key={"table_" + lane} className={className}>
+                                {showTablesStride(lane)}
                             </div>
-
-                            <div className="col-md-4">
-                                {showTablesStride(1)}
-                            </div>
-
-                            <div className="col-md-4">
-                                {showTablesStride(2)}
-                            </div>
-                        </div>
+                        )}
                     </div>
-                );
-            } else {
-                return (
-                    <div>
-                        <div className="row">
-                            <div className="col-md-3">
-                                {showTablesStride(0)}
-                            </div>
-
-                            <div className="col-md-3">
-                                {showTablesStride(1)}
-                            </div>
-
-                            <div className="col-md-3">
-                                {showTablesStride(2)}
-                            </div>
-
-                            <div className="col-md-3">
-                                {showTablesStride(3)}
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
+                </div>
+            );
         }
     }
 };
