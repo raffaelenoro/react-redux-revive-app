@@ -17,7 +17,7 @@ Chart.plugins.register({
          ctx.beginPath();
          ctx.moveTo(x, topY);
          ctx.lineTo(x, bottomY);
-         ctx.lineWidth = 2;
+         ctx.lineWidth = 1;
          ctx.strokeStyle = 'gray';
          ctx.stroke();
          ctx.restore();
@@ -83,6 +83,7 @@ class LineChart extends React.PureComponent {
                     {
                         label: chart.name,
                         data: data.y_data,
+                        borderWidth: 1,
                         pointRadius: 1,
                         borderColor: "rgb(26, 188, 156)",
                         backgroundColor: "ghostwhite"
@@ -193,8 +194,8 @@ class LineChart extends React.PureComponent {
                         // Display, position, and set styles for font
                         tooltip.style.opacity= 1;
                         tooltip.style.position= 'absolute';
-                        tooltip.style.left= position.left + window.pageXOffset + model.caretX + 'px';
-                        tooltip.style.top= position.top + window.pageXOffset + 20 + 'px';
+                        tooltip.style.left= position.left + window.scrollX + model.caretX + 'px';
+                        tooltip.style.top= position.top + window.scrollY + 20 + 'px';
                         tooltip.style.fontFamily= model._bodyFontFamily;
                         tooltip.style.fontSize= model.bodyFontSize + 'px';
                         tooltip.style.fontStyle= model._bodyFontStyle;
@@ -203,11 +204,17 @@ class LineChart extends React.PureComponent {
                     },
                     callbacks: {
                         title: item => formatValue(item[0].value, 2),
-                        label: (item, data) => formatValue(item.value, 2),
-                        labelColor: (tooltipItem, chart) => ({
-                            borderColor: 'rgb(26, 188, 156)',
-                            backgroundColor: 'rgb(26, 188, 156)'
-                        })
+                        label: item => {
+                            const date = new Date(item.label);
+                            const dd = new Intl.DateTimeFormat('en', {
+                                day: '2-digit',
+                            }).format(date);
+                            const mm = new Intl.DateTimeFormat('en', {
+                                month: 'short'
+                            }).format(date);
+
+                            return mm + " " + dd;
+                        }
                     },
                 }
             }
