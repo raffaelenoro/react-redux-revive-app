@@ -5,7 +5,7 @@
 }
 
 .ellipsis th {
-  max-width: 100px;
+  max-width: 80px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
