@@ -12,15 +12,15 @@
 }
 
 a.revive-link {
-    color: rgb(26, 188, 156)
+    color: rgb(26, 188, 156);
 }
 
 .container.page{
-    margin-top: 0
+    margin-top: 0;
 }
 
 div.row {
-    margin-top: 8px
+    margin-top: 8px;
 }
 
 td.revive-date button {
@@ -29,5 +29,5 @@ td.revive-date button {
 
 td.revive-date button:hover {
     background-color: lightgray;
-    border-radius: 0.25em
+    border-radius: 0.25em;
 }

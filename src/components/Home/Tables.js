@@ -92,6 +92,8 @@ class Tables extends React.Component {
 
     componentWillUnmount() {
         this.props.onUnload();
+
+        window.removeEventListener("resize", this.updateDimensions);
     }
 
     componentDidUpdate() {

@@ -57,7 +57,7 @@ class LineChart extends React.PureComponent {
 
         const xAxesCallback = (label, index, labels) => {
 
-            if (index > .8 * labels.length) return "";
+            if (index > .88 * labels.length) return "";
 
             let date = new Date(label);
             date.setHours(date.getHours() + offset);
@@ -112,7 +112,7 @@ class LineChart extends React.PureComponent {
                             labelOffset: 20,
                             callback: xAxesCallback,
                             fontSize: 9,
-                            lineHeight: props.first ? 1.1 : 0,
+                            lineHeight: 1.1,
                             fontColor: props.first ? "#666": "rgba(0,0,0,0)",
                         }
                     }],
@@ -192,20 +192,22 @@ class LineChart extends React.PureComponent {
                         }
 
                         // Display, position, and set styles for font
-                        tooltip.style.opacity= 1;
-                        tooltip.style.position= 'absolute';
-                        tooltip.style.left= position.left + window.scrollX + model.caretX + 'px';
-                        tooltip.style.top= position.top + window.scrollY + 20 + 'px';
-                        tooltip.style.fontFamily= model._bodyFontFamily;
-                        tooltip.style.fontSize= model.bodyFontSize + 'px';
-                        tooltip.style.fontStyle= model._bodyFontStyle;
-                        tooltip.style.padding= model.yPadding + 'px ' + model.xPadding + 'px';
-                        tooltip.style.pointerEvents= 'none';
+                        tooltip.style.opacity = 0.8;
+                        tooltip.style.position = "absolute";
+                        tooltip.style.left = position.left + window.scrollX + model.caretX + 4 + 'px';
+                        tooltip.style.top = position.top + window.scrollY + 20 + 'px';
+                        tooltip.style.fontFamily = model._bodyFontFamily;
+                        tooltip.style.fontSize = model.bodyFontSize + 'px';
+                        tooltip.style.fontStyle = model._bodyFontStyle;
+                        tooltip.style.padding = model.yPadding + 'px ' + model.xPadding + 'px';
+                        tooltip.style.pointerEvents = "none";
+                        tooltip.style.backgroundColor = "ghostwhite";
                     },
                     callbacks: {
                         title: item => formatValue(item[0].value, 2),
                         label: item => {
                             const date = new Date(item.label);
+                            date.setHours(date.getHours() + offset);
                             const dd = new Intl.DateTimeFormat('en', {
                                 day: '2-digit',
                             }).format(date);
