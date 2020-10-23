@@ -57,7 +57,7 @@ class LineChart extends React.PureComponent {
 
         const xAxesCallback = (label, index, labels) => {
 
-            if (index > .88 * labels.length) return "";
+            if (index > .85 * labels.length) return "";
 
             let date = new Date(label);
             date.setHours(date.getHours() + offset);

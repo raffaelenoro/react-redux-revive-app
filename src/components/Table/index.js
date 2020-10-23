@@ -125,7 +125,9 @@ const ShowTable = (props) => {
                     prepareRow(row)
 
                     const value = row.cells[leftAlignIndex].value;
-                    const mark = filterValue.find(v => v === value);
+                    const valueIndex = filterValue.findIndex(v => v === value);
+                    const mark = (valueIndex >= 0);
+
                     const rowProps = {
                         ...row.getRowProps(),
                         style: { backgroundColor: mark ? "#f8f8f8": "default" }

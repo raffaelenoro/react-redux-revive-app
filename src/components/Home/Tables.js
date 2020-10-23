@@ -160,7 +160,7 @@ class Tables extends React.Component {
                     .sort(
                         (a, b) => (a.index - b.index)
                     ).filter(
-                        (table, index) => (index % 4) === pos
+                        (table, index) => (index % lanes) === pos
                     ).map(
                         table => ({
                             index: table.index,
