@@ -33,13 +33,18 @@ const ShowTable = (props) => {
     const maxRows = props.maxRows;
     let i = 0;
     const columns = checkColumn ? [{Header: String.fromCharCode(10003), accessor: "c0_data"}] : [];
-    const currency = checkColumn ? [false] : [];
+    const units = checkColumn ? [''] : [];
     while (table.hasOwnProperty("c" + (++i) + "_name") === true) {
         columns.push({
             Header: table["c" + i + "_name"],
             accessor: "c" + i + "_data"
         })
-        currency.push(table["c" + i + "_unit"] === "currency");
+        const unit = table["c" + i + "_unit"]
+        units.push(
+            unit === "currency" ? '$' :
+            unit === "percentage" ? '%' :
+                                    ''
+        );
     };
 
     const filter = filters.find(filter => filter.index === table.index) || {};
@@ -141,8 +146,10 @@ const ShowTable = (props) => {
                                     style: { textAlign: index > leftAlignIndex ? "right": "left" }
                                 };
                                 const value = ReactDOMServer.renderToString(cell.render('Cell'));
+                                const unit = units[index];
                                 const format = number =>
-                                    currency[index] ? "$" + (+number).toLocaleString() : number;
+                                    unit === '$' ? "$" + (+number).toLocaleString() :
+                                    unit === '%' ? (+number).toFixed(1) : number;
 
                                 if (mark && index === 0) {
                                     return <td {...cellProps}>&#10003; {value}</td>;

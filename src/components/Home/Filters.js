@@ -105,17 +105,17 @@ class Filters extends React.Component {
         ));
 
         const Selector = () => (
-            <React.Fragment>
-                <div className="col-md-auto" style={{margin: "auto", marginRight: "8px"}}>
-                    Dimension by: 
+            <div className="col-md-auto grid-container">
+                <div className="grid-child">
+                    Dimension by:
                 </div>
-                <div className="col-md-3" style={{margin: "auto"}}>
+                <div className="grid-child">
                     <Select
                         options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
                         defaultValue={{label: selectedDimension.dimension, value: selectedDimension.dimension}}
                         onChange={onChange} />
                 </div>
-            </React.Fragment>
+            </div>
         );
 
         const NoSelector = () => (
@@ -134,8 +134,8 @@ class Filters extends React.Component {
         } else {
             return (
                 <React.Fragment>
-                    <div className="row">
-                        <div className="col-md-auto card" style={{backgroundColor: "#eeeeee"}}>
+                    <div className="row align-self-center">
+                        <div className="col-md-auto card" style={{backgroundColor: "#eeeeee", marginBottom: 0}}>
                             <div className="card-body" style={{padding: "4px"}}><table><tbody><tr>
                                 <td className="revive-date">
                                     <DatePicker 
@@ -160,7 +160,7 @@ class Filters extends React.Component {
                             </tr></tbody></table></div>
                         </div>
 
-                        <div className="col-md-4"></div>
+                        <div className="col-lg-4 col-md-2 col-sm-1"></div>
 
                         <Switch>
                             <Route exact path="/" component={Selector} />
