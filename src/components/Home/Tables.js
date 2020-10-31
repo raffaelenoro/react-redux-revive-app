@@ -31,7 +31,7 @@ class Tables extends React.Component {
         super(props);
 
         this.state = {
-            lanes: window.innerWidth > 1400 ? 4 :
+            lanes: window.innerWidth > 1500 ? 4 :
                    window.innerWidth > 1200 ? 3 :
                                               2
         };
@@ -71,14 +71,14 @@ class Tables extends React.Component {
                 this.setState({ lanes: 3});
             }
         } else if (this.state.lanes === 3) {
-            if (width > 1410) {
+            if (width > 1510) {
                 this.setState({ lanes: 4});
             }
             if (width < 1200) {
                 this.setState({ lanes: 2});
             }
         } else {
-            if (width < 1400) {
+            if (width < 1500) {
                 this.setState({ lanes: 3});
             }
         }
