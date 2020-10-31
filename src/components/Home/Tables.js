@@ -187,9 +187,9 @@ class Tables extends React.Component {
 
             return (
                 <div>
-                    <div className="row">
+                    <div className={"grid-container-tables-" + lanes}>
                         {[...Array(lanes).keys()].map(lane =>
-                            <div key={"table_" + lane} className={className}>
+                            <div key={"table_" + lane}>
                                 {showTablesStride(lane)}
                             </div>
                         )}

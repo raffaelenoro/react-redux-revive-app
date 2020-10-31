@@ -5,7 +5,8 @@
 }
 
 .ellipsis th {
-  max-width: 80px;
+  min-width: 100px;
+  max-width: 110px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -32,13 +33,31 @@ td.revive-date button:hover {
     border-radius: 0.25em;
 }
 
-.grid-container {
+.grid-container-selector {
     display: grid;
     grid-template-columns: 8fr 16fr;
     grid-gap: 8px;
 }
 
-.grid-child {
+.grid-child-selector {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.grid-container-tables-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.grid-container-tables-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.grid-container-tables-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
 }

@@ -105,11 +105,11 @@ class Filters extends React.Component {
         ));
 
         const Selector = () => (
-            <div className="col-md-auto grid-container">
-                <div className="grid-child">
+            <div className="col-md-auto grid-container-selector">
+                <div className="grid-child-selector">
                     Dimension by:
                 </div>
-                <div className="grid-child">
+                <div className="grid-child-selector">
                     <Select
                         options={dimensions.map(dimension => ({label: dimension, value: dimension}))}
                         defaultValue={{label: selectedDimension.dimension, value: selectedDimension.dimension}}
