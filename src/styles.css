@@ -33,6 +33,12 @@ td.revive-date button:hover {
     border-radius: 0.25em;
 }
 
+.grid-container-main {
+    display: grid;
+    grid-template-columns: 400px auto;
+    grid-gap: 40px;
+}
+
 .grid-container-selector {
     display: grid;
     grid-template-columns: 8fr 16fr;
@@ -46,18 +52,27 @@ td.revive-date button:hover {
 
 .grid-container-tables-2 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 240px 240px;
     grid-gap: 10px;
 }
 
 .grid-container-tables-3 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 240px 240px 240px;
     grid-gap: 10px;
 }
 
 .grid-container-tables-4 {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 240px 240px 240px 240px;
     grid-gap: 10px;
 }
+
+.grid-container-detail {
+    display: grid;
+}
+
+.grid-child-detail {
+    padding-right: 10px;
+}
+

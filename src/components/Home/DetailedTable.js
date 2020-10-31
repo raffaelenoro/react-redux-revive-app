@@ -119,8 +119,8 @@ class DetailedTable extends React.Component {
         } else {
             return (
                 <div>
-                    <div className="row">
-                        <div className="col-md-12">
+                    <div className="grid-container-detail">
+                        <div className="grid-child-detail">
                             <Table
                                 table={{...table, c1_unit: "integer"}}
                                 maxRows={100}
