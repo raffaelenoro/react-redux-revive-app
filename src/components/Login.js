@@ -48,7 +48,7 @@ class Login extends React.Component {
             <div className="col-md-6 offset-md-3 col-xs-12">
               <h1 className="text-xs-center">Sign In</h1>
               <p className="text-xs-center">
-                <Link to="/register">
+                <Link className="revive-link" to="/register">
                   Need an account?
                 </Link>
               </p>
@@ -61,8 +61,8 @@ class Login extends React.Component {
                   <fieldset className="form-group">
                     <input
                       className="form-control form-control-lg"
-                      type="email"
-                      placeholder="Email"
+                      type="username"
+                      placeholder="Username"
                       value={email}
                       onChange={this.changeEmail} />
                   </fieldset>
@@ -77,7 +77,7 @@ class Login extends React.Component {
                   </fieldset>
 
                   <button
-                    className="btn btn-lg btn-primary pull-xs-right"
+                    className="btn btn-lg btn-primary pull-xs-right revive-link"
                     type="submit"
                     disabled={this.props.inProgress}>
                     Sign in
