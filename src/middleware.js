@@ -53,15 +53,15 @@ const promiseMiddleware = store => next => action => {
 const localStorageMiddleware = store => next => action => {
   if (action.type === REGISTER || action.type === LOGIN) {
     if (!action.error) {
-      const token = action.payload.message;
+      const token = action.payload && action.payload.message;
       const username = store.getState().auth.email;
       window.localStorage.setItem('jwt', token);
-      window.localStorage.setItem('username', JSON.stringify({username: username}));
+      window.localStorage.setItem('user', JSON.stringify({username: username}));
       agent.setToken(token);
     }
   } else if (action.type === LOGOUT) {
     window.localStorage.setItem('jwt', '');
-    window.localStorage.removeItem('username');
+    window.localStorage.removeItem('user');
     window.localStorage.removeItem('common');
     window.localStorage.removeItem('selectedDimension');
     window.localStorage.removeItem('sortedDimension');

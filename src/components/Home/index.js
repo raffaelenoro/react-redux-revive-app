@@ -36,7 +36,29 @@ class Home extends React.Component {
   render() {
     if (!this.props.token) {
         return(
-            <div style={{margin: "auto"}}> Please Sign In </div>
+            <div className="landingArea">
+
+                <div className="content">
+                    <div className="grid">
+                        <div className="row">
+                            <div className="col x4 l6 m7 s8 r16 ox3 ol1">
+                                <h1>
+                                    <span>We're</span>
+                                    <span>Revolutionizing</span>
+                                    <span>Revenue Cycle</span>
+                                </h1>
+                                <p>Revive is a revenue cycle management 
+    platform for the modern digital age. With Revive powering your hospital 
+    or physician group, you can quickly optimize your claims collection 
+    process, increase revenue and decrease costs to collect.
+    </p>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         );
     } else {
         return (

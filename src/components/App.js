@@ -24,8 +24,8 @@ const mapStateToProps = state => {
   }};
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: (payload, token, common, selectedDimension, sortedDimension, username) =>
-    dispatch({ type: APP_LOAD, payload, token, common, selectedDimension, sortedDimension, username, skipTracking: true }),
+  onLoad: (payload, token, common, selectedDimension, sortedDimension, user) =>
+    dispatch({ type: APP_LOAD, payload, token, common, selectedDimension, sortedDimension, user, skipTracking: true }),
   onRedirect: () =>
     dispatch({ type: REDIRECT })
 });
@@ -48,9 +48,9 @@ class App extends React.Component {
     const common = window.localStorage.getItem('common');
     const selectedDimension = window.localStorage.getItem('selectedDimension');
     const sortedDimension = window.localStorage.getItem('sortedDimension');
-    const username = window.localStorage.getItem('username');
+    const user = window.localStorage.getItem('user');
 
-    this.props.onLoad(token ? agent.Auth.current() : null, token, JSON.parse(common), JSON.parse(selectedDimension), JSON.parse(sortedDimension), JSON.parse(username));
+    this.props.onLoad(token ? agent.Auth.current() : null, token, JSON.parse(common), JSON.parse(selectedDimension), JSON.parse(sortedDimension), JSON.parse(user));
   }
 
   render() {
@@ -60,18 +60,19 @@ class App extends React.Component {
           <Header
             appName={this.props.appName}
             currentUser={this.props.currentUser} />
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route path="/detailed" component={Home}/>
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-                <Route path="/logout" component={Logout} />
-                <Route path="/editor/:slug" component={Editor} />
-                <Route path="/editor" component={Editor} />
-                <Route path="/settings" component={Settings} />
-                <Route path="/@:username/favorites" component={ProfileFavorites} />
-                <Route path="/@:username" component={Profile} />
-            </Switch>
+
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/detailed" component={Home}/>
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/editor/:slug" component={Editor} />
+            <Route path="/editor" component={Editor} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/@:username/favorites" component={ProfileFavorites} />
+            <Route path="/@:username" component={Profile} />
+          </Switch>
         </div>
       );
     }

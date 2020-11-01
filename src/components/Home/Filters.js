@@ -84,7 +84,6 @@ class Filters extends React.Component {
 
         const dimensions = props.dimensions;
         const selectedDimension = props.selectedDimension;
-        const firstTable = props.firstTable;
 
         const onRemove = (index, e) => {
             e.preventDefault();
@@ -130,7 +129,7 @@ class Filters extends React.Component {
             </div>
         );
 
-        if (!firstTable || dimensions.length === 0 || !selectedDimension) {
+        if (dimensions.length === 0 || !selectedDimension) {
             return (
                 <Loading height={40} width={40} altText="Loading Filters..." />
             );

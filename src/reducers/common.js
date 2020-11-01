@@ -42,7 +42,7 @@ export default (state = defaultState, action) => {
         ...state,
         token: action.token || null,
         appLoaded: true,
-        currentUser: action.username,
+        currentUser: action.user,
         startDate: action.common ? new Date(action.common.startDate) : week_ago,
         dimensions: action.common ? action.common.dimensions : [],
         selectedDimension: action.selectedDimension,
@@ -105,8 +105,9 @@ export default (state = defaultState, action) => {
       };
     case LOGIN:
     case REGISTER:
-      const token = action.error ? null : action.payload.message;
-      const user = { username: action.error ? null : "shawn" };
+      const payload = action && action.payload;
+      const token = action.error ? null : payload && payload.message;
+      const user = action.error ? null : payload && { username: "shawn" };
       return {
         ...state,
         redirectTo: action.error ? null : '/',
