@@ -93,7 +93,15 @@ export default (state = defaultState, action) => {
     case REDIRECT:
       return { ...state, redirectTo: null };
     case LOGOUT:
-      return { ...state, redirectTo: '/', token: null, currentUser: null };
+      return {
+          ...state,
+          redirectTo: '/',
+          token: null,
+          currentUser: null,
+          filters: [],
+          startDate: week_ago,
+          endDate: now,
+      };
     case ARTICLE_SUBMITTED:
       const redirectUrl = `/article/${action.payload.article.slug}`;
       return { ...state, redirectTo: redirectUrl };
