@@ -38,8 +38,8 @@ class Login extends React.Component {
   }
 
   render() {
-    const email = this.props.email;
-    const password = this.props.password;
+    const email = this.props.email || '';
+    const password = this.props.password || '';
     return (
       <div className="auth-page">
         <div className="container page">
@@ -61,7 +61,7 @@ class Login extends React.Component {
                   <fieldset className="form-group">
                     <input
                       className="form-control form-control-lg"
-                      type="username"
+                      type="text"
                       placeholder="Username"
                       value={email}
                       onChange={this.changeEmail} />

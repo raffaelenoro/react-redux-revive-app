@@ -34,26 +34,32 @@ class Home extends React.Component {
   }
 
   render() {
-    return (
-      <div className="home-page">
+    if (!this.props.token) {
+        return(
+            <div style={{margin: "auto"}}> Please Sign In </div>
+        );
+    } else {
+        return (
+        <div className="home-page">
 
-        <div className="container page container-30px">
+            <div className="container page container-30px">
 
-          <Switch>
-              <Route exact path="/" component={Filters} />
-              <Route path="/detailed/:index" component={Filters} />
-          </Switch>
+            <Switch>
+                <Route exact path="/" component={Filters} />
+                <Route path="/detailed/:index" component={Filters} />
+            </Switch>
 
-          <hr style={{height: "2px", width: "100%"}}/>
+            <hr style={{height: "2px", width: "100%"}}/>
 
-          <Switch>
-              <Route exact path="/" component={MainView} />
-              <Route path="/detailed/:index" component={MainView} />
-          </Switch>
+            <Switch>
+                <Route exact path="/" component={MainView} />
+                <Route path="/detailed/:index" component={MainView} />
+            </Switch>
+            </div>
+
         </div>
-
-      </div>
-    );
+        );
+    }
   }
 }
 

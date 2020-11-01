@@ -105,11 +105,13 @@ export default (state = defaultState, action) => {
       };
     case LOGIN:
     case REGISTER:
+      const token = action.error ? null : action.payload.message;
+      const user = action.error ? null : "shawn";
       return {
         ...state,
         redirectTo: action.error ? null : '/',
-        token: action.error ? null : action.payload.user.token,
-        currentUser: action.error ? null : action.payload.user
+        token: token,
+        currentUser: user
       };
     case EDITOR_PAGE_UNLOADED:
     case HOME_PAGE_UNLOADED:
