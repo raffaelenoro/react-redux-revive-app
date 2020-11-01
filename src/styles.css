@@ -1,12 +1,15 @@
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
+.container-30px {
+    margin-left: 30px;
+}
+
 .nowrap th {
   white-space: nowrap;
 }
 
 .ellipsis th {
-  min-width: 100px;
-  max-width: 110px;
+  width: 110px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -52,19 +55,19 @@ td.revive-date button:hover {
 
 .grid-container-tables-2 {
     display: grid;
-    grid-template-columns: 240px 240px;
+    grid-template-columns: 220px 220px;
     grid-gap: 10px;
 }
 
 .grid-container-tables-3 {
     display: grid;
-    grid-template-columns: 240px 240px 240px;
+    grid-template-columns: 220px 220px 220px;
     grid-gap: 10px;
 }
 
 .grid-container-tables-4 {
     display: grid;
-    grid-template-columns: 240px 240px 240px 240px;
+    grid-template-columns: 220px 220px 220px 220px;
     grid-gap: 10px;
 }
 
@@ -75,4 +78,3 @@ td.revive-date button:hover {
 .grid-child-detail {
     padding-right: 10px;
 }
-

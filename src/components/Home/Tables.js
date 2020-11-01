@@ -25,15 +25,18 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: TABLES_VIEW_UNLOADED })
 });
 
+const threshold2to3 = 1200;
+const threshold3to4 = 1450;
+
 class Tables extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            lanes: window.innerWidth > 1600 ? 4 :
-                   window.innerWidth > 1300 ? 3 :
-                                              2
+            lanes: window.innerWidth > threshold3to4 ? 4 :
+                   window.innerWidth > threshold2to3 ? 3 :
+                                                       2
         };
 
         this.updateDimensions = this.updateDimensions.bind(this);
@@ -67,18 +70,18 @@ class Tables extends React.Component {
         const width = window.innerWidth;
 
         if (this.state.lanes === 2) {
-            if (width > 1310) {
+            if (width > (threshold2to3 + 10)) {
                 this.setState({ lanes: 3});
             }
         } else if (this.state.lanes === 3) {
-            if (width > 1610) {
+            if (width > (threshold3to4 + 10)) {
                 this.setState({ lanes: 4});
             }
-            if (width < 1300) {
+            if (width < threshold2to3) {
                 this.setState({ lanes: 2});
             }
         } else {
-            if (width < 1600) {
+            if (width < threshold3to4) {
                 this.setState({ lanes: 3});
             }
         }
@@ -151,9 +154,6 @@ class Tables extends React.Component {
             const selectedName = "c" + dimensionIndex + "_name";
             const selectedData = "c" + dimensionIndex + "_data";
             const selectedUnit = "c" + dimensionIndex + "_unit"
-            const className = lanes === 4 ? "col-md-3" :
-                              lanes === 3 ? "col-md-4" :
-                                            "col-md-6";
 
             const showTablesStride = pos => (
                 tables

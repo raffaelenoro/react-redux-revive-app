@@ -73,9 +73,9 @@ class Header extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-light">
-        <div className="container">
+        <div className="container container-30px">
 
-          <Link to="/" className="navbar-brand" style={{width:"20%"}}>
+          <Link to="/" className="navbar-brand" style={{width:"200px"}}>
               <img className="img-responsive" src="/revive_logo.png" alt="logo" style={{width: "100%", height: "100%", objectFit: "contain"}}/>
           </Link>
 

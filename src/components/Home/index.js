@@ -37,7 +37,7 @@ class Home extends React.Component {
     return (
       <div className="home-page">
 
-        <div className="container page">
+        <div className="container page container-30px">
 
           <Switch>
               <Route exact path="/" component={Filters} />

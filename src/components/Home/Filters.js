@@ -105,7 +105,7 @@ class Filters extends React.Component {
         ));
 
         const Selector = () => (
-            <div className="col-md-auto grid-container-selector">
+            <div className="grid-container-selector" style={{float: "right"}}>
                 <div className="grid-child-selector">
                     Dimension by:
                 </div>
@@ -119,11 +119,13 @@ class Filters extends React.Component {
         );
 
         const NoSelector = () => (
-            <div className="col-md-2 offset-md-2" style={{margin: "auto"}}>
-                <Link className="revive-link" to="/">
-                    <i className="fa fa-long-arrow-left" aria-hidden="true"/>&nbsp;
-                    All dimensions
-                </Link>
+            <div style={{float: "right", padding: "7px"}}>
+                <div>
+                    <Link className="revive-link" to="/">
+                        <i className="fa fa-long-arrow-left" aria-hidden="true"/>&nbsp;
+                        All dimensions
+                    </Link>
+                </div>
             </div>
         );
 
@@ -134,8 +136,8 @@ class Filters extends React.Component {
         } else {
             return (
                 <React.Fragment>
-                    <div className="row align-self-center">
-                        <div className="col-md-auto card" style={{backgroundColor: "#eeeeee", marginBottom: 0}}>
+                    <div className="align-self-center" style={{marginLeft: "-15px", marginRight: "-15px"}}>
+                        <div className="card" style={{backgroundColor: "#eeeeee", marginBottom: 0, display: "block", float: "left"}}>
                             <div className="card-body" style={{padding: "4px"}}><table><tbody><tr>
                                 <td className="revive-date">
                                     <DatePicker 
@@ -160,15 +162,13 @@ class Filters extends React.Component {
                             </tr></tbody></table></div>
                         </div>
 
-                        <div className="col-lg-4 col-md-2 col-sm-1"></div>
-
                         <Switch>
                             <Route exact path="/" component={Selector} />
                             <Route path="/detailed" component={NoSelector} />
                         </Switch>
                     </div>
 
-                    <div className="row">
+                    <div className="row" style={{clear: "both", paddingTop: "10px"}}>
                         <div className="col-md-auto" style={{padding: "4px"}}>
                             <span>Filters: </span>
                         </div>
