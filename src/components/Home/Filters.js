@@ -53,7 +53,7 @@ class Filters extends React.Component {
     componentDidUpdate() {
         const firstTable = this.props.firstTable;
 
-        if (this.props.dimensions.length === 0) {
+        if (firstTable && this.dimensions.length === 0) {
             const dimensions = [];
 
             for (var i = 2; ; i++) {
@@ -67,7 +67,7 @@ class Filters extends React.Component {
             this.setDimensions(dimensions);
         }
 
-        if (!this.selectedDimension) {
+        if (!this.selectedDimension && this.dimensions.length > 0) {
             const value = this.dimensions[0];
 
             this.setSelectedDimension(value, 0);
@@ -84,6 +84,7 @@ class Filters extends React.Component {
 
         const dimensions = props.dimensions;
         const selectedDimension = props.selectedDimension;
+        const firstTable = props.firstTable;
 
         const onRemove = (index, e) => {
             e.preventDefault();
@@ -129,7 +130,7 @@ class Filters extends React.Component {
             </div>
         );
 
-        if (dimensions.length === 0 || !selectedDimension) {
+        if (!firstTable || dimensions.length === 0 || !selectedDimension) {
             return (
                 <Loading height={40} width={40} altText="Loading Filters..." />
             );

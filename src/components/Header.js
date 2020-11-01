@@ -7,18 +7,12 @@ const LoggedOutView = props => {
       <ul className="nav navbar-nav pull-xs-right">
 
         <li className="nav-item">
-          <Link to="/" className="nav-link">
-            Home
+          <Link to="/login" className="nav-link btn btn-success revive-link-btn">
+              Sign in
           </Link>
         </li>
 
-        <li className="nav-item">
-          <Link to="/login" className="nav-link">
-            Sign in
-          </Link>
-        </li>
-
-        <li className="nav-item">
+        <li className="nav-item disabled-link">
           <Link to="/register" className="nav-link">
             Sign up
           </Link>
@@ -36,29 +30,20 @@ const LoggedInView = props => {
       <ul className="nav navbar-nav pull-xs-right">
 
         <li className="nav-item">
-          <Link to="/" className="nav-link">
-            Home
+          <Link to="/" className="nav-link disabled-link" style={{pointerEvents: "none"}}>
+              Signed in as: <b> {props.currentUser.username} </b>
           </Link>
         </li>
 
         <li className="nav-item">
-          <Link to="/editor" className="nav-link">
-            <i className="ion-compose"></i>&nbsp;New Post
+          <Link to="/logout" className="nav-link">
+            Sign out
           </Link>
         </li>
 
         <li className="nav-item">
           <Link to="/settings" className="nav-link">
             <i className="ion-gear-a"></i>&nbsp;Settings
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link
-            to={`/@${props.currentUser.username}`}
-            className="nav-link">
-            <img src={props.currentUser.image} className="user-pic" alt={props.currentUser.username} />
-            {props.currentUser.username}
           </Link>
         </li>
 

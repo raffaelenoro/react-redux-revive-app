@@ -29,6 +29,17 @@ a.revive-link {
     color: rgb(26, 188, 156);
 }
 
+a.revive-link-btn {
+    background-color: white;
+    border: 2px solid rgb(26, 188, 156);
+}
+
+a.revive-link-btn:hover {
+    background-color: rgb(26, 188, 156);
+    border: 2px solid rgb(26, 188, 156);
+    color: white;
+}
+
 .container.page{
     margin-top: 0;
 }

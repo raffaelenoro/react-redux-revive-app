@@ -7,6 +7,7 @@ import { Route, Switch } from 'react-router-dom';
 import Editor from '../components/Editor';
 import Home from '../components/Home';
 import Login from '../components/Login';
+import Logout from '../components/Logout';
 import Profile from '../components/Profile';
 import ProfileFavorites from '../components/ProfileFavorites';
 import Register from '../components/Register';
@@ -23,8 +24,8 @@ const mapStateToProps = state => {
   }};
 
 const mapDispatchToProps = dispatch => ({
-  onLoad: (payload, token, common, selectedDimension, sortedDimension) =>
-    dispatch({ type: APP_LOAD, payload, token, common, selectedDimension, sortedDimension, skipTracking: true }),
+  onLoad: (payload, token, common, selectedDimension, sortedDimension, username) =>
+    dispatch({ type: APP_LOAD, payload, token, common, selectedDimension, sortedDimension, username, skipTracking: true }),
   onRedirect: () =>
     dispatch({ type: REDIRECT })
 });
@@ -47,8 +48,9 @@ class App extends React.Component {
     const common = window.localStorage.getItem('common');
     const selectedDimension = window.localStorage.getItem('selectedDimension');
     const sortedDimension = window.localStorage.getItem('sortedDimension');
+    const username = window.localStorage.getItem('username');
 
-    this.props.onLoad(token ? agent.Auth.current() : null, token, JSON.parse(common), JSON.parse(selectedDimension), JSON.parse(sortedDimension));
+    this.props.onLoad(token ? agent.Auth.current() : null, token, JSON.parse(common), JSON.parse(selectedDimension), JSON.parse(sortedDimension), JSON.parse(username));
   }
 
   render() {
@@ -63,6 +65,7 @@ class App extends React.Component {
                 <Route path="/detailed" component={Home}/>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/logout" component={Logout} />
                 <Route path="/editor/:slug" component={Editor} />
                 <Route path="/editor" component={Editor} />
                 <Route path="/settings" component={Settings} />

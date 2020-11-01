@@ -37,7 +37,7 @@ const requests = {
 
 const Auth = {
   current: () =>
-    requests.get('/user'),
+    null && requests.get('/user'),
   login: (username, password) =>
     requests.post('/users/login', { username, password } ),
   register: (username, email, password) =>
