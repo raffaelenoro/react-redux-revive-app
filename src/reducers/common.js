@@ -101,6 +101,7 @@ export default (state = defaultState, action) => {
           filters: [],
           startDate: week_ago,
           endDate: now,
+          selectedDimension: null
       };
     case ARTICLE_SUBMITTED:
       const redirectUrl = `/article/${action.payload.article.slug}`;
