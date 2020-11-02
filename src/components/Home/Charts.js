@@ -90,7 +90,7 @@ class Charts extends React.Component {
                 <Loading height={40} width={40} altText="(Re)Loading Charts..." />
             );
         } else {
-            const offset = new Date().getTimezoneOffset() / 60;
+            const offset = new Date().getTimezoneOffset() / 60 - 1;
             const begin = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), -offset);
             const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), -offset);
 
