@@ -7,6 +7,7 @@ import {
   REGISTER,
   TABLES_VIEW_LOADED,
   DETAILED_TABLE_VIEW_LOADED,
+  CHARTS_VIEW_LOADED,
   SET_SELECTED_DIMENSION,
   SET_SORTED_DIMENSION
 } from './constants/actionTypes';
@@ -66,7 +67,7 @@ const localStorageMiddleware = store => next => action => {
     window.localStorage.removeItem('selectedDimension');
     window.localStorage.removeItem('sortedDimension');
     agent.setToken(null);
-  } else if (action.type === TABLES_VIEW_LOADED || action.type === DETAILED_TABLE_VIEW_LOADED) {
+  } else if (action.type === TABLES_VIEW_LOADED || action.type === DETAILED_TABLE_VIEW_LOADED || action.type === CHARTS_VIEW_LOADED) {
     const common = store.getState().common;
     window.localStorage.setItem('common', JSON.stringify(common));
   } else if (action.type === SET_SELECTED_DIMENSION) {

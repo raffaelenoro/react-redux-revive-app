@@ -79,9 +79,19 @@ class DetailedTable extends React.Component {
         const sortedDimension = this.props.sortedDimension;
 
         if (this.filters !== filters) {
-            this.filters = filters
+            const index = +this.props.match.params.index;
+            const currentFound = !!(this.filters || []).find(filter => filter.index === index);
+            const found = !!(filters || []).find(filter => filter.index === index);
+            const length = (filters && filters.length) || 0;
+            const currentLength = (this.filters && this.filters.length) || 0;
+            // if the number of filters is less because we removed a filter for
+            // another table, we need to fetch data. If the filter for the current
+            // table was the one being removed, we just refresh the view
+            const fetch = length < currentLength && currentFound === found;
 
-            this.forceUpdate();
+            this.filters = filters;
+
+            fetch ? this.fetchData() : this.forceUpdate();
         }
 
         if (this.startDate !== startDate || this.endDate !== endDate || this.sortedDimension !== sortedDimension) {
